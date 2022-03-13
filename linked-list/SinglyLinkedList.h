@@ -41,7 +41,7 @@ class SinglyLinkedList {
   Node<T>* at(const int& pos) const {
     if (pos < 0 || pos >= this->len) return nullptr;
     Node<T>* ptr = this->head;
-    for (int i = 0; i < pos - 1; ++i) ptr = ptr->next;
+    for (int i = 0; i < pos; ++i) ptr = ptr->next;
     return ptr;
   }
 
