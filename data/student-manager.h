@@ -13,7 +13,7 @@ class StudentManager : public Account {
   StudentManager(int _managerID, string _managerName, string _gender,
                  string _dayOfBirth, string _username, string _password,
                  string _typeOfAccount)
-      : Account(_username, _password, _typeOfAccount),
+      : Account (_username, _password, _typeOfAccount),
        managerID(_managerID),
         managerName(_managerName),
         gender(_gender),
