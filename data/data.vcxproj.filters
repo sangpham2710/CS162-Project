@@ -35,5 +35,8 @@
     <ClInclude Include="semester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="study-slot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
