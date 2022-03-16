@@ -141,6 +141,41 @@ class List {
     this->clear();
     delete list_end.ptr;
   }
+  bool empty() const { return this->size() == 0; }
+  int length() const { return this->list_size; }
+  int size() const { return this->list_size; }
+
+
+  List<T>& operator=(const List<T>& source) {
+    if (this == &source) return *this;
+    this->clear();
+    for (const auto& x : source) this->push_back(x);
+    return *this;
+  }
+  List<T>& operator=(List<T>&& source) {
+    if (this == &source) return *this;
+    this->clear();
+    this->list_begin = source.list_begin;
+    this->list_end = source.list_end;
+    this->list_size = source.list_size;
+    source.list_begin = nullptr;
+    source.list_end = nullptr;
+    source.list_size = 0;
+  }
+  List<T>& clear() {
+    if (!this->empty()) {
+      for (auto it = this->begin(); it != this->end();) {
+        Node<T>* node = it.ptr;
+        ++it;
+        delete node;
+      }
+    }
+    list_begin = list_end;
+    list_end.ptr->prev = nullptr;
+    this->list_size = 0;
+
+    return *this;
+  }
 };
 template <class T>
 class List<T>::iterator
