@@ -75,7 +75,7 @@ class List {
 
     return true;
   }
-  /// Exception(s): out of range
+
   iterator get_iterator(const int& index) {
     if (index < 0 || index >= this->size()) {
       throw std::out_of_range("List of size " + std::to_string(this->size()) +
@@ -145,7 +145,214 @@ class List {
   int length() const { return this->list_size; }
   int size() const { return this->list_size; }
 
+  iterator begin() { return list_begin; }
+  const_iterator begin() const { return list_begin; }
+  iterator end() { return list_end; }
+  const_iterator end() const { return list_end; }
+  T& front() { return *this->begin(); }
+  const T& front() const { return *this->begin(); }
+  T& back() {
+    auto it = this->end();
+    --it;
+    return *it;
+  }
+  const T& back() const {
+    auto it = this->end();
+    --it;
+    return *it;
+  }
+  T& operator[](const int& index) { return *get_iterator(index); }
+  const T& operator[](const int& index) const { return *get_iterator(index); }
+  T& at(const int& index) { return (*this)[index]; }
+  const T& at(const int& index) const { return (*this)[index]; }
 
+  List<T>& push_front(const T& value) {
+    Node<T>* new_node = new Node<T>(value);
+    this->insert_previous(this->begin(), iterator(new_node));
+    return *this;
+  }
+  List<T>& push_back(const T& value) {
+    Node<T>* new_node = new Node<T>(value);
+    this->insert_previous(this->end(), iterator(new_node));
+    return *this;
+  }
+  List<T>& insert_at(const int& index, const T& value) {
+    if (index == 0) {
+      this->push_front(value);
+    } else if (index == this->size()) {
+      this->push_back(value);
+    } else {
+      auto it_new = iterator(new Node<T>(value));
+      auto it_index = this->get_iterator(index - 1);
+      this->insert_next(it_index, it_new);
+    }
+    return *this;
+  }
+  List<T>& remove_at(const int& index) {
+    auto it = this->get_iterator(index);
+    this->remove(it);
+    return *this;
+  }
+  const_iterator find(const T& value, const const_iterator& begin = nullptr,
+                      const const_iterator& end = nullptr) const {
+    auto it = begin == nullptr ? const_iterator(this->begin()) : begin;
+    auto current_end = end == nullptr ? const_iterator(this->end()) : end;
+
+    for (; it != current_end && (*it) != value; ++it)
+      ;
+
+    if (it == current_end)
+      return this->end();
+    else
+      return it;
+  }
+
+  iterator find(const T& value, const iterator& begin = nullptr,
+                const iterator& end = nullptr) {
+    auto it = begin == nullptr ? iterator(this->begin()) : begin;
+    auto current_end = end == nullptr ? iterator(this->end()) : end;
+
+    for (; it != current_end && (*it) != value; ++it)
+      ;
+
+    if (it == current_end)
+      return this->end();
+    else
+      return it;
+  }
+
+  const_iterator find_if(std::function<bool(const T&)> func,
+                         const const_iterator& begin = nullptr,
+                         const const_iterator& end = nullptr) const {
+    auto it = begin == nullptr ? const_iterator(this->begin()) : begin;
+    auto current_end = end == nullptr ? const_iterator(this->end()) : end;
+
+    for (; it != current_end && !func(*it); ++it)
+      ;
+
+    if (it == current_end)
+      return this->end();
+    else
+      return it;
+  }
+
+  iterator find_if(std::function<bool(const T&)> func,
+                   const iterator& begin = nullptr,
+                   const iterator& end = nullptr) {
+    auto it = begin == nullptr ? this->begin() : begin;
+    auto current_end = end == nullptr ? this->end() : end;
+
+    for (; it != current_end && !func(*it); ++it)
+      ;
+
+    if (it == current_end)
+      return this->end();
+    else
+      return it;
+  }
+
+  int count_if(std::function<bool(const T&)> func,
+               const const_iterator& begin = nullptr,
+               const const_iterator& end = nullptr) const {
+    auto it = begin == nullptr ? const_iterator(this->begin()) : begin;
+    auto current_end = end == nullptr ? const_iterator(this->end()) : end;
+
+    int counter = 0;
+    for (; it != current_end; ++it) counter += func(*it);
+    return counter;
+  }
+
+  bool all_of(std::function<bool(const T&)> func,
+              const const_iterator& begin = nullptr,
+              const const_iterator& end = nullptr) const {
+    auto it = begin == nullptr ? const_iterator(this->begin()) : begin;
+    auto current_end = end == nullptr ? const_iterator(this->end()) : end;
+
+    for (; it != current_end; ++it)
+      if (!func(*it)) return false;
+    return true;
+  }
+
+  bool any_of(std::function<bool(const T&)> func,
+              const const_iterator& begin = nullptr,
+              const const_iterator& end = nullptr) const {
+    auto it = begin == nullptr ? const_iterator(this->begin()) : begin;
+    auto current_end = end == nullptr ? const_iterator(this->end()) : end;
+
+    for (; it != current_end; ++it)
+      if (func(*it)) return true;
+    return false;
+  }
+
+  bool none_of(std::function<bool(const T&)> func,
+               const const_iterator& begin = nullptr,
+               const const_iterator& end = nullptr) const {
+    return !any_of(func, begin, end);
+  }
+
+  const_iterator find_last(const T& value,
+                           const const_iterator& begin = nullptr,
+                           const const_iterator& end = nullptr) const {
+    auto rbegin = end == nullptr ? this->end() : end;
+    --rbegin;
+
+    auto rend = begin == nullptr ? const_iterator(this->begin()) : begin;
+    --rend;
+
+    auto it = rbegin;
+    for (; it != rend && (*it) != value; --it)
+      ;
+
+    if (it == rend)
+      return this->end();
+    else
+      return it;
+  }
+
+  iterator find_last(const T& value, const iterator& begin = nullptr,
+                     const iterator& end = nullptr) {
+    auto rbegin = end == nullptr ? this->end() : end;
+    --rbegin;
+
+    auto rend = begin == nullptr ? iterator(this->begin()) : begin;
+    --rend;
+
+    auto it = rbegin;
+    for (; it != rend && (*it) != value; --it)
+      ;
+
+    if (it == rend)
+      return this->end();
+    else
+      return it;
+  }
+
+  List<T>& reverse() {
+    if (!this->empty()) {
+      for (auto it = this->begin(), it_next = this->begin(); it != this->end();
+           it = it_next) {
+        it_next = it;
+        ++it_next;
+
+        Node<T>*& node = it.ptr;
+        Node<T>*& p_next = it_next.ptr;
+
+        node->next = node->prev;
+        node->prev = p_next;
+      }
+
+      auto new_head = this->end();
+      --new_head;
+      auto new_tail = this->begin();
+
+      new_head.ptr->prev = nullptr;
+      new_tail.ptr->next = this->end().ptr;
+      list_begin = new_head;
+      list_end.ptr->prev = new_tail.ptr;
+    }
+
+    return *this;
+  }
   List<T>& operator=(const List<T>& source) {
     if (this == &source) return *this;
     this->clear();
