@@ -4,13 +4,16 @@
 using namespace std;
 
 class CourseRegistrationSession : public Semester {
- private:
+ protected:
   string startDateRegistration;
   string endDateRegistration;
   int sessionOrder; //in a year
-  CourseRegistrationSession(string startDateRegistration, string endDateRegistration, int sessionOrder,
+  CourseRegistrationSession(string _startDateRegistration, string _endDateRegistration, int _sessionOrder,
                             int _semesterID, string _semesterName, int _year,
                             string _startDateSemester, string _endDateSemester)
       : Semester(_semesterID, _semesterName, _year, _startDateSemester,
-                 _endDateSemester) {}
+                 _endDateSemester),
+        startDateRegistration(_startDateRegistration),
+        endDateRegistration(_endDateRegistration),
+        sessionOrder(_sessionOrder) {}
 };

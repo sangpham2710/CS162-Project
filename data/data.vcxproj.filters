@@ -44,5 +44,8 @@
     <ClInclude Include="course-registration-session.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="module.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

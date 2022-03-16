@@ -145,6 +145,7 @@
     <ClInclude Include="account.h" />
     <ClInclude Include="class.h" />
     <ClInclude Include="course-registration-session.h" />
+    <ClInclude Include="module.h" />
     <ClInclude Include="semester.h" />
     <ClInclude Include="student-manager.h" />
     <ClInclude Include="student.h" />

@@ -3,17 +3,17 @@
 using namespace std;
 
 class Semester {
- private:
+ protected:
   int semesterID;
   string semesterName;
   int year;
-  string startDate;
-  string endDate; //need to fix
-  Semester(int _semesterID, string _semesterName, int _year, string _startDate,
-           string _endDate)
+  string startDateSemester;
+  string endDateSemester; //need to fix
+  Semester(int _semesterID, string _semesterName, int _year, string _startDateSemester,
+           string _endDateSemester)
       : semesterID(_semesterID),
         semesterName(_semesterName),
         year(_year),
-        startDate(_startDate),
-        endDate(_endDate) {}
+        startDateSemester(_startDateSemester),
+        endDateSemester(_endDateSemester) {}
 };
