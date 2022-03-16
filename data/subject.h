@@ -3,6 +3,7 @@
 using namespace std;
 
 class Subject {
+ private:
   string subjectID;
   string subjectName;
   int numberCredits;
