@@ -3,7 +3,7 @@
 using namespace std;
 
 class Account {
- private:
+ protected:
   string username;
   string password;
   string typeOfAccount;
