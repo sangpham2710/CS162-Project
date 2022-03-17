@@ -4,7 +4,7 @@
 using namespace std;
 
 class Module : public CourseRegistrationSession{
- private:
+ protected:
   int moduleID;
   string lecturerName;
   string classroom;

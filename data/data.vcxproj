@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="data.cpp" />
+    <ClCompile Include="module-registration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h" />
