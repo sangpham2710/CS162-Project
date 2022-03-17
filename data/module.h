@@ -1,9 +1,10 @@
 #pragma once
 #include <iostream>
 #include "course-registration-session.h"
+#include "lecturer.h"
 using namespace std;
 
-class Module : public CourseRegistrationSession{
+class Module : public CourseRegistrationSession, public Lecturer{
  protected:
   int moduleID;
   string lecturerName;
@@ -19,8 +20,8 @@ class Module : public CourseRegistrationSession{
       : CourseRegistrationSession(_startDateRegistration, _endDateRegistration,
                                   _sessionOrder, _semesterID, _semesterName,
                                   _year, _startDateSemester, _endDateSemester),
+        Lecturer(_lecturerName),
         moduleID(_moduleID),
-        lecturerName(_lecturerName),
         classroom(_classroom),
         session(_session),
         maxSlot(_maxSlot),
