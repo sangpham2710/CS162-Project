@@ -50,5 +50,8 @@
     <ClInclude Include="module.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lecturer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
