@@ -53,5 +53,8 @@
     <ClInclude Include="lecturer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="current-semester.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
