@@ -86,7 +86,7 @@ void loadStudentFromFile(vector <Student> S, int& n) {
     string Year;
     string SocID;
     string Pass;
-   
+
     int i = 0;
     getline(fin, Line);
     while (fin) {
