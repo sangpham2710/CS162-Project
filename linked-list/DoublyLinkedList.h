@@ -681,6 +681,7 @@ class List<T>::iterator : public std::iterator<std::bidirectional_iterator_tag,
   bool operator!=(const iterator& it) const { return it.ptr != ptr; }
   void swap(iterator& other) { std::swap(this->ptr, other.ptr); }
 };
+
 template <class T>
 class List<T>::const_iterator
     : public std::iterator<std::bidirectional_iterator_tag, T, std::ptrdiff_t,
@@ -729,6 +730,26 @@ class List<T>::const_iterator
     --(*this);
     return tmp;
   }
+  const_iterator operator+(const int& step) {
+    const_iterator it = *this;
+    if (step > 0) {
+      for (int i = 0; i < step; ++i) ++it;
+    }
+    if (step < 0) {
+      for (int i = 0; i < -step; ++i) --it;
+    }
+    return it;
+  }
+  const_iterator operator-(const int& step) {
+    const_iterator it = *this;
+    if (step > 0) {
+      for (int i = 0; i < step; ++i) --it;
+    }
+    if (step < 0) {
+      for (int i = 0; i < -step; ++i) ++it;
+    }
+    return it;
+  }
   const_iterator& operator=(Node<value_type>* const& p) {
     ptr = p;
     return *this;
@@ -739,4 +760,5 @@ class List<T>::const_iterator
   }
   bool operator==(const const_iterator& it) const { return it.ptr == ptr; }
   bool operator!=(const const_iterator& it) const { return it.ptr != ptr; }
+  void swap(const_iterator& other) { std::swap(this->ptr, other.ptr); }
 };
