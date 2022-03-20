@@ -89,6 +89,7 @@ class List {
 
     return it;
   }
+  /// Exception(s): out of range
   const_iterator get_iterator(const int& index) const {
     if (index < 0 || index >= this->size()) {
       throw std::out_of_range("List of size " + std::to_string(this->size()) +
@@ -109,33 +110,31 @@ class List {
   }
 
  public:
-  List() : list_size{0} {
-    Node<T>* end_node = new Node<T>();
-    list_begin = list_end = end_node;
-  }
+  List() : list_size{0} { list_begin = list_end = new Node<T>(); }
   List(const std::initializer_list<T>& source) : list_size{0} {
-    Node<T>* end_node = new Node<T>();
-    list_begin = list_end = end_node;
+    list_begin = list_end = new Node<T>();
     for (const auto& x : source) this->push_back(x);
   }
   List(const List<T>& source) : list_size{0} {
-    Node<T>* end_node = new Node<T>();
-    list_begin = list_end = end_node;
+    list_begin = list_end = new Node<T>();
 
     for (const auto& x : source) this->push_back(x);
   }
-  List(List<T>&& source)
-      : list_begin{source.list_begin},
-        list_end{source.list_end},
-        list_size{source.list_size} {
-    source.list_begin = nullptr;
-    source.list_end = nullptr;
-    source.list_size = 0;
+  List(const const_iterator& begin, const const_iterator& end) : list_size{0} {
+    list_begin = list_end = new Node<T>();
+
+    for (auto it = begin; it != end; ++it) this->push_back(*it);
+  }
+  List(List<T>&& source) {
+    list_begin = list_end = new Node<T>();
+    move_previous(this->end(), source.begin(), source.end());
+    source.reset();
   }
   ~List() {
     this->clear();
     delete list_end.ptr;
   }
+
   bool empty() const { return this->size() == 0; }
   int length() const { return this->list_size; }
   int size() const { return this->list_size; }
