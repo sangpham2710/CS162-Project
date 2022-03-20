@@ -1,5 +1,9 @@
 #pragma once
 
+#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
+#define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
+
+#include <algorithm>
 #include <cstddef>
 #include <functional>
 #include <initializer_list>
@@ -8,6 +12,7 @@
 #include <string>
 
 #include "Node.h"
+
 template <class T>
 class List {
  public:
@@ -17,10 +22,6 @@ class List {
  private:
   iterator list_begin, list_end;
   int list_size;
-  bool insert_next(iterator& it, iterator& it_next) {
-    if (it == this->end() || it == nullptr || it_next == this->end() ||
-        it_next == nullptr)
-      return false;
 
   void reset() {
     this->list_begin = this->list_end;
@@ -194,6 +195,9 @@ class List {
     auto it = --this->end();
     this->remove(it);
   }
+  /// `value` will be at `index` in resulting list.
+  /// Return iterator pointing to the inserted value
+  /// Exception(s): out of range=
   iterator insert_at(const int& index, const T& value) {
     if (index == 0) {
       this->push_front(value);
