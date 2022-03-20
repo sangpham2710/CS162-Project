@@ -249,43 +249,63 @@ class List {
 
     return prev == nullptr ? this->begin() : ++prev;
   }
-      return it;
+  /// Delete the node at `it` tfrom list.
+  /// Make sure `it` belongs to this list and not its end.
+  /// Return iterator at the next element.
+  /// Exception(s): undefined behavior: null pointer dereference, out of range
+  iterator remove(const iterator& it) {
+    if (it == this->end()) {
+      throw std::out_of_range("Trying to get access to end pointer.");
+    }
+
+    Node<T>* node = it.ptr;
+
+    if (node->next) {
+      node->next->prev = node->prev;
+    }
+    if (node->prev) {
+      node->prev->next = node->next;
+    }
+
+    if (this->begin() == it) {
+      ++list_begin;
+    }
+
+    --this->list_size;
+
+    node = node->next;
+    delete it.ptr;
+    // it.ptr = nullptr;
+    return node;
   }
-
-  iterator find(const T& value, const iterator& begin = nullptr,
-                const iterator& end = nullptr) {
-    auto it = begin == nullptr ? iterator(this->begin()) : begin;
-    auto current_end = end == nullptr ? iterator(this->end()) : end;
-
-    for (; it != current_end && (*it) != value; ++it)
-      ;
-
-    if (it == current_end)
-      return this->end();
-    else
-      return it;
+  /// Return iterator at the new element at `index`.
+  /// Exception(s): out of range
+  iterator remove_at(const int& index) {
+    auto it = this->get_iterator(index);
+    return this->remove(it);
   }
+  /// Return resulting size.
+  int remove(const T& value) {
+    for (auto it = this->begin(); it != this->end();) {
+      if ((*it) == value)
+        it = this->remove(it);
+      else
+        ++it;
+    }
 
-  const_iterator find_if(std::function<bool(const T&)> func,
-                         const const_iterator& begin = nullptr,
-                         const const_iterator& end = nullptr) const {
-    auto it = begin == nullptr ? const_iterator(this->begin()) : begin;
-    auto current_end = end == nullptr ? const_iterator(this->end()) : end;
-
-    for (; it != current_end && !func(*it); ++it)
-      ;
-
-    if (it == current_end)
-      return this->end();
-    else
-      return it;
+    return this->size();
   }
+  /// Return resulting size.
+  int remove_if(std::function<bool(const T&)> func) {
+    for (auto it = this->begin(); it != this->end();) {
+      if (func(*it))
+        it = this->remove(it);
+      else
+        ++it;
+    }
 
-  iterator find_if(std::function<bool(const T&)> func,
-                   const iterator& begin = nullptr,
-                   const iterator& end = nullptr) {
-    auto it = begin == nullptr ? this->begin() : begin;
-    auto current_end = end == nullptr ? this->end() : end;
+    return this->size();
+  }
 
     for (; it != current_end && !func(*it); ++it)
       ;
