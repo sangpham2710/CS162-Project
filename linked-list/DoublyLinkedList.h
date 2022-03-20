@@ -416,6 +416,19 @@ class List {
       this->merge(l2, comp);
     }
   }
+  int filter(std::function<bool(const T&)> func, const iterator& begin,
+             const iterator& end) {
+    for (auto it = begin; it != end;)
+      if (!func(*it))
+        it = this->remove(it);
+      else
+        ++it;
+
+    return this->size();
+  }
+  int filter(std::function<bool(const T&)> func) {
+    return filter(func, this->begin(), this->end());
+  }
   const_iterator find_last(const T& value,
                            const const_iterator& begin = nullptr,
                            const const_iterator& end = nullptr) const {
