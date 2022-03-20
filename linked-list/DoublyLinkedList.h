@@ -473,6 +473,21 @@ class List {
   iterator find_if(std::function<bool(const T&)> func) {
     return this->find_if(func, this->begin(), this->end());
   }
+  int count(const T& value, const const_iterator& begin,
+            const const_iterator& end) const {
+    return std::count(begin, end, value);
+  }
+  int count(const T& value) const {
+    return this->count(this->begin(), this->end(), value);
+  }
+  /// Exception(s): undefined behavior: null pointer dereference
+  int count_if(std::function<bool(const T&)> func, const const_iterator& begin,
+               const const_iterator& end) const {
+    return (int)std::count_if(begin, end, func);
+  }
+  int count_if(std::function<bool(const T&)> func) const {
+    return this->count_if(func, this->begin(), this->end());
+  }
   const_iterator find_last(const T& value,
                            const const_iterator& begin = nullptr,
                            const const_iterator& end = nullptr) const {
