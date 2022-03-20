@@ -379,7 +379,24 @@ class List {
       list_end.ptr->prev = new_tail.ptr;
     }
   }
+  /// Merge 2 lists sorted in ascending order.
+  void merge(List<T>& other) {
+    this->merge(other, [](const T& u, const T& v) { return u < v; });
+  }
+  /// Merge 2 lists sorted in ascending order.
+  void merge(List<T>& other, std::function<bool(const T&, const T&)> comp) {
+    for (auto it_this = this->begin(), it_other = other.begin();
+         it_other != other.end();) {
+      while (it_this != this->end() && !comp(*it_other, *it_this)) ++it_this;
 
+      auto nxt = it_other;
+      ++nxt;
+      this->insert_previous(it_this, it_other);
+      it_other = nxt;
+    }
+
+    other.reset();
+  }
   const_iterator find_last(const T& value,
                            const const_iterator& begin = nullptr,
                            const const_iterator& end = nullptr) const {
