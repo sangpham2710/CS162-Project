@@ -306,25 +306,39 @@ class List {
 
     return this->size();
   }
+  void resize(const int& count) {
+    while (this->size() < count) this->push_back(T());
 
-    for (; it != current_end && !func(*it); ++it)
-      ;
-
-    if (it == current_end)
-      return this->end();
-    else
-      return it;
+    while (count < this->size()) this->pop_back();
   }
+  void resize(const int& count, const T& value) {
+    while (this->size() < count) this->push_back(value);
 
-  int count_if(std::function<bool(const T&)> func,
-               const const_iterator& begin = nullptr,
-               const const_iterator& end = nullptr) const {
-    auto it = begin == nullptr ? const_iterator(this->begin()) : begin;
-    auto current_end = end == nullptr ? const_iterator(this->end()) : end;
+    while (count < this->size()) this->pop_back();
+  }
+  /// Replace the contents with `count` copies of `value`.
+  void assign(const int& count, const T& value) {
+    this->resize(count);
+    for (auto it = this->begin(); it != this->end(); ++it) (*it) = value;
+  }
+  /// `first` and `last` must not be part of this list. `last` must be reachable
+  /// by `first`. Replace the contents with copies of those in the range
+  /// [`first`, `last`).
+  void assign(const const_iterator& first, const const_iterator& last) {
+    this->resize((int)std::distance(first, last));
 
-    int counter = 0;
-    for (; it != current_end; ++it) counter += func(*it);
-    return counter;
+    auto it_other = first;
+    for (auto it = this->begin(); it != this->end(); ++it, ++it_other)
+      (*it) = (*it_other);
+  }
+  /// Replace the contents with the elements from the initializer list
+  /// `source`.
+  void assign(const std::initializer_list<T>& source) {
+    this->resize((int)source.size());
+
+    auto it_other = source.begin();
+    for (auto it = this->begin(); it != this->end(); ++it, ++it_other)
+      (*it) = (*it_other);
   }
 
   bool all_of(std::function<bool(const T&)> func,
