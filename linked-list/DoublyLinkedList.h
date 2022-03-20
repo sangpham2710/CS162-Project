@@ -607,9 +607,10 @@ class List {
     return *this;
   }
 };
+
 template <class T>
-class List<T>::iterator
-    : public std::iterator<std::bidirectional_iterator_tag, T, T, T*, T&> {
+class List<T>::iterator : public std::iterator<std::bidirectional_iterator_tag,
+                                               T, std::ptrdiff_t, T*, T&> {
   friend class List;
 
  private:
@@ -617,8 +618,8 @@ class List<T>::iterator
 
  public:
   using iterator_category = std::bidirectional_iterator_tag;
-  using difference_type = T;
   using value_type = T;
+  using difference_type = std::ptrdiff_t;
   using pointer = T*;
   using reference = T&;
 
@@ -628,20 +629,25 @@ class List<T>::iterator
     reference value = ptr->value;
     return value;
   }
+  /// ???? Copied from stackoverflow, not sure what it means.
   pointer operator->() const { return &*(*this); }
+  /// Prefix increment
   iterator& operator++() {
     ptr = ptr->next;
     return *this;
   }
+  /// Postfix increment
   iterator operator++(int) {
     iterator tmp = *this;
     ++(*this);
     return tmp;
   }
+  /// Prefix decrement
   iterator& operator--() {
     ptr = ptr->prev;
     return *this;
   }
+  /// Postfix decrement
   iterator operator--(int) {
     iterator tmp = *this;
     --(*this);
@@ -656,7 +662,8 @@ class List<T>::iterator
 };
 template <class T>
 class List<T>::const_iterator
-    : public std::iterator<std::bidirectional_iterator_tag, T, T, T*, T&> {
+    : public std::iterator<std::bidirectional_iterator_tag, T, std::ptrdiff_t,
+                           T*, T&> {
   friend class List;
 
  private:
@@ -664,8 +671,8 @@ class List<T>::const_iterator
 
  public:
   using iterator_category = std::bidirectional_iterator_tag;
-  using difference_type = T;
   using value_type = T;
+  using difference_type = std::ptrdiff_t;
   using pointer = const T*;
   using reference = const T&;
 
@@ -677,20 +684,25 @@ class List<T>::const_iterator
     reference value = ptr->value;
     return value;
   }
+  /// ???? Copied from stackoverflow, not sure what it means.
   pointer operator->() const { return &*(*this); }
+  /// Prefix increment
   const_iterator& operator++() {
     ptr = ptr->next;
     return *this;
   }
+  /// Postfix increment
   const_iterator operator++(int) {
     const_iterator tmp = *this;
     ++(*this);
     return tmp;
   }
+  /// Prefix decrement
   const_iterator& operator--() {
     ptr = ptr->prev;
     return *this;
   }
+  /// Postfix decrement
   const_iterator operator--(int) {
     const_iterator tmp = *this;
     --(*this);
