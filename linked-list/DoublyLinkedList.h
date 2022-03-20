@@ -143,32 +143,46 @@ class List {
   const_iterator begin() const { return list_begin; }
   iterator end() { return list_end; }
   const_iterator end() const { return list_end; }
+  /// Allow modifications
+  /// Exception(s): undefined behavior: null pointer dereference
   T& front() { return *this->begin(); }
+  /// Does not allow modifications.
+  /// Exception(s): undefined behavior: null pointer dereference
   const T& front() const { return *this->begin(); }
+  /// Allow modifications
+  /// Exception(s): undefined behavior: null pointer dereference
   T& back() {
     auto it = this->end();
     --it;
     return *it;
   }
+  /// Do not allow modifications.
+  /// Exception(s): undefined behavior: null pointer dereference
   const T& back() const {
     auto it = this->end();
     --it;
     return *it;
   }
+  /// Allow modifications, i.e. `list[0] = sth;`
+  /// Exception(s): out of range
   T& operator[](const int& index) { return *get_iterator(index); }
+  /// Do not allow modifications.
+  /// Exception(s): out of range
   const T& operator[](const int& index) const { return *get_iterator(index); }
+  /// Allow modifications, i.e. `list.at(0) = sth;`
+  /// Exception(s): out of range
   T& at(const int& index) { return (*this)[index]; }
+  /// Do not allow modifications.
+  /// Exception(s): out of range
   const T& at(const int& index) const { return (*this)[index]; }
 
-  List<T>& push_front(const T& value) {
+  void push_front(const T& value) {
     Node<T>* new_node = new Node<T>(value);
     this->insert_previous(this->begin(), iterator(new_node));
-    return *this;
   }
-  List<T>& push_back(const T& value) {
+  void push_back(const T& value) {
     Node<T>* new_node = new Node<T>(value);
     this->insert_previous(this->end(), iterator(new_node));
-    return *this;
   }
   List<T>& insert_at(const int& index, const T& value) {
     if (index == 0) {
