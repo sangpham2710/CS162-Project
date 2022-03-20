@@ -549,31 +549,21 @@ class List {
     else
       return it;
   }
-
-  List<T>& reverse() {
-    if (!this->empty()) {
-      for (auto it = this->begin(), it_next = this->begin(); it != this->end();
-           it = it_next) {
-        it_next = it;
-        ++it_next;
-
-        Node<T>*& node = it.ptr;
-        Node<T>*& p_next = it_next.ptr;
-
-        node->next = node->prev;
-        node->prev = p_next;
-      }
-
-      auto new_head = this->end();
-      --new_head;
-      auto new_tail = this->begin();
-
-      new_head.ptr->prev = nullptr;
-      new_tail.ptr->next = this->end().ptr;
-      list_begin = new_head;
-      list_end.ptr->prev = new_tail.ptr;
-    }
-
+  // for_each
+  void for_each(std::function<void(const T&)> func, const const_iterator& begin,
+                const const_iterator& end) const {
+    std::for_each(begin, end, func);
+  }
+  void for_each(std::function<void(const T&)> func) const {
+    this->for_each(func, this->begin(), this->end());
+  }
+  void for_each(std::function<void(T&)> func, const iterator& begin,
+                const iterator& end) {
+    std::for_each(begin, end, func);
+  }
+  void for_each(std::function<void(T&)> func) {
+    this->for_each(func, this->begin(), this->end());
+  }
     return *this;
   }
   List<T>& operator=(const List<T>& source) {
