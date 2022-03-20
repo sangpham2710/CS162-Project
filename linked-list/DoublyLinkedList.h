@@ -519,7 +519,7 @@ class List {
     auto rbegin = end == nullptr ? this->end() : end;
     --rbegin;
 
-    auto rend = begin == nullptr ? const_iterator(this->begin()) : begin;
+    auto rend = begin == nullptr ? this->begin() : begin;
     --rend;
 
     auto it = rbegin;
@@ -531,13 +531,13 @@ class List {
     else
       return it;
   }
-
+  /// Exception(s): undefined behavior: null pointer dereference
   iterator find_last(const T& value, const iterator& begin = nullptr,
                      const iterator& end = nullptr) {
     auto rbegin = end == nullptr ? this->end() : end;
     --rbegin;
 
-    auto rend = begin == nullptr ? iterator(this->begin()) : begin;
+    auto rend = begin == nullptr ? this->begin() : begin;
     --rend;
 
     auto it = rbegin;
