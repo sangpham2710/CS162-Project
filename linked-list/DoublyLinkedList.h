@@ -184,7 +184,16 @@ class List {
     Node<T>* new_node = new Node<T>(value);
     this->insert_previous(this->end(), iterator(new_node));
   }
-  List<T>& insert_at(const int& index, const T& value) {
+  /// Exception(s): out of range
+  void pop_front() {
+    auto it = this->begin();
+    this->remove(it);
+  }
+  /// Exception(s): undefined behavior: null pointer dereference
+  void pop_back() {
+    auto it = --this->end();
+    this->remove(it);
+  }
     if (index == 0) {
       this->push_front(value);
     } else if (index == this->size()) {
