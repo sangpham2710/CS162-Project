@@ -657,8 +657,29 @@ class List<T>::iterator : public std::iterator<std::bidirectional_iterator_tag,
     ptr = p;
     return *this;
   }
+  iterator operator+(const int& step) {
+    iterator it = *this;
+    if (step > 0) {
+      for (int i = 0; i < step; ++i) ++it;
+    }
+    if (step < 0) {
+      for (int i = 0; i < -step; ++i) --it;
+    }
+    return it;
+  }
+  iterator operator-(const int& step) {
+    iterator it = *this;
+    if (step > 0) {
+      for (int i = 0; i < step; ++i) --it;
+    }
+    if (step < 0) {
+      for (int i = 0; i < -step; ++i) ++it;
+    }
+    return it;
+  }
   bool operator==(const iterator& it) const { return it.ptr == ptr; }
   bool operator!=(const iterator& it) const { return it.ptr != ptr; }
+  void swap(iterator& other) { std::swap(this->ptr, other.ptr); }
 };
 template <class T>
 class List<T>::const_iterator
