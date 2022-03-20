@@ -488,6 +488,31 @@ class List {
   int count_if(std::function<bool(const T&)> func) const {
     return this->count_if(func, this->begin(), this->end());
   }
+  /// Exception(s): undefined behavior: null pointer dereference
+  bool all_of(std::function<bool(const T&)> func, const const_iterator& begin,
+              const const_iterator& end) const {
+    return std::all_of(begin, end, func);
+  }
+  bool all_of(std::function<bool(const T&)> func) const {
+    return this->all_of(func, this->begin(), this->end());
+  }
+  /// Exception(s): undefined behavior: null pointer dereference
+  bool any_of(std::function<bool(const T&)> func, const const_iterator& begin,
+              const const_iterator& end) const {
+    return std::any_of(begin, end, func);
+  }
+  bool any_of(std::function<bool(const T&)> func) const {
+    return this->any_of(func, this->begin(), this->end());
+  }
+  /// Exception(s): undefined behavior: null pointer dereference
+  bool none_of(std::function<bool(const T&)> func, const const_iterator& begin,
+               const const_iterator& end) const {
+    return std::none_of(begin, end, func);
+  }
+  bool none_of(std::function<bool(const T&)> func) const {
+    return this->none_of(func, this->begin(), this->end());
+  }
+  /// Exception(s): undefined behavior: null pointer dereference
   const_iterator find_last(const T& value,
                            const const_iterator& begin = nullptr,
                            const const_iterator& end = nullptr) const {
