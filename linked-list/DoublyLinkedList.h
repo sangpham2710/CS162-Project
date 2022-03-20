@@ -340,16 +340,19 @@ class List {
     for (auto it = this->begin(); it != this->end(); ++it, ++it_other)
       (*it) = (*it_other);
   }
+  /// Return resulting size.
+  int unique() {
+    auto last = std::unique(this->begin(), this->end());
+    this->resize(std::distance(this->begin(), last));
 
-  bool all_of(std::function<bool(const T&)> func,
-              const const_iterator& begin = nullptr,
-              const const_iterator& end = nullptr) const {
-    auto it = begin == nullptr ? const_iterator(this->begin()) : begin;
-    auto current_end = end == nullptr ? const_iterator(this->end()) : end;
+    return this->size();
+  }
+  /// Return resulting size.
+  int unique(std::function<bool(const T&, const T&)> func) {
+    auto last = std::unique(this->begin(), this->end(), func);
+    this->resize((int)std::distance(this->begin(), last));
 
-    for (; it != current_end; ++it)
-      if (!func(*it)) return false;
-    return true;
+    return this->size();
   }
 
   bool any_of(std::function<bool(const T&)> func,
