@@ -27,10 +27,8 @@ class List {
     this->list_end.ptr->prev = nullptr;
     this->list_size = 0;
   }
-  bool insert_previous(const iterator& it, const iterator& it_prev) {
-    if (it.ptr == nullptr || it_prev == this->end() || it_prev.ptr == nullptr)
-      return false;
-
+  /// Exception(s): undefined behavior: null pointer dereference
+  void insert_previous(const iterator& it, const iterator& it_prev) {
     Node<T>* node = it.ptr;
     Node<T>* p_prev = it_prev.ptr;
 
@@ -42,33 +40,37 @@ class List {
     if (it == this->begin()) list_begin = p_prev;
 
     ++this->list_size;
-
-    return true;
   }
-  bool remove(iterator& it) {
-    if (it == this->end() || it.ptr == nullptr) return false;
+  /// Move nodes from a list of range [`first`, `last`) before `it`.
+  /// Return iterator pointing to the first inserted value, or `pos` if
+  /// `first`
+  /// == `last`. Exception(s): undefined behavior: null pointer dereference
 
-    Node<T>* node = it.ptr;
+  iterator move_previous(const iterator& pos, const iterator& first,
+                         const iterator& last) {
+    list_size += std::distance(first, last);
 
-    if (node->next) {
-      node->next->prev = node->prev;
+    auto prev = pos;
+    --prev;
+
+    if (first != last) {
+      auto node = pos.ptr;
+      auto node_first = first.ptr;
+      auto node_last = last.ptr->prev;
+
+      node_first->prev = node->prev;
+      if (node->prev) node->prev->next = node_first;
+
+      node_last->next = node;
+      node->prev = node_last;
+
+      if (this->begin() == pos) list_begin = first;
     }
-    if (node->prev) {
-      node->prev->next = node->next;
-    }
 
-    if (this->begin() == it) {
-      ++list_begin;
-    }
-
-    --this->list_size;
-
-    delete node;
-    it.ptr = nullptr;
-
-    return true;
+    return prev == nullptr ? this->begin() : ++prev;
   }
 
+  /// Exception(s): out of range
   iterator get_iterator(const int& index) {
     if (index < 0 || index >= this->size()) {
       throw std::out_of_range("List of size " + std::to_string(this->size()) +
