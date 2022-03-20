@@ -22,17 +22,10 @@ class List {
         it_next == nullptr)
       return false;
 
-    Node<T>*& node = it.ptr;
-    Node<T>*& p_next = it_next.ptr;
-
-    p_next->next = node->next;
-    p_next->prev = node;
-    p_next->prev->next = p_next;
-    p_next->next->prev = p_next;
-
-    ++this->list_size;
-
-    return true;
+  void reset() {
+    this->list_begin = this->list_end;
+    this->list_end.ptr->prev = nullptr;
+    this->list_size = 0;
   }
   bool insert_previous(const iterator& it, const iterator& it_prev) {
     if (it.ptr == nullptr || it_prev == this->end() || it_prev.ptr == nullptr)
