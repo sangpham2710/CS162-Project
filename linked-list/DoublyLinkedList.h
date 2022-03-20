@@ -354,22 +354,30 @@ class List {
 
     return this->size();
   }
+  void reverse_value() { std::reverse(this->begin(), this->end()); }
+  void reverse() {
+    if (!this->empty()) {
+      for (auto it = this->begin(), it_next = this->begin(); it != this->end();
+           it = it_next) {
+        it_next = it;
+        ++it_next;
 
-  bool any_of(std::function<bool(const T&)> func,
-              const const_iterator& begin = nullptr,
-              const const_iterator& end = nullptr) const {
-    auto it = begin == nullptr ? const_iterator(this->begin()) : begin;
-    auto current_end = end == nullptr ? const_iterator(this->end()) : end;
+        Node<T>*& node = it.ptr;
+        Node<T>*& p_next = it_next.ptr;
 
-    for (; it != current_end; ++it)
-      if (func(*it)) return true;
-    return false;
-  }
+        node->next = node->prev;
+        node->prev = p_next;
+      }
 
-  bool none_of(std::function<bool(const T&)> func,
-               const const_iterator& begin = nullptr,
-               const const_iterator& end = nullptr) const {
-    return !any_of(func, begin, end);
+      auto new_head = this->end();
+      --new_head;
+      auto new_tail = this->begin();
+
+      new_head.ptr->prev = nullptr;
+      new_tail.ptr->next = this->end().ptr;
+      list_begin = new_head;
+      list_end.ptr->prev = new_tail.ptr;
+    }
   }
 
   const_iterator find_last(const T& value,
