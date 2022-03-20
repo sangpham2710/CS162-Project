@@ -194,33 +194,61 @@ class List {
     auto it = --this->end();
     this->remove(it);
   }
+  iterator insert_at(const int& index, const T& value) {
     if (index == 0) {
       this->push_front(value);
+
+      return this->begin();
     } else if (index == this->size()) {
       this->push_back(value);
+
+      return --this->end();
     } else {
       auto it_new = iterator(new Node<T>(value));
-      auto it_index = this->get_iterator(index - 1);
-      this->insert_next(it_index, it_new);
+      auto it = this->get_iterator(index);
+
+      this->insert_previous(it, it_new);
+
+      return it_new;
     }
-    return *this;
   }
-  List<T>& remove_at(const int& index) {
-    auto it = this->get_iterator(index);
-    this->remove(it);
-    return *this;
+  /// Insert `value` before `pos`.
+  /// Return iterator pointing to the inserted value
+  /// Exception(s): undefined behavior: null pointer dereference
+  iterator insert(const iterator& pos, const T& value) {
+    auto it_new = iterator(new Node<T>(value));
+    insert_previous(pos, it_new);
+
+    return it_new;
   }
-  const_iterator find(const T& value, const const_iterator& begin = nullptr,
-                      const const_iterator& end = nullptr) const {
-    auto it = begin == nullptr ? const_iterator(this->begin()) : begin;
-    auto current_end = end == nullptr ? const_iterator(this->end()) : end;
+  /// Insert count copies of `value` before `pos`.
+  /// Return iterator pointing to the inserted value, or `pos` if `count` ==
+  /// 0. Exception(s): undefined behavior: null pointer dereference
+  iterator insert(const iterator& pos, const int& count, const T& value) {
+    auto prev = pos;
+    --prev;
 
-    for (; it != current_end && (*it) != value; ++it)
-      ;
+    for (int i = 0; i < count; i++) {
+      auto it_new = iterator(new Node<T>(value));
+      insert_previous(pos, it_new);
+    }
 
-    if (it == current_end)
-      return this->end();
-    else
+    return prev == nullptr ? this->begin() : ++prev;
+  }
+  /// `first` and `last` must not be part of this list. `last` must be
+  /// reachable by `first`. Insert elements from a list of range [`first`,
+  /// `last`) before `it`. Return iterator pointing to the first inserted
+  /// value, or `pos` if `first` == `last`. Exception(s): undefined behavior:
+  /// null pointer dereference
+  iterator insert(const iterator& pos, const const_iterator& first,
+                  const const_iterator& last) {
+    auto prev = pos;
+    --prev;
+
+    for (auto it = first; it != last; ++it) this->insert(pos, (*it));
+
+    return prev == nullptr ? this->begin() : ++prev;
+  }
       return it;
   }
 
