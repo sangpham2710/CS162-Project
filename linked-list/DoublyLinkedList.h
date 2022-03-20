@@ -397,6 +397,25 @@ class List {
 
     other.reset();
   }
+  void sort() {
+    this->sort([](const T& u, const T& v) { return u < v; });
+  }
+  void sort(std::function<bool(const T&, const T&)> comp) {
+    if (this->size() > 1) {
+      auto mid = this->get_iterator(this->size() / 2);
+      List<T> l1, l2;
+      l1.move_previous(l1.end(), this->begin(), mid);
+      l2.move_previous(l2.end(), mid, this->end());
+      this->reset();
+
+      l1.sort(comp);
+      l2.sort(comp);
+
+      this->move_previous(this->end(), l1.begin(), l1.end());
+      l1.reset();
+      this->merge(l2, comp);
+    }
+  }
   const_iterator find_last(const T& value,
                            const const_iterator& begin = nullptr,
                            const const_iterator& end = nullptr) const {
