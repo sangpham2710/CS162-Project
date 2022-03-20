@@ -564,37 +564,28 @@ class List {
   void for_each(std::function<void(T&)> func) {
     this->for_each(func, this->begin(), this->end());
   }
+  // Assignment operator
+  List<T>& operator=(const std::initializer_list<T>& source) {
+    assign(source);
     return *this;
   }
   List<T>& operator=(const List<T>& source) {
     if (this == &source) return *this;
-    this->clear();
-    for (const auto& x : source) this->push_back(x);
+    assign(source.begin(), source.end());
     return *this;
   }
   List<T>& operator=(List<T>&& source) {
     if (this == &source) return *this;
     this->clear();
-    this->list_begin = source.list_begin;
-    this->list_end = source.list_end;
-    this->list_size = source.list_size;
-    source.list_begin = nullptr;
-    source.list_end = nullptr;
-    source.list_size = 0;
-  }
-  List<T>& clear() {
-    if (!this->empty()) {
-      for (auto it = this->begin(); it != this->end();) {
-        Node<T>* node = it.ptr;
-        ++it;
-        delete node;
-      }
-    }
-    list_begin = list_end;
-    list_end.ptr->prev = nullptr;
-    this->list_size = 0;
-
+    move_previous(this->end(), source.begin(), source.end());
+    source.reset();
     return *this;
+  }
+  // swap
+  void swap(List<T>& other) {
+    std::swap(this->list_begin, other.list_begin);
+    std::swap(this->list_end, other.list_end);
+    std::swap(this->list_size, other.list_size);
   }
 };
 
