@@ -520,6 +520,31 @@ class List {
   void for_each(std::function<void(T&)> func) {
     this->for_each(func, this->begin(), this->end());
   }
+  template <class TT>
+  List<TT> map(std::function<TT(const T&)> func) const {
+    List<TT> res;
+    for (const auto& element : *this) res.push_back(func(element));
+    return res;
+  }
+  List<T> filter(std::function<bool(const T&)> func) const {
+    List<T> res;
+    for (const auto& element : *this)
+      if (func(element)) res.push_back(element);
+    return res;
+  }
+  T reduce(std::function<T(const T&, const T&)> func,
+           const T& initialValue) const {
+    T previousValue = initialValue;
+    for (const auto& currentValue : *this)
+      previousValue = func(previousValue, currentValue);
+    return previousValue;
+  }
+  T reduce(std::function<T(const T&, const T&)> func) const {
+    T previousValue = *(this->begin());
+    for (auto it = ++this->begin(); it != this->end(); ++it)
+      previousValue = func(previousValue, *it);
+    return previousValue;
+  }
   // Assignment operator
   List<T>& operator=(const std::initializer_list<T>& source) {
     assign(source);
