@@ -140,10 +140,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Course.h" />
     <ClCompile Include="CS162-Project.cpp" />
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="Semester.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App.h" />
+    <ClInclude Include="Class.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="List.h" />
+    <ClInclude Include="Global.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="SchoolYear.h" />
+    <ClInclude Include="Student.h" />
+    <ClInclude Include="CourseMark.h" />
+    <ClInclude Include="User.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

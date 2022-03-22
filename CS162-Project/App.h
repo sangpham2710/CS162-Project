@@ -1,4 +1,5 @@
 #pragma once
+
 class App {
  private:
   void loadData();
