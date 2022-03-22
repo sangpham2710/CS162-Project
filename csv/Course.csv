@@ -1,0 +1,41 @@
+course id,course name,teacher name,number of credits,the maximum number of students in the course,day1 of the week,session1,day2 of the week,session2,start date,end date
+CNTT001,Cong Nghe Thong Tin,Tu,3,120,MON,S1,SAT,S2,01/09,22/12
+CNTT002,Cong Nghe Thong Tin,Vy,3,120,TUE,S2,FRI,S1,15/09,22/12
+CNTT003,Nhap Mon Lap Trinh,Quang,4,150,WED,S1,THU,S2,01/09,22/12
+CNTT004,Ky Thuat Lap Trinh,Dung,4,130,THU,S3,WED,S2,03/01,27/05
+CNTT005,Ky Thuat Lap Trinh,Viet,4,130,FRI,S4,TUE,S2,17/01,27/05
+TTH001,Vi Tich Phan,Tuan,3,130,SAT,S3,MON,S4,01/09,22/12
+TTH002,Xac Suat Thong Ke,Huy,3,100,FRI,S4,FRI,S1,30/05,24/08
+TTH003,Toan Cao Cap,Khai,3,100,THU,S3,MON,S1,13/06,24/08
+TTH004,Giai Tich,Huy,4,150,TUE,S1,THU,S1,03/01,27/05
+TTH005,Dai So Tuyen Tinh,Tuan,3,150,MON,S3,WED,S2,03/01,27/05
+HH001,Gioi Thieu Nganh Hoa Hoc,Ngoc,2,120,FRI,S1,SAT,S4,15/09,22/12
+HH002,Hoa Dai Cuong 1,Linh,3,120,SAT,S1,TUE,S1,17/01,27/05
+HH003,Hoa Dai Cuong 1,Tuan,3,120,MON,S3,TUE,S3,01/09,22/12
+HH004,Hoa Dai Cuong 2,Duong,4,150,WED,S1,MON,S2,13/06,24/08
+HH005,Hoa Dai Cuong 2,Hieu,4,150,TUE,S4,WED,S4,17/01,27/05
+SH001,Gioi Thieu Nganh Sinh Hoc,Dat,2,120,FRI,S2,THU,S4,30/05,24/08
+SH002,Sinh Dai Cuong 1,Phat,3,140,THU,S2,SAT,S1,15/09,22/12
+SH003,Sinh Dai Cuong 1,Tai,3,140,WED,S3,FRI,S3,17/01,27/05
+SH004,Sinh Dai Cuong 2,Tri,4,135,MON,S4,TUE,S4,01/09,22/12
+SH005,Sinh Dai Cuong 2,Huyen,4,135,FRI,S3,WED,S3,01/09,22/12
+VLH001,Gioi Thieu Nganh Vat Ly,Y,2,120,MON,S1,TUE,S4,15/09,22/12
+VLH002,Vat Ly Dai Cuong 1,Cuong,3,130,TUE,S2,FRI,S3,03/01,27/05
+VLH003,Vat Ly Dai Cuong 1,Hoang,3,130,WED,S4,THU,S3,17/01,27/05
+VLH004,Vat Ly Dai Cuong 2,Huyen,4,150,THU,S4,MON,S2,17/01,27/05
+VLH005,Vat Ly Dai Cuong 2,Khuong,4,150,FRI,S4,SAT,S2,30/05,24/08
+MTH001,Gioi Thieu Nganh Moi Truong,Doan,2,120,SAT,S2,WED,S1,30/05,24/08
+MTH002,Cong Nghe Ky Thuat Moi Truong,Huy,3,130,TUE,S1,MON,S1,13/06,24/08
+MTH003,Moi Truong Dai Cuong,Huong,3,130,FRI,S3,TUE,S3,01/09,22/12
+MTH004,Con Nguoi Va Moi Truong,Kien,4,150,WED,S1,THU,S1,17/01,27/05
+MTH005,Khoa Hoc Moi Truong,Toan,4,150,THU,S3,SAT,S4,17/01,27/05
+DC001,Ky Nang Lam Viec Nhom,Tho,2,110,MON,S3,WED,S2,13/06,24/08
+DC002,The Duc 1,Thang,2,80,SAT,S1,FRI,S2,03/01,27/05
+DC003,The Duc 2,Duc,2,80,MON,S2,WED,S3,13/06,24/08
+DC004,Triet Hoc Mac Lenin,My,3,150,THU,S2,MON,S4,30/05,24/08
+DC005,Kinh Te Chinh Tri,Duc,3,120,FRI,S2,SAT,S1,01/09,22/12
+DC006,Lich Su Dang,Nga,3,100,TUE,S3,FRI,S1,01/09,22/12
+DC007,Tu Tuong Ho Chi Minh,Hoan,2,100,WED,S1,THU,S2,30/05,24/08
+DC008,Phap Luat Dai Cuong,Thien,3,120,MON,S4,TUE,S1,30/05,24/08
+DC009,Kinh Te Dai Cuong,Cong,2,110,FRI,S1,THU,S4,17/01,27/05
+DC0010,Tam Ly Dai Cuong,Tin,2,110,WED,S3,SAT,S3,17/01,27/05
