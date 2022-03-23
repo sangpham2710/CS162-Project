@@ -3,10 +3,18 @@
 #include <string>
 using std::string;
 
+enum UserType {
+    ADMIN,
+    STUDENT,
+    ACADEMIC_STAFF
+};
+
 class User {
- protected:
+ public:
   string username;
   string password;
-  User(string _username, string _password)
-      : username(_username), password(_password) {}
+  bool userType; 
+  User() : username(""), password(""), userType(ADMIN) {}
+  User(string _username, string _password, UserType _userType)
+      : username(_username), password(_password), userType(_userType) {}
 };

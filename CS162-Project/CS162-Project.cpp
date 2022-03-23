@@ -7,7 +7,6 @@ using namespace std;
 
 int main() {
   Console::setup();
-  App app;
-  app.run();
+  App::run();
   return 0;
 }

@@ -143,6 +143,7 @@
     <ClCompile Include="Course.h" />
     <ClCompile Include="CS162-Project.cpp" />
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="Semester.h" />
   </ItemGroup>
   <ItemGroup>

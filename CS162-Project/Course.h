@@ -10,19 +10,18 @@ class Student;
 class Semester;
 
 class Course {
- private:
-  Semester* pSemester;
-  string courseId;
+ public:
+  string semesterID;
+  string courseID;
   string courseName;
   string lecturer;
   string startDate;
   string endDate;
-  int maxNumberOfStudents;
-  int numberOfCredits;
+  int maxNumberOfStudents = 0;
+  int numberOfCredits = 0;
   string schedule;
-  List<Student> listStudents;
+  List<string> studentIDs;
 
- public:
   Course() {}
   ~Course() {}
   void viewScorebroad();

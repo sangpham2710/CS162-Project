@@ -9,12 +9,13 @@
 using std::string;
 
 class SchoolYear {
- private:
+ public:
+  string id;
   string name;
   List<Semester> semesters;
   List<Class> classes;
 
- public:
+
   SchoolYear() {}
   ~SchoolYear() {}
 };

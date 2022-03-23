@@ -2,12 +2,10 @@
 
 class App {
  private:
-  void loadData();
-  void saveData();
-  bool auth();
+  static void loadData();
+  static void saveData();
+  static bool auth();
 
  public:
-  App();
-  ~App();
-  void run();
+  static void run();
 };

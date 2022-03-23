@@ -1,13 +1,15 @@
 #pragma once
 
 #include <string>
+#include "List.h"
+
 using std::string;
 
 class Student;
 
 class Class {
- private:
-  string id;
-  string name;
-  List<Student> students;
+ public:
+  string classID;
+  string className;
+  List<string> listStudentIDs;
 };

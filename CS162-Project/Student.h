@@ -16,9 +16,7 @@ class Student {
   string gender;
   string dateOfBirth;
   string socialID;
-
-  List<Course> courses;
-  List<CourseMark> courseMarks;
+  List<CourseMark> listCourseMarks;
 
  public:
   double getSemesterGPA(Semester);

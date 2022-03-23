@@ -7,8 +7,11 @@
 using std::string;
 
 class Semester {
- private:
-  List<Course> listCourses;
-
  public:
+  List<Course> listCourses;
+  string schoolYearID;
+
+
+  void addCourse(Course* course);
+  void viewCourse(Course* course);
 };

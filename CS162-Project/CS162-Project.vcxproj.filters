@@ -13,16 +13,22 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{955cad09-d49b-4d6b-8c0b-a91fadf2a461}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Console">
+      <UniqueIdentifier>{e3cf95a9-05c8-4fce-97f2-90af8825affa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\List">
+      <UniqueIdentifier>{5105a39f-cc2c-49c8-a17d-ee13bb0f9622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{b2da92c2-6be2-408f-865a-8b2ca97c2b96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CS162-Project.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Console.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="App.cpp">
-      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="Semester.h">
       <Filter>Header Files</Filter>
@@ -30,24 +36,21 @@
     <ClCompile Include="Course.h">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Library\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Console.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="App.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="User.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="List.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SchoolYear.h">
@@ -61,6 +64,18 @@
     </ClInclude>
     <ClInclude Include="CourseMark.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Library\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>Library\List</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Library\List</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
