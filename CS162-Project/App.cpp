@@ -5,6 +5,7 @@
 
 #include "Global.h"
 #include "List.h"
+
 using std::cin;
 using std::cout;
 using std::string;
@@ -15,8 +16,7 @@ void App::loadData() {
   Global::allUsers.push_back(User{"student", "student", UserType::STUDENT});
 }
 
-void App::saveData() {
-}
+void App::saveData() {}
 
 bool App::auth() {
   cout << "Username: ";
@@ -36,6 +36,7 @@ bool App::auth() {
 }
 
 void App::run() {
+  cout << uuids::to_string(uuids::uuid_system_generator{}()) << '\n';
   loadData();
   if (!App::auth()) return;
 }

@@ -25,6 +25,9 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{b2da92c2-6be2-408f-865a-8b2ca97c2b96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\UUID">
+      <UniqueIdentifier>{7fe8171a-b824-4fa8-b681-8aabe9e0b0c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CS162-Project.cpp">
@@ -76,6 +79,12 @@
     </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Library\List</Filter>
+    </ClInclude>
+    <ClInclude Include="uuidLib.h">
+      <Filter>Library\UUID</Filter>
+    </ClInclude>
+    <ClInclude Include="ID.h">
+      <Filter>Library\UUID</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

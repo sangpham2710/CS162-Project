@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "ID.h"
 #include "List.h"
 
 using std::string;
@@ -11,8 +12,9 @@ class Semester;
 
 class Course {
  public:
+  string _id;
   string semesterID;
-  string courseID;
+  string courseCode;
   string courseName;
   string lecturer;
   string startDate;
@@ -22,7 +24,7 @@ class Course {
   string schedule;
   List<string> studentIDs;
 
-  Course() {}
+  Course() : _id(ID::gen()) {}
   ~Course() {}
   void viewScorebroad();
   void importScoreboard();

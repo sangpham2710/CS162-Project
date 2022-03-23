@@ -1,8 +1,5 @@
 #pragma once
 
-#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
-#define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
-
 #include <algorithm>
 #include <cstddef>
 #include <functional>
@@ -554,8 +551,7 @@ class List {
 };
 
 template <class T>
-class List<T>::iterator : public std::iterator<std::bidirectional_iterator_tag,
-                                               T, std::ptrdiff_t, T*, T&> {
+class List<T>::iterator {
   friend class List;
 
  private:
@@ -628,9 +624,7 @@ class List<T>::iterator : public std::iterator<std::bidirectional_iterator_tag,
 };
 
 template <class T>
-class List<T>::const_iterator
-    : public std::iterator<std::bidirectional_iterator_tag, T, std::ptrdiff_t,
-                           T*, T&> {
+class List<T>::const_iterator {
   friend class List;
 
  private:

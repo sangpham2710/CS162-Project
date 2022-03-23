@@ -1,20 +1,23 @@
 #pragma once
 
 #include <string>
+
+#include "ID.h"
+
 using std::string;
 
-enum UserType {
-    ADMIN,
-    STUDENT,
-    ACADEMIC_STAFF
-};
+enum UserType { ADMIN, STUDENT, ACADEMIC_STAFF };
 
 class User {
  public:
+  string _id;
   string username;
   string password;
-  bool userType; 
-  User() : username(""), password(""), userType(ADMIN) {}
+  bool userType;
+  User() : _id(ID::gen()), username(""), password(""), userType(ADMIN) {}
   User(string _username, string _password, UserType _userType)
-      : username(_username), password(_password), userType(_userType) {}
+      : _id(ID::gen()),
+        username(_username),
+        password(_password),
+        userType(_userType) {}
 };

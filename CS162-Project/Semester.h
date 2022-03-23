@@ -3,15 +3,18 @@
 #include <string>
 
 #include "Course.h"
+#include "ID.h"
 
 using std::string;
 
 class Semester {
  public:
-  List<Course> listCourses;
+  string _id;
   string schoolYearID;
+  List<string> listCourseIDs;
 
-
-  void addCourse(Course* course);
-  void viewCourse(Course* course);
+  Semester() : _id(ID::gen()) {}
+  ~Semester() {}
+  void addCourse(const Course& course);
+  void viewCourse(const Course& course);
 };
