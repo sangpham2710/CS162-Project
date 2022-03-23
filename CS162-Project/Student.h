@@ -4,7 +4,6 @@
 
 #include "Course.h"
 #include "CourseMark.h"
-#include "ID.h"
 #include "List.h"
 
 using std::string;
@@ -20,7 +19,7 @@ class Student {
   string socialID;
   List<CourseMark> listCourseMarks;
 
-  Student() : _id(ID::gen()) {}
+  Student() : _id("") {}
   ~Student() {}
   double getSemesterGPA(const string& semesterID);
   double getOverallGPA();

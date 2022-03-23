@@ -13,7 +13,7 @@ class User {
   string _id;
   string username;
   string password;
-  bool userType;
+  UserType userType;
   User() : _id(ID::gen()), username(""), password(""), userType(ADMIN) {}
   User(string _username, string _password, UserType _userType)
       : _id(ID::gen()),

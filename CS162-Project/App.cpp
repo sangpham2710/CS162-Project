@@ -30,10 +30,8 @@ void App::auth() {
     it = Global::allUsers.find_if([&](const User& user) {
       return username == user.username && password == user.password;
     });
-    if (it == Global::allUsers.end()) {
-      cout << "Incorrect username or password!\n";
-      continue;
-    }
+    if (it != Global::allUsers.end()) break;
+    cout << "Incorrect username or password!\n";
   }
   Global::currentUser = *it;
   cout << "Successfully logged in\n";
@@ -44,6 +42,7 @@ void App::run() {
 
   auth();
   if (Global::currentUser.userType == UserType::ACADEMIC_STAFF) {
+    cout << Global::currentUser._id << '\n';
     return;
   }
   if (Global::currentUser.userType == UserType::STUDENT) {
