@@ -10,7 +10,7 @@
 using std::string;
 
 class Student {
- private:
+ public:
   string _id;
   string studentCode;
   string firstName;
@@ -20,9 +20,8 @@ class Student {
   string socialID;
   List<CourseMark> listCourseMarks;
 
- public:
   Student() : _id(ID::gen()) {}
   ~Student() {}
-  double getSemesterGPA(Semester);
+  double getSemesterGPA(const string& semesterID);
   double getOverallGPA();
 };

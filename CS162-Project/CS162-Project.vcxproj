@@ -141,11 +141,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Course.cpp" />
     <ClCompile Include="Course.h" />
     <ClCompile Include="CS162-Project.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="Semester.cpp" />
     <ClCompile Include="Semester.h" />
+    <ClCompile Include="Student.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />

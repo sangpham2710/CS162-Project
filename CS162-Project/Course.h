@@ -7,9 +7,6 @@
 
 using std::string;
 
-class Student;
-class Semester;
-
 class Course {
  public:
   string _id;
@@ -26,7 +23,7 @@ class Course {
 
   Course() : _id(ID::gen()) {}
   ~Course() {}
-  void viewScorebroad();
+  void viewScoreboard();
   void importScoreboard();
   void exportScoreboard();
 };

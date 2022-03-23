@@ -4,7 +4,7 @@ class App {
  private:
   static void loadData();
   static void saveData();
-  static bool auth();
+  static void auth();
 
  public:
   static void run();

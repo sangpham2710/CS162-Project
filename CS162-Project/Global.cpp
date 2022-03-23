@@ -1,5 +1,7 @@
 #include "Global.h"
 
+User Global::currentUser{};
+Semester Global::currentSemester{};
 List<User> Global::allUsers{};
 List<Student> Global::allStudents{};
 List<SchoolYear> Global::allSchoolYears{};

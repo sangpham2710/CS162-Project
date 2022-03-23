@@ -18,25 +18,35 @@ void App::loadData() {
 
 void App::saveData() {}
 
-bool App::auth() {
-  cout << "Username: ";
-  string username;
-  cin >> username;
-  cout << "Password: ";
-  string password;
-  cin >> password;
-  if (Global::allUsers.find_if([&](const User& user) {
-        return username == user.username && password == user.password;
-      }) == Global::allUsers.end()) {
-    cout << "Incorrect username or password!\n";
-    return false;
+void App::auth() {
+  List<User>::iterator it;
+  while (true) {
+    cout << "Username: ";
+    string username;
+    cin >> username;
+    cout << "Password: ";
+    string password;
+    cin >> password;
+    it = Global::allUsers.find_if([&](const User& user) {
+      return username == user.username && password == user.password;
+    });
+    if (it == Global::allUsers.end()) {
+      cout << "Incorrect username or password!\n";
+      continue;
+    }
   }
+  Global::currentUser = *it;
   cout << "Successfully logged in\n";
-  return true;
 }
 
 void App::run() {
-  cout << uuids::to_string(uuids::uuid_system_generator{}()) << '\n';
   loadData();
-  if (!App::auth()) return;
+
+  auth();
+  if (Global::currentUser.userType == UserType::ACADEMIC_STAFF) {
+    return;
+  }
+  if (Global::currentUser.userType == UserType::STUDENT) {
+    return;
+  }
 }

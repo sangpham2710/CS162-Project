@@ -14,8 +14,6 @@ using std::string;
 
 class Global {
  public:
-  static string currentUserID;
-  static string currentSemesterID;
   static User currentUser;
   static Semester currentSemester;
   static List<User> allUsers;
