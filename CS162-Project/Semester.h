@@ -7,10 +7,12 @@
 
 using std::string;
 
+class SchoolYear;
+
 class Semester {
  public:
   string _id;
-  string schoolYear;
+  SchoolYear* schoolYear;
   List<Course> courses;
 
   Semester() : _id(ID::gen()) {}
