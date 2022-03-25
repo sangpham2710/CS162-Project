@@ -4,6 +4,7 @@
 
 #include "Course.h"
 #include "CourseMark.h"
+#include "Semester.h"
 #include "List.h"
 
 using std::string;
@@ -21,6 +22,8 @@ class Student {
   List<CourseMark> courseMarks;
 
  public:
-  double getSemesterGPA(Semester);
+	 double getSemesterGPA(Semester){
+		 
+  };
   double getOverallGPA();
 };
