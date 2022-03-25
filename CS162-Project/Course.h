@@ -7,6 +7,8 @@
 
 using std::string;
 
+class Student;
+
 class Course {
  public:
   string _id;
@@ -19,7 +21,7 @@ class Course {
   int maxNumberOfStudents = 0;
   int numberOfCredits = 0;
   string schedule;
-  List<string> studentIDs;
+  List<Student*> students;
 
   Course() : _id(ID::gen()) {}
   ~Course() {}
