@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-
+#include "Semester.h"
 #include "ID.h"
 #include "List.h"
 
@@ -10,7 +10,6 @@ using std::string;
 class Course {
  public:
   string _id;
-  string semesterID;
   string courseCode;
   string courseName;
   string lecturer;
@@ -19,6 +18,8 @@ class Course {
   int maxNumberOfStudents = 0;
   int numberOfCredits = 0;
   string schedule;
+
+  Semester* pSemester;
   List<string> studentIDs;
 
   Course() : _id(ID::gen()) {}

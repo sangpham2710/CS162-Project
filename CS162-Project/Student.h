@@ -21,8 +21,8 @@ class Student {
   string socialID;
   string classID;
 
-  List<string> courseIDs;
-  List<CourseMark> courseMarks;
+  List<Course*> courses;
+  Class* pClass;
 
   Student() : _id(ID::gen()) {}
   ~Student() {}

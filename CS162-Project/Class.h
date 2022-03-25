@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-
+#include "Student.h"
 #include "ID.h"
 #include "List.h"
 
@@ -11,8 +11,10 @@ class Class {
  public:
   string _id;
   string className;
-  List<string> listStudentIDs;
+
+  List<Student> student;
+  SchoolYear* pSchoolYear;
 
   Class() : _id(ID::gen()) {}
-  ~Class() {}
+
 };

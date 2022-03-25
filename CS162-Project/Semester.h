@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-
+#include "SchoolYear.h"
 #include "Course.h"
 #include "ID.h"
 
@@ -10,8 +10,8 @@ using std::string;
 class Semester {
  public:
   string _id;
-  string schoolYear;
-  List<string> courseIDs;
+  SchoolYear* pSchoolYear;
+  List<Course> courses;
 
   Semester() : _id(ID::gen()) {}
   ~Semester() {}
