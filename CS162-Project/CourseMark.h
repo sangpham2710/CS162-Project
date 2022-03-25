@@ -8,6 +8,6 @@ class Course;
 
 class CourseMark {
  public:
-  Course *course;
+  Course *pCourse;
   double midtermMark, finalMark, otherMark, totalMark;
 };

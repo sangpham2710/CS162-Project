@@ -8,6 +8,7 @@
 using std::string;
 
 class Student;
+class CourseMark;
 
 class Course {
  public:
@@ -22,6 +23,7 @@ class Course {
   int numberOfCredits = 0;
   string schedule;
   List<Student*> students;
+  List<CourseMark> coursMarks;
 
   Course() : _id(ID::gen()) {}
   ~Course() {}

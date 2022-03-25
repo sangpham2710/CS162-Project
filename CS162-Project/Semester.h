@@ -12,7 +12,7 @@ class SchoolYear;
 class Semester {
  public:
   string _id;
-  SchoolYear* schoolYear;
+  SchoolYear* pSchoolYear;
   List<Course> courses;
 
   Semester() : _id(ID::gen()) {}

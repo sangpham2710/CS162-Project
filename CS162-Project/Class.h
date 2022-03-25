@@ -11,7 +11,7 @@ class Class {
  public:
   string _id;
   string className;
-  List<string> listStudentIDs;
+  List<Student> listStudents;
 
   Class() : _id(ID::gen()) {}
   ~Class() {}

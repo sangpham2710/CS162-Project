@@ -10,6 +10,7 @@
 using std::string;
 
 class Course;
+class Class;
 
 class Student {
  public:
@@ -25,6 +26,7 @@ class Student {
 
   List<Course*> courses;
   List<CourseMark> courseMarks;
+  Class* pClass;
 
   Student() : _id(ID::gen()) {}
   ~Student() {}
