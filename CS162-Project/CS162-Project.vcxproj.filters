@@ -54,6 +54,15 @@
     <ClCompile Include="Student.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="ID.cpp">
+      <Filter>Library\UUID</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -88,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="ID.h">
       <Filter>Library\UUID</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

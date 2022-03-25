@@ -146,9 +146,12 @@
     <ClCompile Include="CS162-Project.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="ID.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Semester.cpp" />
     <ClCompile Include="Semester.h" />
     <ClCompile Include="Student.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -156,6 +159,7 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="SchoolYear.h" />
     <ClInclude Include="Student.h" />

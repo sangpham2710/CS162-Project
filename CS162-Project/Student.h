@@ -5,21 +5,26 @@
 #include "Course.h"
 #include "CourseMark.h"
 #include "List.h"
+#include "ID.h"
 
 using std::string;
 
 class Student {
  public:
   string _id;
+  int no;
   string studentCode;
   string firstName;
   string lastName;
   string gender;
   string dateOfBirth;
   string socialID;
-  List<CourseMark> listCourseMarks;
+  string classID;
 
-  Student() : _id("") {}
+  List<string> courseIDs;
+  List<CourseMark> courseMarks;
+
+  Student() : _id(ID::gen()) {}
   ~Student() {}
   double getSemesterGPA(const string& semesterID);
   double getOverallGPA();

@@ -3,8 +3,11 @@
 #include <iostream>
 #include <string>
 
+#include "Console.h"
 #include "Global.h"
 #include "List.h"
+#include "Menu.h"
+#include "User.h"
 
 using std::cin;
 using std::cout;
@@ -16,36 +19,24 @@ void App::loadData() {
   Global::allUsers.push_back(User{"student", "student", UserType::STUDENT});
 }
 
-void App::saveData() {}
-
-void App::auth() {
-  List<User>::iterator it;
-  while (true) {
-    cout << "Username: ";
-    string username;
-    cin >> username;
-    cout << "Password: ";
-    string password;
-    cin >> password;
-    it = Global::allUsers.find_if([&](const User& user) {
-      return username == user.username && password == user.password;
-    });
-    if (it != Global::allUsers.end()) break;
-    cout << "Incorrect username or password!\n";
-  }
-  Global::currentUser = *it;
-  cout << "Successfully logged in\n";
+void App::saveData() {
 }
 
-void App::run() {
-  loadData();
-
-  auth();
+void App::main() {
+  Console::clear();
+  User::login();
   if (Global::currentUser.userType == UserType::ACADEMIC_STAFF) {
-    cout << Global::currentUser._id << '\n';
+    Menu::staffMenu();
     return;
   }
   if (Global::currentUser.userType == UserType::STUDENT) {
+    Menu::studentMenu();
     return;
   }
+}
+
+void App::run() {
+  Console::setup();
+  loadData();
+  App::main();
 }

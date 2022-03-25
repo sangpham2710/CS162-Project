@@ -1,11 +1,9 @@
 #pragma once
 
 class App {
- private:
+ public:
   static void loadData();
   static void saveData();
-  static void auth();
-
- public:
+  static void main();
   static void run();
 };

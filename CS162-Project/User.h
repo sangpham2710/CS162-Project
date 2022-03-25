@@ -20,4 +20,5 @@ class User {
         username(_username),
         password(_password),
         userType(_userType) {}
+  static void login();
 };

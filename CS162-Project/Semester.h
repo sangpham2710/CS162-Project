@@ -11,7 +11,7 @@ class Semester {
  public:
   string _id;
   string schoolYear;
-  List<string> listCourseIDs;
+  List<string> courseIDs;
 
   Semester() : _id(ID::gen()) {}
   ~Semester() {}
