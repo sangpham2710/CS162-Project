@@ -25,11 +25,11 @@ void App::saveData() {
 void App::main() {
   Console::clear();
   User::login();
-  if (Global::currentUser.userType == UserType::ACADEMIC_STAFF) {
+  if (Global::currentUser->userType == UserType::ACADEMIC_STAFF) {
     Menu::staffMenu();
     return;
   }
-  if (Global::currentUser.userType == UserType::STUDENT) {
+  if (Global::currentUser->userType == UserType::STUDENT) {
     Menu::studentMenu();
     return;
   }
@@ -37,6 +37,7 @@ void App::main() {
 
 void App::run() {
   Console::setup();
-  loadData();
+  App::loadData();
   App::main();
+  App::saveData();
 }

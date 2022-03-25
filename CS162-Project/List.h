@@ -566,6 +566,7 @@ class List<T>::iterator {
 
   iterator() : ptr{nullptr} {}
   iterator(Node<value_type>* const& p) : ptr(p) {}
+  iterator(const iterator& other) : ptr(other.ptr) {}
   reference operator*() const {
     reference value = ptr->value;
     return value;

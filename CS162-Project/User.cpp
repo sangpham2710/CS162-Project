@@ -23,6 +23,6 @@ void User::login() {
     if (it != Global::allUsers.end()) break;
     cout << "Incorrect username or password!\n";
   }
-  Global::currentUser = *it;
+  Global::currentUser = it;
   cout << "Successfully logged in\n";
 }

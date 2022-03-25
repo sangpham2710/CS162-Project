@@ -1,14 +1,13 @@
 #pragma once
 
+#include <list>
 #include <string>
 
 #include "ID.h"
 #include "List.h"
+#include "Student.h"
 
 using std::string;
-
-class Student;
-class CourseMark;
 
 class Course {
  public:
@@ -22,11 +21,10 @@ class Course {
   int maxNumberOfStudents = 0;
   int numberOfCredits = 0;
   string schedule;
-  List<Student*> students;
-  List<CourseMark> coursMarks;
+
+  List<List<Student>::iterator> students;
 
   Course() : _id(ID::gen()) {}
-  ~Course() {}
   void viewScoreboard();
   void importScoreboard();
   void exportScoreboard();

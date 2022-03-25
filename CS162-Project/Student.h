@@ -4,8 +4,9 @@
 
 #include "Course.h"
 #include "CourseMark.h"
-#include "List.h"
 #include "ID.h"
+#include "List.h"
+#include "Semester.h"
 
 using std::string;
 
@@ -15,21 +16,18 @@ class Class;
 class Student {
  public:
   string _id;
-  int no;
   string studentCode;
   string firstName;
   string lastName;
   string gender;
   string dateOfBirth;
   string socialID;
-  string classID;
 
-  List<Course*> courses;
   List<CourseMark> courseMarks;
-  Class* pClass;
+  List<Class>::iterator pClass;
 
   Student() : _id(ID::gen()) {}
-  ~Student() {}
-  double getSemesterGPA(const string& semesterID);
+
+  double getSemesterGPA(const List<Semester>::iterator& semester);
   double getOverallGPA();
 };

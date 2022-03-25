@@ -14,12 +14,12 @@ using std::string;
 
 class Global {
  public:
-  static User currentUser;
-  static Semester currentSemester;
+  static List<User>::iterator currentUser;
+  static List<Semester>::iterator currentSemester;
   static List<User> allUsers;
-  static List<Student> allStudents;
   static List<SchoolYear> allSchoolYears;
-  static List<Semester> allSemesters;
-  static List<Course> allCourses;
-  static List<Class> allClasses;
+
+  // these two lists are for matching iterators as the program starts
+  static List<List<Student>::iterator> pStudents;
+  static List<List<Course>::iterator> pCourses;
 };

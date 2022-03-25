@@ -2,10 +2,10 @@
 
 #include <string>
 
+#include "Class.h"
 #include "ID.h"
 #include "List.h"
 #include "Semester.h"
-#include "Class.h"
 
 using std::string;
 
@@ -17,5 +17,5 @@ class SchoolYear {
   List<Class> classes;
 
   SchoolYear() : _id(ID::gen()) {}
-  ~SchoolYear() {}
+  void saveToFile();
 };

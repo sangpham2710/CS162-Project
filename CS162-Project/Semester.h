@@ -12,11 +12,10 @@ class SchoolYear;
 class Semester {
  public:
   string _id;
-  SchoolYear* pSchoolYear;
+  List<SchoolYear>::iterator pSchoolYear;
   List<Course> courses;
 
   Semester() : _id(ID::gen()) {}
-  ~Semester() {}
   void addCourse(const Course& course);
   void viewCourse(const string& courseID);
 };

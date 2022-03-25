@@ -8,6 +8,6 @@ class Course;
 
 class CourseMark {
  public:
-  Course *pCourse;
+  List<Course>::iterator pCourse;
   double midtermMark, finalMark, otherMark, totalMark;
 };
