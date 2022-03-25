@@ -9,6 +9,8 @@
 
 using std::string;
 
+class Course;
+
 class Student {
  public:
   string _id;
@@ -21,7 +23,7 @@ class Student {
   string socialID;
   string classID;
 
-  List<string> courseIDs;
+  List<Course*> courses;
   List<CourseMark> courseMarks;
 
   Student() : _id(ID::gen()) {}
