@@ -4,8 +4,10 @@
 
 using std::string;
 
+class Course;
+
 class CourseMark {
  public:
-  string courseID;
+  Course *course;
   double midtermMark, finalMark, otherMark, totalMark;
 };
