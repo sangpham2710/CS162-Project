@@ -12,10 +12,12 @@ class SchoolYear;
 class Semester {
  public:
   string _id;
-  List<SchoolYear>::iterator pSchoolYear;
-  List<Course> courses;
+  SchoolYear* pSchoolYear;
+  List<Course*> pCourses;
 
-  Semester() : _id(ID::gen()) {}
-  void addCourse(const Course& course);
+  Semester() : _id(ID::gen()), pSchoolYear(nullptr), pCourses() {}
+  friend std::ostream& operator<<(std::ostream& stream,
+                                  const Semester& semester);
+  void addCourse(Course* const& course);
   void viewCourse(const string& courseID);
 };

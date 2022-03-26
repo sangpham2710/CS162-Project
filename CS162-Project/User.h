@@ -3,22 +3,29 @@
 #include <string>
 
 #include "ID.h"
+#include "Student.h"
 
 using std::string;
 
-enum UserType { ADMIN, STUDENT, ACADEMIC_STAFF };
+class Student;
 
 class User {
  public:
+  enum Type { ADMIN, STUDENT, ACADEMIC_STAFF };
   string _id;
   string username;
   string password;
-  UserType userType;
+  Type userType;
+
+  Student* pStudent;
+
   User() : _id(ID::gen()), username(""), password(""), userType(ADMIN) {}
-  User(string _username, string _password, UserType _userType)
+  User(const string& username, const string& password, const Type& userType)
       : _id(ID::gen()),
-        username(_username),
-        password(_password),
-        userType(_userType) {}
+        username(username),
+        password(password),
+        userType(userType) {}
+
+  friend std::ostream& operator<<(std::ostream& stream, const User& user);
   static void login();
 };

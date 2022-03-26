@@ -42,9 +42,6 @@
     <ClCompile Include="Console.cpp">
       <Filter>Library\Console</Filter>
     </ClCompile>
-    <ClCompile Include="Global.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="Course.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
@@ -63,12 +60,18 @@
     <ClCompile Include="User.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="CourseMark.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SchoolYear.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Class.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SchoolYear.h">
