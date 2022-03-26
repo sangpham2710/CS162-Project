@@ -19,10 +19,16 @@ std::ostream& operator<<(std::ostream& stream, const Course& course) {
   stream << course.schedule << '\n';
   stream << course.pSemester->_id << '\n';
   stream << course.pStudents.size() << '\n';
-  for (const auto& p : course.pStudents) stream << p->_id << '\n';
+  for (auto p : course.pStudents) stream << p->_id << '\n';
   return stream;
 }
 
-void Course::viewScoreboard() { cout << "Not implemented\n"; }
-void Course::importScoreboard() { cout << "Not implemented\n"; }
-void Course::exportScoreboard() { cout << "Not implemented\n"; }
+void Course::viewScoreboard() {
+  cout << "Not implemented\n";
+}
+void Course::importScoreboard() {
+  cout << "Not implemented\n";
+}
+void Course::exportScoreboard() {
+  cout << "Not implemented\n";
+}

@@ -159,6 +159,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="Data.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Node.h" />

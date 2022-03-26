@@ -13,8 +13,8 @@ std::ostream& operator<<(std::ostream& stream, const User& user) {
   stream << user.username << '\n';
   stream << user.password << '\n';
   stream << user.userType << '\n';
-  if (user.userType == User::Type::STUDENT)
-    stream << user.pStudent->_id << '\n';
+  /*if (user.userType == User::Type::STUDENT)
+    stream << user.pStudent->_id << '\n';*/
   return stream;
 }
 

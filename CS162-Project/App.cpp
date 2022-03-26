@@ -1,10 +1,12 @@
 #include "App.h"
 
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
 
 #include "Console.h"
+#include "Data.h"
 #include "List.h"
 #include "Menu.h"
 
@@ -13,6 +15,7 @@ using std::cout;
 using std::ifstream;
 using std::ofstream;
 using std::string;
+namespace fs = std::filesystem;
 
 User* App::pCurrentUser{nullptr};
 Semester* App::pCurrentSemester{nullptr};
@@ -24,9 +27,7 @@ List<Course*> App::pCourses{};
 List<Class*> App::pClasses{};
 List<Student*> App::pStudents{};
 
-void App::allocate() {
-  Console::setup();
-}
+void App::allocate() { Console::setup(); }
 
 void App::deallocate() {
   for (const auto& p : App::pUsers) delete p;
@@ -49,39 +50,33 @@ bool App::loadData() {
 }
 
 bool App::saveData() {
-  auto saveIDs = [](const string& path, const auto& list) -> bool {
-    ofstream ofs(path + "IDs.dat");
-    if (!ofs.is_open()) return false;
-    for (const auto& p : list) ofs << p->_id << '\n';
-    ofs.close();
-    return true;
+  auto createIfNotExists = [](const string& path) {
+    if (!fs::exists(path)) fs::create_directories(path);
   };
+  createIfNotExists(Paths::DATA_DIR);
+  createIfNotExists(Paths::USERS_DIR);
+  createIfNotExists(Paths::SCHOOLYEARS_DIR);
+  createIfNotExists(Paths::SEMESTERS_DIR);
+  createIfNotExists(Paths::CLASSES_DIR);
+  createIfNotExists(Paths::COURSES_DIR);
+  createIfNotExists(Paths::STUDENTS_DIR);
 
-  auto saveObjs = [](const string& path, const auto& list) -> bool {
-    for (const auto& p : list) {
-      ofstream ofs(path + p->_id + ".dat");
-      if (!ofs.is_open()) return false;
-      ofs << p << '\n';
-      ofs.close();
-    }
-    return true;
-  };
   bool ok = true;
-  ok &= saveIDs("data/users/", App::pUsers);
-  ok &= saveIDs("data/schoolYears/", App::pSchoolYears);
-  ok &= saveIDs("data/semesters/", App::pSemesters);
-  ok &= saveIDs("data/classes/", App::pClasses);
-  ok &= saveIDs("data/courses/", App::pCourses);
-  ok &= saveIDs("data/students/", App::pStudents);
+  ok &= Data::saveIDs(Paths::USERS_DIR, App::pUsers);
+  ok &= Data::saveIDs(Paths::SCHOOLYEARS_DIR, App::pSchoolYears);
+  ok &= Data::saveIDs(Paths::SEMESTERS_DIR, App::pSemesters);
+  ok &= Data::saveIDs(Paths::CLASSES_DIR, App::pClasses);
+  ok &= Data::saveIDs(Paths::COURSES_DIR, App::pCourses);
+  ok &= Data::saveIDs(Paths::STUDENTS_DIR, App::pStudents);
 
-  ok &= saveObjs("data/users/", App::pUsers);
-  ok &= saveObjs("data/schoolYears/", App::pSchoolYears);
-  ok &= saveObjs("data/semesters/", App::pSemesters);
-  ok &= saveObjs("data/classes/", App::pClasses);
-  ok &= saveObjs("data/courses/", App::pCourses);
-  ok &= saveObjs("data/students/", App::pStudents);
+  ok &= Data::saveObjs(Paths::USERS_DIR, App::pUsers);
+  ok &= Data::saveObjs(Paths::SCHOOLYEARS_DIR, App::pSchoolYears);
+  ok &= Data::saveObjs(Paths::SEMESTERS_DIR, App::pSemesters);
+  ok &= Data::saveObjs(Paths::CLASSES_DIR, App::pClasses);
+  ok &= Data::saveObjs(Paths::COURSES_DIR, App::pCourses);
+  ok &= Data::saveObjs(Paths::STUDENTS_DIR, App::pStudents);
 
-  ofstream ofs("data/app/recentSemester.dat");
+  ofstream ofs("data/recentSemester.dat");
   if (!ofs.is_open()) return false;
   if (pRecentSemester) ofs << App::pRecentSemester->_id << '\n';
   ofs.close();
@@ -91,6 +86,7 @@ bool App::saveData() {
 void App::main() {
   Console::clear();
   User::login();
+  return;
   if (App::pCurrentUser->userType == User::Type::ACADEMIC_STAFF) {
     Menu::staffMenu();
     return;

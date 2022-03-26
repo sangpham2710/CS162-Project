@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Class.h"
 #include "Course.h"
 #include "List.h"
@@ -7,6 +9,18 @@
 #include "Semester.h"
 #include "Student.h"
 #include "User.h"
+
+using std::string;
+
+namespace Paths {
+const string DATA_DIR = "data/";
+const string USERS_DIR = "data/users/";
+const string SCHOOLYEARS_DIR = "data/schoolYears/";
+const string SEMESTERS_DIR = "data/semesters/";
+const string CLASSES_DIR = "data/classes/";
+const string COURSES_DIR = "data/courses/";
+const string STUDENTS_DIR = "data/students/";
+};  // namespace Paths
 
 class App {
  public:
