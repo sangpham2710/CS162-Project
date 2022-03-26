@@ -162,7 +162,6 @@
     <ClInclude Include="Data.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="Node.h" />
     <ClInclude Include="SchoolYear.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="CourseMark.h" />
