@@ -92,9 +92,6 @@
     <ClInclude Include="List.h">
       <Filter>Library\List</Filter>
     </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Library\List</Filter>
-    </ClInclude>
     <ClInclude Include="ID.h">
       <Filter>Library\UUID</Filter>
     </ClInclude>
