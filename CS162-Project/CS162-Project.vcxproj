@@ -140,14 +140,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Class.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Course.cpp" />
     <ClCompile Include="Course.h" />
+    <ClCompile Include="CourseMark.cpp" />
     <ClCompile Include="CS162-Project.cpp" />
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="Global.cpp" />
     <ClCompile Include="ID.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="SchoolYear.cpp" />
     <ClCompile Include="Semester.cpp" />
     <ClCompile Include="Semester.h" />
     <ClCompile Include="Student.cpp" />
@@ -158,7 +160,6 @@
     <ClInclude Include="Class.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="List.h" />
-    <ClInclude Include="Global.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="SchoolYear.h" />

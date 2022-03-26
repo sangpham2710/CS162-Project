@@ -4,7 +4,6 @@
 
 #include "App.h"
 #include "Console.h"
-#include "Global.h"
 
 using std::cin;
 using std::cout;
@@ -33,7 +32,7 @@ void Menu::staffMenu() {
   while (option < 1 || option > 11) {
     cin >> option;
     if (option == 11) {
-      Global::currentUser = User();
+      App::pCurrentUser = nullptr;
       App::main();
       return;
     }
