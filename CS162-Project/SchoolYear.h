@@ -13,9 +13,10 @@ class SchoolYear {
  public:
   string _id;
   string name;
-  List<Semester> semesters;
-  List<Class> classes;
+  List<Semester*> pSemesters;
+  List<Class*> pClasses;
 
   SchoolYear() : _id(ID::gen()) {}
-  void saveToFile();
+  friend std::ostream& operator<<(std::ostream& stream,
+                                  const SchoolYear& schoolYear);
 };

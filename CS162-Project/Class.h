@@ -8,11 +8,14 @@
 
 using std::string;
 
+class Student;
+
 class Class {
  public:
   string _id;
   string classCode;
-  List<Student> students;
+  List<Student*> pStudents;
 
   Class() : _id(ID::gen()) {}
+  friend std::ostream& operator<<(std::ostream& stream, const Class& _class);
 };
