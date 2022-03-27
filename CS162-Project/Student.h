@@ -29,7 +29,20 @@ class Student {
   User* pUser;
   List<CourseMark> courseMarks;
 
-  Student() : _id(ID::gen()) {}
+  Student(const string& id)
+      : _id{id},
+        studentCode{},
+        firstName{},
+        lastName{},
+        gender{},
+        dateOfBirth{},
+        socialID{},
+        pClass{nullptr},
+        pUser{nullptr},
+        courseMarks{} {}
+  Student() : Student(ID::gen()) {}
+
+  friend std::istream& operator>>(std::istream& stream, Student& student);
   friend std::ostream& operator<<(std::ostream& stream, const Student& student);
 
   double getSemesterGPA(Semester* const& semester);

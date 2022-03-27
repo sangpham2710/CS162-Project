@@ -12,10 +12,15 @@ class SchoolYear;
 class Semester {
  public:
   string _id;
+  string semesterName;
   SchoolYear* pSchoolYear;
   List<Course*> pCourses;
 
-  Semester() : _id(ID::gen()), pSchoolYear(nullptr), pCourses() {}
+  Semester(const string& id)
+      : _id{id}, semesterName{}, pSchoolYear{}, pCourses{} {}
+  Semester() : Semester{ID::gen()} {}
+
+  friend std::istream& operator>>(std::istream& stream, Semester& semester);
   friend std::ostream& operator<<(std::ostream& stream,
                                   const Semester& semester);
   void addCourse(Course* const& course);

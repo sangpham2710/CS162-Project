@@ -12,16 +12,6 @@
 
 using std::string;
 
-namespace Paths {
-const string DATA_DIR = "data/";
-const string USERS_DIR = "data/users/";
-const string SCHOOLYEARS_DIR = "data/schoolYears/";
-const string SEMESTERS_DIR = "data/semesters/";
-const string CLASSES_DIR = "data/classes/";
-const string COURSES_DIR = "data/courses/";
-const string STUDENTS_DIR = "data/students/";
-};  // namespace Paths
-
 class App {
  public:
   static User* pCurrentUser;
@@ -35,9 +25,9 @@ class App {
   static List<Student*> pStudents;
 
   static void allocate();
-  static bool loadData();
+  static void loadData();
   static void main();
-  static bool saveData();
+  static void saveData();
   static void deallocate();
   static void run();
 };

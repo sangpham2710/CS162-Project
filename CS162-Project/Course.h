@@ -25,7 +25,21 @@ class Course {
   Semester* pSemester;
   List<Student*> pStudents;
 
-  Course() : _id(ID::gen()) {}
+  Course(const string& id)
+      : _id{id},
+        courseCode{},
+        courseName{},
+        lecturer{},
+        startDate{},
+        endDate{},
+        maxNumberOfStudents{},
+        numberOfCredits{},
+        schedule{},
+        pSemester{nullptr},
+        pStudents{} {}
+  Course() : Course{ID::gen()} {}
+
+  friend std::istream& operator>>(std::istream& stream, Course& course);
   friend std::ostream& operator<<(std::ostream& stream, const Course& course);
   void viewScoreboard();
   void importScoreboard();

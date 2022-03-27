@@ -16,6 +16,9 @@ class Class {
   string classCode;
   List<Student*> pStudents;
 
-  Class() : _id(ID::gen()) {}
+  Class(const string& id) : _id{id}, classCode{}, pStudents{} {}
+  Class() : Class{ID::gen()} {}
+
+  friend std::istream& operator>>(std::istream& stream, Class& _class);
   friend std::ostream& operator<<(std::ostream& stream, const Class& _class);
 };

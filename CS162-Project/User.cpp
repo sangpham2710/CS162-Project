@@ -8,13 +8,30 @@
 using std::cin;
 using std::cout;
 
+std::istream& operator>>(std::istream& stream, User& user) {
+  int n;
+  stream >> user._id;
+  stream >> user.username;
+  stream >> user.password;
+  stream >> n;
+  user.userType = static_cast<User::Type>(n);
+
+  if (user.userType == User::Type::STUDENT) {
+    string studentID;
+    stream >> studentID;
+    user.pStudent = *App::pStudents.find_if(
+        [&](const auto& p) -> bool { return p->_id == studentID; });
+  }
+  return stream;
+}
+
 std::ostream& operator<<(std::ostream& stream, const User& user) {
   stream << user._id << '\n';
   stream << user.username << '\n';
   stream << user.password << '\n';
   stream << user.userType << '\n';
-  /*if (user.userType == User::Type::STUDENT)
-    stream << user.pStudent->_id << '\n';*/
+  if (user.userType == User::Type::STUDENT)
+    stream << user.pStudent->_id << '\n';
   return stream;
 }
 

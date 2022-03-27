@@ -19,13 +19,14 @@ class User {
 
   Student* pStudent;
 
-  User() : _id(ID::gen()), username(""), password(""), userType(ADMIN) {}
+  User(const string& id) : _id(id), username{}, password{}, userType{} {}
+  User() : _id{ID::gen()} {}
   User(const string& username, const string& password, const Type& userType)
-      : _id(ID::gen()),
-        username(username),
-        password(password),
-        userType(userType) {}
-
+      : _id{ID::gen()},
+        username{username},
+        password{password},
+        userType{userType} {}
+  friend std::istream& operator>>(std::istream& stream, User& user);
   friend std::ostream& operator<<(std::ostream& stream, const User& user);
   static void login();
 };
