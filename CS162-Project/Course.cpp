@@ -11,15 +11,20 @@ using std::cout;
 std::istream& operator>>(std::istream& stream, Course& course) {
   int n;
   stream >> course._id;
-  stream >> course.courseCode;
-  stream >> course.courseName;
-  stream >> course.lecturer;
-  stream >> course.startDate;
-  stream >> course.endDate;
+  stream.ignore();
+  getline(stream, course.courseCode);
+  getline(stream, course.courseName);
+  getline(stream, course.lecturer);
+  getline(stream, course.startDate);
+  getline(stream, course.endDate);
   stream >> course.maxNumberOfStudents;
   stream >> course.numberOfCredits;
-  stream >> course.schedule;
-  stream >> course.pSemester->_id;
+  stream.ignore();
+  getline(stream, course.schedule);
+  string semesterID;
+  stream >> semesterID;
+  course.pSemester = *App::pSemesters.find_if(
+      [&](const auto& p) -> bool { return p->_id == semesterID; });
   stream >> n;
   for (int i = 0; i < n; ++i) {
     string studentID;

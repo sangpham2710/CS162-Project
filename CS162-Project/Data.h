@@ -58,7 +58,7 @@ bool Data::loadIDs(const string& path, List<T*>& list) {
 template <class T>
 bool Data::loadObjs(const string& path, List<T*>& list) {
   for (auto p : list) {
-    ifstream ifs(path + p->_id + ".dat");
+    ifstream ifs(path + p->_id + ".txt");
     if (!ifs.is_open()) return false;
     ifs >> *p;
     ifs.close();
@@ -79,7 +79,7 @@ bool Data::saveIDs(const string& path, const List<T*>& list) {
 template <class T>
 bool Data::saveObjs(const string& path, const List<T*>& list) {
   for (auto p : list) {
-    ofstream ofs(path + p->_id + ".dat");
+    ofstream ofs(path + p->_id + ".txt");
     if (!ofs.is_open()) return false;
     ofs << *p << '\n';
     ofs.close();

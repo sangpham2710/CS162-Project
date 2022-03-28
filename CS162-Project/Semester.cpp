@@ -10,8 +10,12 @@ using std::cout;
 std::istream& operator>>(std::istream& stream, Semester& semester) {
   int n;
   stream >> semester._id;
-  stream >> semester.semesterName;
-  stream >> semester.pSchoolYear->_id;
+  stream.ignore();
+  getline(stream, semester.semesterName);
+  string schoolYearID;
+  stream >> schoolYearID;
+  semester.pSchoolYear = *App::pSchoolYears.find_if(
+      [&](const auto& p) -> bool { return p->_id == schoolYearID; });
   stream >> n;
   for (int i = 0; i < n; ++i) {
     string courseID;
