@@ -21,7 +21,10 @@ std::istream& operator>>(std::istream& stream, Course& course) {
   stream >> course.numberOfCredits;
   stream.ignore();
   getline(stream, course.schedule);
-  getline(stream, course.pSemester->_id);
+  string semesterID;
+  stream >> semesterID;
+  course.pSemester = *App::pSemesters.find_if(
+      [&](const auto& p) -> bool { return p->_id == semesterID; });
   stream >> n;
   for (int i = 0; i < n; ++i) {
     string studentID;
