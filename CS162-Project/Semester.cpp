@@ -10,7 +10,8 @@ using std::cout;
 std::istream& operator>>(std::istream& stream, Semester& semester) {
   int n;
   stream >> semester._id;
-  stream >> semester.semesterName;
+  stream.ignore();
+  getline(stream, semester.semesterName);
   stream >> semester.pSchoolYear->_id;
   stream >> n;
   for (int i = 0; i < n; ++i) {

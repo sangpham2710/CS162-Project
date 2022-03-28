@@ -11,8 +11,9 @@ using std::cout;
 std::istream& operator>>(std::istream& stream, User& user) {
   int n;
   stream >> user._id;
-  stream >> user.username;
-  stream >> user.password;
+  stream.ignore();
+  getline(stream, user.username);
+  getline(stream, user.password);
   stream >> n;
   user.userType = static_cast<User::Type>(n);
 

@@ -5,7 +5,8 @@
 std::istream& operator>>(std::istream& stream, Class& _class) {
   int n;
   stream >> _class._id;
-  stream >> _class.classCode;
+  stream.ignore();
+  getline(stream, _class.classCode);
   stream >> n;
   for (int i = 0; i < n; ++i) {
     string studentID;
