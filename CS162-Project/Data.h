@@ -81,7 +81,7 @@ bool Data::saveObjs(const string& path, const List<T*>& list) {
   for (auto p : list) {
     ofstream ofs(path + p->_id + ".txt");
     if (!ofs.is_open()) return false;
-    ofs << *p << '\n';
+    ofs << *p;
     ofs.close();
   }
   return true;

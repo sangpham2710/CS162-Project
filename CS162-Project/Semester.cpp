@@ -31,7 +31,7 @@ std::ostream& operator<<(std::ostream& stream, const Semester& semester) {
   stream << semester.semesterName << '\n';
   stream << semester.pSchoolYear->_id << '\n';
   stream << semester.pCourses.size() << '\n';
-  for (const auto& p : semester.pCourses) cout << p->_id << '\n';
+  for (const auto& p : semester.pCourses) stream << p->_id << '\n';
   return stream;
 }
 
