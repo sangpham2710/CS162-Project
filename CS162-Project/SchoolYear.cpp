@@ -5,7 +5,8 @@
 std::istream& operator>>(std::istream& stream, SchoolYear& schoolYear) {
   int n;
   stream >> schoolYear._id;
-  stream >> schoolYear.yearName;
+  stream.ignore();
+  getline(stream, schoolYear.yearName);
   stream >> n;
   for (int i = 0; i < n; ++i) {
     string semesterID;

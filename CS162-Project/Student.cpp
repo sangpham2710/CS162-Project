@@ -9,12 +9,13 @@ using std::cout;
 std::istream& operator>>(std::istream& stream, Student& student) {
   int n;
   stream >> student._id;
-  stream >> student.studentCode;
-  stream >> student.firstName;
-  stream >> student.lastName;
-  stream >> student.gender;
-  stream >> student.dateOfBirth;
-  stream >> student.socialID;
+  stream.ignore();
+  getline(stream, student.studentCode);
+  getline(stream, student.firstName);
+  getline(stream, student.lastName);
+  getline(stream, student.gender);
+  getline(stream, student.dateOfBirth);
+  getline(stream, student.socialID);
   string classID;
 
   stream >> classID;
