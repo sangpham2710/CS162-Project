@@ -61,13 +61,11 @@ static void create() {
 static void choose(int choice) {
   if (choice == 1) {
     create();
-  } 
-  else if (choice == 2) 
-  {
-      //system("cls");
+  } else if (choice == 2) {
+    system("cls");
 
     string classEditCode;
-      bool check = false; //check if class available
+    bool check = false;  // check if class available
 
     cout << "Input code of the class you want to edit: ";
     getline(cin, classEditCode);
@@ -79,13 +77,38 @@ static void choose(int choice) {
     }
 
     if (check) {
-      viewEditClass();
+      viewEditClass(classEditCode);
     } else {
       cout << "This class does not exist!";
     }
   }
 }
 
-static void viewEditClass() {
-
+static void viewEditClass(string classEditCode) {
+  system("cls");
+  cout << "Class: " << classEditCode << endl;
+  cout << "--------------------------" << endl;
+  cout << "1. Update Class" << endl;
+  cout << "2. Delete Class" << endl;
+  cout << "3. View List Students" << endl;
+  cout << "4. View Scoreboard" << endl;
+  cout << "5. Export Scoreboard of students" << endl;
+  cout << "6. Export list students in class" << endl;
+  cout << "--------------------------" << endl;
+  int choice;
+  cout << "Input your choice: ";
+  cin >> choice;
+  if (choice == 1) {
+    //updateClass(classEditCode);
+  } else if (choice == 2) {
+    //deleteClass(classEditCode);
+  } else if (choice == 3) {
+    //viewListStudents(classEditCode);
+  } else if (choice == 4) {
+    //viewScoreboardClass(classEditCode);
+  } else if (choice == 5) {
+    //exportScoreboardStudents(classEditCode);
+  } else if (choice == 6) {
+    //exportListStudents(classEditCode);
+  }
 }

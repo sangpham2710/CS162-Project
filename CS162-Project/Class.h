@@ -28,4 +28,7 @@ class Class {
   friend std::ostream& operator<<(std::ostream& stream, const Class& _class);
   static void view();
   static void create();
+  static void choose(int choice);
+  static void viewEditClass(string classEditCode);
+
 };
