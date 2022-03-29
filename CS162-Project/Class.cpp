@@ -26,54 +26,23 @@ std::ostream& operator<<(std::ostream& stream, const Class& _class) {
   return stream;
 }
 
-static void view() {
-  int i = 1;
-  for (const auto& p : App::pClasses) {
-    cout << i << ". " << p << endl;
-    ++i;
-  }
-  cout << i + 1 << ". "
-       << " Create class " << endl;
-  cout << "0. Go back" << endl;
+static void updateClass(Class* classEdit) { Console::clear(); }
 
-  int choice;
-  cout << "Input your choice: ";
-  cin >> choice;
-  choose(choice, i);
-}
-
-static void create() {
-  Class* pClass = new Class();
-  cout << "Input class code: ";
-  getline(cin, pClass->classCode);
-
-  // Check duplicate class
-  for (auto crs : App::pClasses) {
-    if (crs->classCode == pClass->classCode) {
-      cout << "This class is already available!";
-      delete pClass;
-      return;
+static void deleteClass(Class* classEdit) {
+  for (auto p : App::pClasses) {
+    if (p->classCode == classEdit->classCode) {
+      App::pClasses.remove(p);
+      App::pCurrentSemester->pSchoolYear->pClasses.remove(p);
+      cout << "Class " << classEdit->classCode
+           << " has been deleted successfully!";
+      break;
     }
   }
-
-  App::pClasses.push_back(pClass);
-  App::pCurrentSemester->pSchoolYear->pClasses.push_back(pClass);
 }
 
-static void choose(const int& choice, const int& i) {
-  if (choice == i + 1) {
-    create();
-  } 
-  else if (choice <= i) {
-    viewEditClass(App::pClasses[i]);
-  } else {
-    cout << "This Class does not exist";
-  }
-}
-
-static void viewEditClass(Class* classEditCode) {
+static void viewEditClass(Class* classEdit) {
   Console::clear();
-  cout << "Class: " << classEditCode->classCode << endl;
+  cout << "Class: " << classEdit->classCode << endl;
   cout << "--------------------------" << endl;
   cout << "1. Update Class" << endl;
   cout << "2. Delete Class" << endl;
@@ -100,14 +69,50 @@ static void viewEditClass(Class* classEditCode) {
   }
 }
 
-static void updateClass(string classEditCode) { Console::clear(); }
+static void create() {
+  Class* pClass = new Class();
+  cout << "Input class code: ";
+  getline(cin, pClass->classCode);
 
-static void deleteClass(string classEditCode) {
+  // Check duplicate class
   for (auto p : App::pClasses) {
-    if (p->classCode == classEditCode) {
-      App::pClasses.remove(p);
-      cout << "Class " << classEditCode << " has been deleted successfully!";
-      break;
+    if (p->classCode == pClass->classCode) {
+      cout << "This class is already available!";
+      delete pClass;
+      return;
     }
   }
+
+  App::pClasses.push_back(pClass);
+  App::pCurrentSemester->pSchoolYear->pClasses.push_back(pClass);
+}
+
+static void choose(const int& choice, const int& i) {
+  if (choice == i + 1) {
+    create();
+  } else if (choice <= i && choice > 0) {
+    viewEditClass(App::pClasses[i]);
+  } else if (choice == 0) {
+    // Go back
+  } else {
+    cout << "This Class does not exist";
+  }
+}
+
+
+
+static void viewMainMenu() {
+  int i = 1;
+  for (const auto& p : App::pClasses) {
+    cout << i << ". " << p << endl;
+    ++i;
+  }
+  cout << i + 1 << ". "
+       << " Create class " << endl;
+  cout << "0. Go back" << endl;
+
+  int choice;
+  cout << "Input your choice: ";
+  cin >> choice;
+  choose(choice, i);
 }

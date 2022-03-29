@@ -26,9 +26,10 @@ class Class {
 
   friend std::istream& operator>>(std::istream& stream, Class& _class);
   friend std::ostream& operator<<(std::ostream& stream, const Class& _class);
-  static void view();
+
+  static void viewMainMenu();
   static void create();
-  static void choose(int choice);
-  static void viewEditClass(string classEditCode);
+  static void choose(const int& choice, const int& i);
+  void viewEditClass(Class* classEdit);
 
 };
