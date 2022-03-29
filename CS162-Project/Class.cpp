@@ -27,8 +27,6 @@ std::ostream& operator<<(std::ostream& stream, const Class& _class) {
 
 static void create() {
   Class* pClass = new Class();
-  std::cout << "Input class ID: ";
-  std::cin >> pClass->_id;
   std::cout << "Input class code: ";
   std::cin >> pClass->classCode;
   App::pClasses.push_back(pClass);
