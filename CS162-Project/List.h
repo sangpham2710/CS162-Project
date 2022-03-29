@@ -8,11 +8,22 @@
 #include <stdexcept>
 #include <string>
 
-#include "Node.h"
-
 template <class T>
 class List {
  public:
+  class Node {
+   public:
+    T value;
+    List<T>::Node *prev, *next;
+
+    Node() : value{T()}, prev{nullptr}, next{nullptr} {}
+    Node(const T& x) : value{x}, prev{nullptr}, next{nullptr} {}
+    Node(const T& x, List<T>::Node* const& prev, List<T>::Node* const& next)
+        : value{x}, prev{prev}, next{next} {}
+    Node(const List<T>::Node& node)
+        : value{node.value}, prev{node.prev}, next{node.next} {}
+  };
+
   class iterator;
   class const_iterator;
 
@@ -27,8 +38,8 @@ class List {
   }
   /// Exception(s): undefined behavior: null pointer dereference
   void insert_previous(const iterator& it, const iterator& it_prev) {
-    Node<T>* node = it.ptr;
-    Node<T>* p_prev = it_prev.ptr;
+    List<T>::Node* node = it.ptr;
+    List<T>::Node* p_prev = it_prev.ptr;
 
     p_prev->next = node;
     p_prev->prev = node->prev;
@@ -108,23 +119,23 @@ class List {
   }
 
  public:
-  List() : list_size{0} { list_begin = list_end = new Node<T>(); }
+  List() : list_size{0} { list_begin = list_end = new List<T>::Node(); }
   List(const std::initializer_list<T>& source) : list_size{0} {
-    list_begin = list_end = new Node<T>();
+    list_begin = list_end = new List<T>::Node();
     for (const auto& element : source) this->push_back(element);
   }
   List(const List<T>& source) : list_size{0} {
-    list_begin = list_end = new Node<T>();
+    list_begin = list_end = new List<T>::Node();
 
     for (const auto& element : source) this->push_back(element);
   }
   List(const const_iterator& begin, const const_iterator& end) : list_size{0} {
-    list_begin = list_end = new Node<T>();
+    list_begin = list_end = new List<T>::Node();
 
     for (auto it = begin; it != end; ++it) this->push_back(*it);
   }
-  List(List<T>&& source) {
-    list_begin = list_end = new Node<T>();
+  List(List<T>&& source) : list_size{0} {
+    list_begin = list_end = new List<T>::Node();
     move_previous(this->end(), source.begin(), source.end());
     source.reset();
   }
@@ -175,11 +186,11 @@ class List {
   const T& at(const int& index) const { return (*this)[index]; }
 
   void push_front(const T& value) {
-    Node<T>* new_node = new Node<T>(value);
+    List<T>::Node* new_node = new List<T>::Node(value);
     this->insert_previous(this->begin(), iterator(new_node));
   }
   void push_back(const T& value) {
-    Node<T>* new_node = new Node<T>(value);
+    List<T>::Node* new_node = new List<T>::Node(value);
     this->insert_previous(this->end(), iterator(new_node));
   }
   /// Exception(s): out of range
@@ -208,7 +219,7 @@ class List {
   /// Return iterator pointing to the inserted value
   /// Exception(s): undefined behavior: null pointer dereference
   iterator insert(const iterator& pos, const T& value) {
-    auto it_new = iterator(new Node<T>(value));
+    auto it_new = iterator(new List<T>::Node(value));
     insert_previous(pos, it_new);
 
     return it_new;
@@ -245,7 +256,7 @@ class List {
       throw std::out_of_range("Trying to get access to end pointer.");
     }
 
-    Node<T>* node = it.ptr;
+    List<T>::Node* node = it.ptr;
 
     if (node->next) {
       node->next->prev = node->prev;
@@ -351,8 +362,8 @@ class List {
         it_next = it;
         ++it_next;
 
-        Node<T>*& node = it.ptr;
-        Node<T>*& p_next = it_next.ptr;
+        List<T>::Node*& node = it.ptr;
+        List<T>::Node*& p_next = it_next.ptr;
 
         node->next = node->prev;
         node->prev = p_next;
@@ -408,7 +419,7 @@ class List {
   void clear() {
     if (!this->empty()) {
       for (auto it = this->begin(); it != this->end();) {
-        Node<T>* node = it.ptr;
+        List<T>::Node* node = it.ptr;
         ++it;
         delete node;
       }
@@ -555,7 +566,7 @@ class List<T>::iterator {
   friend class List;
 
  private:
-  Node<T>* ptr;
+  List<T>::Node* ptr;
 
  public:
   using iterator_category = std::bidirectional_iterator_tag;
@@ -565,7 +576,7 @@ class List<T>::iterator {
   using reference = T&;
 
   iterator() : ptr{nullptr} {}
-  iterator(Node<value_type>* const& p) : ptr(p) {}
+  iterator(List<value_type>::Node* const& p) : ptr(p) {}
   reference operator*() const {
     reference value = ptr->value;
     return value;
@@ -594,7 +605,7 @@ class List<T>::iterator {
     --(*this);
     return tmp;
   }
-  iterator& operator=(Node<value_type>* const& p) {
+  iterator& operator=(List<value_type>::Node* const& p) {
     ptr = p;
     return *this;
   }
@@ -628,7 +639,7 @@ class List<T>::const_iterator {
   friend class List;
 
  private:
-  const Node<T>* ptr;
+  const List<T>::Node* ptr;
 
  public:
   using iterator_category = std::bidirectional_iterator_tag;
@@ -638,7 +649,7 @@ class List<T>::const_iterator {
   using reference = const T&;
 
   const_iterator() : ptr{nullptr} {}
-  const_iterator(Node<value_type>* const& p) : ptr(p) {}
+  const_iterator(List<value_type>::Node* const& p) : ptr(p) {}
   const_iterator(const iterator& other) : ptr(other.ptr) {}
   const_iterator(const const_iterator& other) : ptr(other.ptr) {}
   reference operator*() const {
@@ -689,7 +700,7 @@ class List<T>::const_iterator {
     }
     return it;
   }
-  const_iterator& operator=(Node<value_type>* const& p) {
+  const_iterator& operator=(List<value_type>::Node* const& p) {
     ptr = p;
     return *this;
   }

@@ -126,7 +126,7 @@ class List {
 
     for (auto it = begin; it != end; ++it) this->push_back(*it);
   }
-  List(List<T>&& source) {
+  List(List<T>&& source) : list_size{0} {
     list_begin = list_end = new Node<T>();
     move_previous(this->end(), source.begin(), source.end());
     source.reset();

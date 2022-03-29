@@ -7,14 +7,22 @@
 
 using std::string;
 
+class SchoolYear;
+
 class Semester {
  public:
   string _id;
-  string schoolYearID;
-  List<string> listCourseIDs;
+  string semesterName;
+  SchoolYear* pSchoolYear;
+  List<Course*> pCourses;
 
-  Semester() : _id(ID::gen()) {}
-  ~Semester() {}
-  void addCourse(const Course& course);
-  void viewCourse(const Course& course);
+  Semester(const string& id)
+      : _id{id}, semesterName{}, pSchoolYear{}, pCourses{} {}
+  Semester() : Semester{ID::gen()} {}
+
+  friend std::istream& operator>>(std::istream& stream, Semester& semester);
+  friend std::ostream& operator<<(std::ostream& stream,
+                                  const Semester& semester);
+  void addCourse(Course* const& course);
+  void viewCourse(const string& courseID);
 };

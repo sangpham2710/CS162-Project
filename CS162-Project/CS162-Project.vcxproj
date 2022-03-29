@@ -115,7 +115,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,7 +130,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,25 +140,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Class.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Course.cpp" />
     <ClCompile Include="Course.h" />
+    <ClCompile Include="CourseMark.cpp" />
     <ClCompile Include="CS162-Project.cpp" />
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="Global.cpp" />
+    <ClCompile Include="ID.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="SchoolYear.cpp" />
+    <ClCompile Include="Semester.cpp" />
     <ClCompile Include="Semester.h" />
+    <ClCompile Include="Student.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="Data.h" />
     <ClInclude Include="List.h" />
-    <ClInclude Include="Global.h" />
-    <ClInclude Include="Node.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="SchoolYear.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="CourseMark.h" />
     <ClInclude Include="User.h" />
-    <ClInclude Include="uuidLib.h" />
     <ClInclude Include="ID.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

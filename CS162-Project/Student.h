@@ -2,15 +2,22 @@
 
 #include <string>
 
+#include "Class.h"
 #include "Course.h"
 #include "CourseMark.h"
 #include "ID.h"
 #include "List.h"
+#include "Semester.h"
+#include "User.h"
 
 using std::string;
 
+class Class;
+class Semester;
+class User;
+
 class Student {
- private:
+ public:
   string _id;
   string studentCode;
   string firstName;
@@ -18,11 +25,26 @@ class Student {
   string gender;
   string dateOfBirth;
   string socialID;
-  List<CourseMark> listCourseMarks;
+  Class* pClass;
+  User* pUser;
+  List<CourseMark> courseMarks;
 
- public:
-  Student() : _id(ID::gen()) {}
-  ~Student() {}
-  double getSemesterGPA(Semester);
+  Student(const string& id)
+      : _id{id},
+        studentCode{},
+        firstName{},
+        lastName{},
+        gender{},
+        dateOfBirth{},
+        socialID{},
+        pClass{nullptr},
+        pUser{nullptr},
+        courseMarks{} {}
+  Student() : Student(ID::gen()) {}
+
+  friend std::istream& operator>>(std::istream& stream, Student& student);
+  friend std::ostream& operator<<(std::ostream& stream, const Student& student);
+
+  double getSemesterGPA(Semester* const& semester);
   double getOverallGPA();
 };
