@@ -24,3 +24,12 @@ std::ostream& operator<<(std::ostream& stream, const Class& _class) {
   for (const auto& p : _class.pStudents) stream << p->_id << '\n';
   return stream;
 }
+
+static void create() {
+  Class* pClass = new Class();
+  std::cout << "Input class ID: ";
+  std::cin >> pClass->_id;
+  std::cout << "Input class code: ";
+  std::cin >> pClass->classCode;
+  App::pClasses.push_back(pClass);
+}

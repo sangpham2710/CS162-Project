@@ -1,10 +1,12 @@
 #pragma once
 
 #include <string>
+#include<iostream>
 
 #include "ID.h"
 #include "List.h"
 #include "Student.h"
+#include "App.h"
 
 using std::string;
 
@@ -21,4 +23,5 @@ class Class {
 
   friend std::istream& operator>>(std::istream& stream, Class& _class);
   friend std::ostream& operator<<(std::ostream& stream, const Class& _class);
+  static void create();
 };
