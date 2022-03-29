@@ -25,25 +25,31 @@ std::ostream& operator<<(std::ostream& stream, const Class& _class) {
   return stream;
 }
 
-static void view() { 
-    int i = 1;
+static void view() {
+  int i = 1;
   for (const auto& p : App::pClasses) {
-    std::cout << i << ". " << p << std::endl;
+    cout << i << ". " << p << endl;
     ++i;
   }
-  std::cout << "C. Create class";
-  std::cout << "Choose class";
+  cout << "1. Create class" << endl;
+  cout << "2. Choose class" << endl;
+  cout << "0. Go back" << endl;
+
+  int choice;
+  cout << "Input your choice: ";
+  cin >> choice;
+  choose(choice);
 }
 
 static void create() {
   Class* pClass = new Class();
-  std::cout << "Input class code: ";
-  getline(std::cin, pClass->classCode);
+  cout << "Input class code: ";
+  getline(cin, pClass->classCode);
 
-  //Check duplicate class
+  // Check duplicate class
   for (auto crs : App::pClasses) {
     if (crs->classCode == pClass->classCode) {
-      std::cout << "This class is already available!";
+      cout << "This class is already available!";
       delete pClass;
       return;
     }
@@ -52,6 +58,34 @@ static void create() {
   App::pClasses.push_back(pClass);
 }
 
-static void choose() {
+static void choose(int choice) {
+  if (choice == 1) {
+    create();
+  } 
+  else if (choice == 2) 
+  {
+      //system("cls");
+
+    string classEditCode;
+      bool check = false; //check if class available
+
+    cout << "Input code of the class you want to edit: ";
+    getline(cin, classEditCode);
+    for (const auto& p : App::pClasses) {
+      if (p->classCode == classEditCode) {
+        check = true;
+        break;
+      }
+    }
+
+    if (check) {
+      viewEditClass();
+    } else {
+      cout << "This class does not exist!";
+    }
+  }
+}
+
+static void viewEditClass() {
 
 }
