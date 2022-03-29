@@ -46,8 +46,7 @@ std::ostream& operator<<(std::ostream& stream, const Student& student) {
   stream << student.pClass->_id << '\n';
   stream << student.pUser->_id << '\n';
   stream << student.courseMarks.size() << '\n';
-  for (const auto& courseMark : student.courseMarks)
-    stream << courseMark << '\n';
+  for (const auto& courseMark : student.courseMarks) stream << courseMark;
   return stream;
 }
 

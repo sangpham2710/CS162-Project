@@ -27,9 +27,7 @@ List<Course*> App::pCourses{};
 List<Class*> App::pClasses{};
 List<Student*> App::pStudents{};
 
-void App::allocate() {
-  Console::setup();
-}
+void App::allocate() { Console::setup(); }
 
 void App::deallocate() {
   for (const auto& p : App::pUsers) delete p;
@@ -45,9 +43,11 @@ void App::deallocate() {
 }
 
 void App::loadData() {
-  App::pUsers.push_back(new User{"admin", "admin", User::Type::ADMIN});
-  App::pUsers.push_back(new User{"staff", "staff", User::Type::ACADEMIC_STAFF});
-  // App::pUsers.push_back(new User{"student", "student", User::Type::STUDENT});
+  // App::pUsers.push_back(new User{"admin", "admin", User::Type::ADMIN});
+  // App::pUsers.push_back(new User{"staff", "staff",
+  // User::Type::ACADEMIC_STAFF});
+  //  App::pUsers.push_back(new User{"student", "student",
+  //  User::Type::STUDENT});
 
   if (!fs::exists(Data::DATA_DIR)) return;
   if (fs::exists(Data::USERS_DIR)) Data::loadIDs(Data::USERS_DIR, App::pUsers);
@@ -95,7 +95,6 @@ void App::saveData() {
   createIfNotExists(Data::CLASSES_DIR);
   createIfNotExists(Data::COURSES_DIR);
   createIfNotExists(Data::STUDENTS_DIR);
-
 
   Data::saveIDs(Data::USERS_DIR, App::pUsers);
   Data::saveIDs(Data::SCHOOLYEARS_DIR, App::pSchoolYears);
