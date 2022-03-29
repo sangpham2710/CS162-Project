@@ -30,6 +30,6 @@ class Class {
   static void viewMainMenu();
   static void create();
   static void choose(const int& choice, const int& i);
-  void viewEditClass(Class* classEdit);
+  static void viewEditClass(Class* classEdit);
 
 };

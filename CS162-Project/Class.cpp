@@ -26,13 +26,40 @@ std::ostream& operator<<(std::ostream& stream, const Class& _class) {
   return stream;
 }
 
-static void updateClass(Class* classEdit) { Console::clear(); }
+static void updateClass(Class*& classEdit, const int& i) {
+  Console::clear();
+  cout << "1. Change class code" << endl;
+  cout << "2. Add one student" << endl;
+  cout << "--------------------" << endl;
+  int choice;
+  cout << "Input your choice: ";
+  cin >> choice;
+  cin.ignore();
+  if (choice == 1) {
+    string classCode;
+    cout << "New class code: ";
+    getline(cin, classCode);
+    //classEdit->classCode = classCode;
+    App::pClasses[i]->classCode = classCode;
+    App::pCurrentSemester->pSchoolYear->pClasses[i]->classCode = classCode;
+  } else if (choice == 2) {
+    //addStudent
+  } else {
+    cout << "Invalid choice!" << endl;
+  }
+}
 
-static void deleteClass(Class* classEdit) {
+static void deleteClass(Class*& classEdit, const int& i) {
+    //Not sure
+  for (auto p : App::pCurrentSemester->pSchoolYear->pClasses) {
+    if (p->classCode == classEdit->classCode) {
+      App::pCurrentSemester->pSchoolYear->pClasses.remove(p);
+      break;
+    }
+  }
   for (auto p : App::pClasses) {
     if (p->classCode == classEdit->classCode) {
       App::pClasses.remove(p);
-      App::pCurrentSemester->pSchoolYear->pClasses.remove(p);
       cout << "Class " << classEdit->classCode
            << " has been deleted successfully!";
       break;
@@ -40,7 +67,7 @@ static void deleteClass(Class* classEdit) {
   }
 }
 
-static void viewEditClass(Class* classEdit) {
+static void viewEditClass(Class*& classEdit, int const& i) {
   Console::clear();
   cout << "Class: " << classEdit->classCode << endl;
   cout << "--------------------------" << endl;
@@ -55,9 +82,9 @@ static void viewEditClass(Class* classEdit) {
   cout << "Input your choice: ";
   cin >> choice;
   if (choice == 1) {
-    // updateClass(classEditCode);
+    updateClass(classEdit, i);
   } else if (choice == 2) {
-    // deleteClass(classEditCode);
+    deleteClass(classEdit, i);
   } else if (choice == 3) {
     // viewListStudents(classEditCode);
   } else if (choice == 4) {
@@ -91,15 +118,13 @@ static void choose(const int& choice, const int& i) {
   if (choice == i + 1) {
     create();
   } else if (choice <= i && choice > 0) {
-    viewEditClass(App::pClasses[i]);
+    viewEditClass(App::pClasses[i], i);
   } else if (choice == 0) {
     // Go back
   } else {
     cout << "This Class does not exist";
   }
 }
-
-
 
 static void viewMainMenu() {
   int i = 1;
