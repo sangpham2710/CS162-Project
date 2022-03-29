@@ -67,6 +67,18 @@ static void deleteClass(Class*& classEdit, const int& i) {
   }
 }
 
+static void viewListStudents(Class* classEdit) {
+  for (const auto& p : classEdit->pStudents) {
+    cout << p->lastName << " " << p->lastName << endl;
+  }
+}
+
+static void viewScoreboardClass(Class* classEdit) {
+  for (const auto& p : classEdit->pStudents) {
+    //Print name + scoreboard of each student
+  }
+}
+
 static void viewEditClass(Class*& classEdit, int const& i) {
   Console::clear();
   cout << "Class: " << classEdit->classCode << endl;
@@ -93,6 +105,8 @@ static void viewEditClass(Class*& classEdit, int const& i) {
     // exportScoreboardStudents(classEditCode);
   } else if (choice == 6) {
     // exportListStudents(classEditCode);
+  } else {
+    cout << "Invalid choice!";
   }
 }
 
