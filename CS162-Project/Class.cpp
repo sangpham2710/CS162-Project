@@ -32,13 +32,23 @@ static void view() {
     ++i;
   }
   std::cout << "C. Create class";
-  std::cout << "Choose class"
+  std::cout << "Choose class";
 }
 
 static void create() {
   Class* pClass = new Class();
   std::cout << "Input class code: ";
   getline(std::cin, pClass->classCode);
+
+  //Check duplicate class
+  for (auto crs : App::pClasses) {
+    if (crs->classCode == pClass->classCode) {
+      std::cout << "This class is already available!";
+      delete pClass;
+      return;
+    }
+  }
+
   App::pClasses.push_back(pClass);
 }
 
