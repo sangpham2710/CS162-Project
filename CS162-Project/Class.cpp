@@ -64,7 +64,7 @@ static void choose(int choice) {
   } else if (choice == 2) {
     system("cls");
 
-    string classEditCode;
+    string classEditCode; //Code of class is edited
     bool check = false;  // check if class available
 
     cout << "Input code of the class you want to edit: ";
@@ -110,5 +110,15 @@ static void viewEditClass(string classEditCode) {
     //exportScoreboardStudents(classEditCode);
   } else if (choice == 6) {
     //exportListStudents(classEditCode);
+  }
+}
+
+static void updateClass(string classEditCode) { system("cls"); }
+
+static void deleteClass(string classEditCode) { for (auto p:App::pClasses) {
+    if (p->classCode == classEditCode) {
+      App::pClasses.remove(p);
+      cout << "Class " << classEditCode << " has been deleted successfully!";
+    }
   }
 }
