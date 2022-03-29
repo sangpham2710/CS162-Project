@@ -25,9 +25,23 @@ std::ostream& operator<<(std::ostream& stream, const Class& _class) {
   return stream;
 }
 
+static void view() { 
+    int i = 1;
+  for (const auto& p : App::pClasses) {
+    std::cout << i << ". " << p << std::endl;
+    ++i;
+  }
+  std::cout << "C. Create class";
+  std::cout << "Choose class"
+}
+
 static void create() {
   Class* pClass = new Class();
   std::cout << "Input class code: ";
-  std::cin >> pClass->classCode;
+  getline(std::cin, pClass->classCode);
   App::pClasses.push_back(pClass);
+}
+
+static void choose() {
+
 }

@@ -23,5 +23,6 @@ class Class {
 
   friend std::istream& operator>>(std::istream& stream, Class& _class);
   friend std::ostream& operator<<(std::ostream& stream, const Class& _class);
+  static void view();
   static void create();
 };
