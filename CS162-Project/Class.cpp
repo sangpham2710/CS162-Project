@@ -1,6 +1,7 @@
 #include "Class.h"
 
 #include "App.h"
+#include "Console.h"
 
 std::istream& operator>>(std::istream& stream, Class& _class) {
   int n;
@@ -31,14 +32,14 @@ static void view() {
     cout << i << ". " << p << endl;
     ++i;
   }
-  cout << "1. Create class" << endl;
-  cout << "2. Choose class" << endl;
+  cout << i + 1 << ". "
+       << " Create class " << endl;
   cout << "0. Go back" << endl;
 
   int choice;
   cout << "Input your choice: ";
   cin >> choice;
-  choose(choice);
+  choose(choice, i);
 }
 
 static void create() {
@@ -56,37 +57,23 @@ static void create() {
   }
 
   App::pClasses.push_back(pClass);
+  App::pCurrentSemester->pSchoolYear->pClasses.push_back(pClass);
 }
 
-static void choose(int choice) {
-  if (choice == 1) {
+static void choose(const int& choice, const int& i) {
+  if (choice == i + 1) {
     create();
-  } else if (choice == 2) {
-    system("cls");
-
-    string classEditCode; //Code of class is edited
-    bool check = false;  // check if class available
-
-    cout << "Input code of the class you want to edit: ";
-    getline(cin, classEditCode);
-    for (const auto& p : App::pClasses) {
-      if (p->classCode == classEditCode) {
-        check = true;
-        break;
-      }
-    }
-
-    if (check) {
-      viewEditClass(classEditCode);
-    } else {
-      cout << "This class does not exist!";
-    }
+  } 
+  else if (choice <= i) {
+    viewEditClass(App::pClasses[i]);
+  } else {
+    cout << "This Class does not exist";
   }
 }
 
-static void viewEditClass(string classEditCode) {
-  system("cls");
-  cout << "Class: " << classEditCode << endl;
+static void viewEditClass(Class* classEditCode) {
+  Console::clear();
+  cout << "Class: " << classEditCode->classCode << endl;
   cout << "--------------------------" << endl;
   cout << "1. Update Class" << endl;
   cout << "2. Delete Class" << endl;
@@ -99,26 +86,28 @@ static void viewEditClass(string classEditCode) {
   cout << "Input your choice: ";
   cin >> choice;
   if (choice == 1) {
-    //updateClass(classEditCode);
+    // updateClass(classEditCode);
   } else if (choice == 2) {
-    //deleteClass(classEditCode);
+    // deleteClass(classEditCode);
   } else if (choice == 3) {
-    //viewListStudents(classEditCode);
+    // viewListStudents(classEditCode);
   } else if (choice == 4) {
-    //viewScoreboardClass(classEditCode);
+    // viewScoreboardClass(classEditCode);
   } else if (choice == 5) {
-    //exportScoreboardStudents(classEditCode);
+    // exportScoreboardStudents(classEditCode);
   } else if (choice == 6) {
-    //exportListStudents(classEditCode);
+    // exportListStudents(classEditCode);
   }
 }
 
-static void updateClass(string classEditCode) { system("cls"); }
+static void updateClass(string classEditCode) { Console::clear(); }
 
-static void deleteClass(string classEditCode) { for (auto p:App::pClasses) {
+static void deleteClass(string classEditCode) {
+  for (auto p : App::pClasses) {
     if (p->classCode == classEditCode) {
       App::pClasses.remove(p);
       cout << "Class " << classEditCode << " has been deleted successfully!";
+      break;
     }
   }
 }
