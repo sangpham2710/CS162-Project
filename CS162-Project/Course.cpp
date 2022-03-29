@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "Console.h"
 #include "App.h"
 #include "Semester.h"
 #include "Student.h"
@@ -54,7 +55,7 @@ std::ostream& operator<<(std::ostream& stream, const Course& course) {
 }
 
 void Course::create() {
-    //clearScreen();
+    Console::clear();
 
     if (!App::pCurrentSemester) {
         cout << "Please create a semester first \n";
@@ -97,21 +98,124 @@ void Course::create() {
     App::pCourses.push_back(pCourse);
 }
 
-void Course::choose(Course* pCourse, short option) {
-    if (option == 1) {
-        updateCourseInfo(pCourse);
+void Course::choose(Course* pCourse, short screen, short option) {
+
+    if (screen == 1) { // mainCourseMenu
+        if (option >= 1 && option < App::pCurrentSemester->pCourses.size()) {
+            Course* pCourse = App::pCurrentSemester->pCourses[option - 1];
+            pCourse->courseChooseMenu();
+        }
+        if (option == App::pCurrentSemester->pCourses.size()) {
+            create();
+        }
+        if (option == App::pCurrentSemester->pCourses.size() + 1) {
+            // return;
+        }
+        else {
+            cout << "Invalid!";
+        }
+    }
+
+    if (screen == 2) { // chooseCourseMenu
+        switch (option) {
+            case 1: {
+                // update course
+                pCourse->courseUpdateMenu();
+                break;
+            }
+            case 2: {
+                // view students
+                break;
+            }
+            case 3: {
+                // delete course
+                break;
+            }
+            case 4: {
+                // import scoreboard
+                break;
+            }
+            case 5: {
+                // export scoreboard
+                break;
+            }
+            case 6: {
+                // export list students
+            }
+            case 7: {
+                // import list students
+                break;
+            }
+            case 8: {
+                // return previous menu
+                courseMainMenu();
+                break;
+            }
+        }
+    }
+
+    if (screen == 3) { // updateCourseMenu
+        switch (option) {
+            case 1: {
+                // update course information
+                pCourse->updateCourseInfo();
+                break;
+            }
+            case 2: {
+                // update student
+                pCourse->courseUpdateStudentMenu();
+                break;
+            }
+            case 3: {
+                // update student scoreboard
+                pCourse->updateStudentScoreBoard();
+                break;
+            }
+        }
+    }
+
+    if (screen == 4) { // updateStudentMenu
+        switch (option) {
+            case 1: {
+                // add student
+
+                break;
+            }
+            case 2: {
+                // remove student
+
+                break;
+            }
+        }
+    }
+
+    if (screen == 5) { // deleteCourseMenu
+        switch (option) {
+            case 1: {
+                // delete Course
+                pCourse->deleteCourse();
+                break;
+            }
+            case 2 :{
+                // return
+                pCourse->courseChooseMenu();
+                break;
+            }
+        }
     }
 }
 
-void Course::updateCourseInfo(Course* pCourse) {
-    cout << "1. Course code: " << pCourse->courseCode << "\n";
-    cout << "2. Course name: " << pCourse->courseName << "\n";
-    cout << "3. Lecturer: " << pCourse->lecturer << "\n";
-    cout << "4. Start date: " << pCourse->startDate << "\n";
-    cout << "5. End date: " << pCourse->endDate << "\n";
-    cout << "6. Max number of students: " << pCourse->maxNumberOfStudents << "\n";
-    cout << "7. Number of credits: " << pCourse->numberOfCredits << "\n";
-    cout << "8. Schedule: " << pCourse->schedule << "\n" << "\n";
+void Course::updateCourseInfo() {
+    Console::clear();
+
+    cout << "1. Course code: " << this->courseCode << "\n";
+    cout << "2. Course name: " << this->courseName << "\n";
+    cout << "3. Lecturer: " << this->lecturer << "\n";
+    cout << "4. Start date: " << this->startDate << "\n";
+    cout << "5. End date: " << this->endDate << "\n";
+    cout << "6. Max number of students: " << this->maxNumberOfStudents << "\n";
+    cout << "7. Number of credits: " << this->numberOfCredits << "\n";
+    cout << "8. Schedule: " << this->schedule << "\n" << "\n";
 
     cout << "Which one do you want to update? \n";
     cout << "Your choice: ";
@@ -120,46 +224,100 @@ void Course::updateCourseInfo(Course* pCourse) {
     switch (option) {
         case 1: {
             cout << "New course code: ";
-            cin >> pCourse->courseCode;
+            cin >> this->courseCode;
             break;
         }
         case 2: {
             cout << "New course name: ";
-            cin >> pCourse->courseName;
+            cin >> this->courseName;
             break;
         }
         case 3: {
             cout << "New lecturer: ";
             cin.ignore();
-            getline(cin, pCourse->lecturer);
+            getline(cin, this->lecturer);
             break;
         }
         case 4: {
             cout << "New start date: ";
-            cin >> pCourse->startDate;
+            cin >> this->startDate;
             break;
         }
         case 5: {
             cout << "New end date: ";
-            cin >> pCourse->endDate;
+            cin >> this->endDate;
             break;
         }
         case 6: {
             cout << "New max number of students: ";
-            cin >> pCourse->maxNumberOfStudents;
+            cin >> this->maxNumberOfStudents;
             break;
         }
         case 7: {
             cout << "New number of credits: ";
-            cin >> pCourse->numberOfCredits;
+            cin >> this->numberOfCredits;
             break;
         }
         case 8: {
             cout << "New schedule: ";
-            cin >> pCourse->schedule;
+            cin >> this->schedule;
             break;
         }
     }
+    cout << "\nsuccessfully changed information! \n";
+    return;
+}
+
+void Course::courseMainMenu() {
+    Console::clear();
+
+    int i = 1;
+    for (auto crs : App::pCurrentSemester->pCourses) {
+        cout << i << ". " << crs->courseCode << "\n";
+        ++i;
+    }
+    cout << "\n" << i << ". " << "Add new course \n";
+    cout << i + 1 << ". " << "return \n \n";
+    cout << "Your choice: ";
+
+    short option;
+    cin >> option;
+    choose(NULL, 1, option);
+}
+
+void Course::courseChooseMenu() {
+    Console::clear();
+
+    cout << "1. Update course \n";
+    cout << "2. View students \n";
+    cout << "3. Delete course \n";
+    cout << "4. Import scoreboard \n";
+    cout << "5. Export scoreboard \n";
+    cout << "6. Export list students \n";
+    cout << "7. Import list students \n";
+    cout << "8. Return \n \n";
+    
+    cout << "Your choice: ";
+    short option;
+    cin >> option;
+    choose(this, 2, option);
+}
+
+void Course::courseUpdateMenu() {
+    Console::clear();
+
+    cout << "1. Update course information \n";
+    cout << "2. Update student \n";
+    cout << "3. Update student scoreboard \n";
+
+    cout << "\nYour choice: ";
+    short option;
+    cin >> option;
+    choose(this, 3, option);
+}
+
+void Course::courseUpdateStudentMenu() {
+
 }
 
 void Course::viewScoreboard() { cout << "Not implemented\n"; }
