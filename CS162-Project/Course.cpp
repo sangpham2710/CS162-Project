@@ -54,50 +54,6 @@ std::ostream& operator<<(std::ostream& stream, const Course& course) {
   return stream;
 }
 
-void Course::create() {
-    Console::clear();
-
-    if (!App::pCurrentSemester) {
-        cout << "Please create a semester first \n";
-        return;
-    }
-
-    cout << "This new course will be taught in ";
-    cout << App::pCurrentSemester->pSchoolYear->yearName << " " << App::pCurrentSemester->semesterName;
-    cout << "\n";
-
-    string courseCode;
-    cout << "Input course code: ";
-    cin >> courseCode;
-    for (auto crs : App::pCurrentSemester->pCourses) {
-        if (crs->courseCode == courseCode) {
-            cout << "Current semester already has course " << crs->courseCode;
-            return;
-        }
-    }
-
-    Course* pCourse = new Course();
-    pCourse->courseCode = courseCode;
-    cout << "Input course name: ";
-    cin.ignore();
-    getline(cin, pCourse->courseName);
-    cout << "Input lecturer's name: ";
-    getline(cin, pCourse->lecturer);
-    cout << "Input start date: ";
-    getline(cin, pCourse->startDate);
-    cout << "Input end date: ";
-    getline(cin, pCourse->endDate);
-    cout << "Input max number of students: ";
-    cin >> pCourse->maxNumberOfStudents;
-    cout << "Input number of credits: ";
-    cin >> pCourse->numberOfCredits;
-    cout << "Input schedule (Ex: MON:S1/TUE:S2): ";
-    cin >> pCourse->schedule;
-
-    App::pCurrentSemester->pCourses.push_back(pCourse);
-    App::pCourses.push_back(pCourse);
-}
-
 void Course::choose(Course* pCourse, short screen, short option) {
 
     if (screen == 1) { // mainCourseMenu
@@ -178,12 +134,17 @@ void Course::choose(Course* pCourse, short screen, short option) {
         switch (option) {
             case 1: {
                 // add student
-
+                pCourse->addStudent();
                 break;
             }
             case 2: {
                 // remove student
-
+                pCourse->removeStudent();
+                break;
+            }
+            case 3: {
+                // retrun
+                pCourse->courseUpdateMenu();
                 break;
             }
         }
@@ -317,7 +278,113 @@ void Course::courseUpdateMenu() {
 }
 
 void Course::courseUpdateStudentMenu() {
+    Console::clear();
 
+    cout << "1. Add student to course \n";
+    cout << "2. Remove student from course \n";
+    cout << "3. Return \n \n";
+
+    cout << "Your choice: ";
+    short option;
+    cin >> option;
+    choose(this, 4, option);
+}
+
+void Course::create() {
+    Console::clear();
+
+    if (!App::pCurrentSemester) {
+        cout << "Please create a semester first \n";
+        return;
+    }
+
+    cout << "This new course will be taught in ";
+    cout << App::pCurrentSemester->pSchoolYear->yearName << " " << App::pCurrentSemester->semesterName;
+    cout << "\n";
+
+    string courseCode;
+    cout << "Input course code: ";
+    cin >> courseCode;
+    for (auto crs : App::pCurrentSemester->pCourses) {
+        if (crs->courseCode == courseCode) {
+            cout << "Current semester already has course " << crs->courseCode;
+            return;
+        }
+    }
+
+    Course* pCourse = new Course();
+    pCourse->courseCode = courseCode;
+    cout << "Input course name: ";
+    cin.ignore();
+    getline(cin, pCourse->courseName);
+    cout << "Input lecturer's name: ";
+    getline(cin, pCourse->lecturer);
+    cout << "Input start date: ";
+    getline(cin, pCourse->startDate);
+    cout << "Input end date: ";
+    getline(cin, pCourse->endDate);
+    cout << "Input max number of students: ";
+    cin >> pCourse->maxNumberOfStudents;
+    cout << "Input number of credits: ";
+    cin >> pCourse->numberOfCredits;
+    cout << "Input schedule (Ex: MON:S1/TUE:S2): ";
+    cin >> pCourse->schedule;
+
+    App::pCurrentSemester->pCourses.push_back(pCourse);
+    App::pCourses.push_back(pCourse);
+}
+
+void Course::addStudent() {
+    Console::clear();
+
+    string studentID;
+    cout << "Input studentID: ";
+    cin >> studentID;
+    for (auto crs : this->pStudents) {
+        if (studentID == crs->studentCode) {
+            cout << "\nThis course already has this student!";
+            return;
+        }
+    }
+    for (auto stu : App::pStudents) {
+        if (studentID == stu->studentCode) {
+            this->pStudents.push_back(stu);
+            CourseMark courseMark = CourseMark();
+            courseMark.pCourse = this;
+            stu->courseMarks.push_back(courseMark);
+            cout << "\nAdd successfully!";
+            return;
+        }
+    }
+    cout << "\nThis student doesn't exist!";
+    return;
+}
+
+void Course::removeStudent() {
+    Console::clear();
+
+    if (!this->pStudents.size()) {
+        cout << "This course is empty!";
+        return;
+    }
+
+    string studentID;
+    cout << "Input studentID: ";
+    cin >> studentID;
+    for (auto stu : this->pStudents) {
+        if (studentID == stu->studentCode) {
+            this->pStudents.remove(stu);
+            for (auto p : stu->courseMarks) {
+                if (p.pCourse == this) {
+                    stu->courseMarks.remove(p);
+                    cout << "\nRemove successfully!";
+                    return;
+                }
+            }
+        }
+    }
+    cout << "\nThis student doesn't exits in this course!";
+    return;
 }
 
 void Course::viewScoreboard() { cout << "Not implemented\n"; }

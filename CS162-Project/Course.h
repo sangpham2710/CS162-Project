@@ -53,10 +53,11 @@ public:
     void viewScoreboard();
     void importScoreboard();
     void exportScoreboard();
+    void addStudent();
+    void removeStudent();
+    void updateStudentScoreBoard();
     void deleteCourse();
 
-    void updateStudentScoreBoard();
-    void courseUpdateStudent(); // add/delete student
     void courseChooseMenu();
     void courseUpdateMenu();
     void courseUpdateStudentMenu();
