@@ -85,6 +85,7 @@ void Course::choose(Course* pCourse, short screen, short option) {
             }
             case 3: {
                 // delete course
+                pCourse->deleteCourse();
                 break;
             }
             case 4: {
@@ -145,21 +146,6 @@ void Course::choose(Course* pCourse, short screen, short option) {
             case 3: {
                 // retrun
                 pCourse->courseUpdateMenu();
-                break;
-            }
-        }
-    }
-
-    if (screen == 5) { // deleteCourseMenu
-        switch (option) {
-            case 1: {
-                // delete Course
-                pCourse->deleteCourse();
-                break;
-            }
-            case 2 :{
-                // return
-                pCourse->courseChooseMenu();
                 break;
             }
         }
@@ -385,6 +371,95 @@ void Course::removeStudent() {
     }
     cout << "\nThis student doesn't exits in this course!";
     return;
+}
+
+void Course::updateStudentScoreBoard() {
+    Console::clear();
+
+    if (!this->pStudents.size()) {
+        cout << "This course is empty!";
+        return;
+    }
+
+    string studentID;
+    cout << "Input studentID: ";
+    cin >> studentID;
+    for (auto p : this->pStudents) {
+        if (p->studentCode == studentID) {
+            cout << p->studentCode << "_" << p->firstName << " " << p->lastName << endl;
+            for (auto pCourseMarks : p->courseMarks) {
+                if (pCourseMarks.pCourse == this) {
+                    cout << "1. Midterm: " << pCourseMarks.midtermMark << endl;
+                    cout << "2. Final: " << pCourseMarks.finalMark << endl;
+                    cout << "3. Other: " << pCourseMarks.otherMark << endl;
+                    cout << "4. Total: " << pCourseMarks.totalMark << endl << endl;
+                    cout << "Which one do you want to update? \n";
+                    cout << "Your choice: ";
+                    short option;
+                    cin >> option;
+                    while (option < 1 || option >4) {
+                        cout << "Invalid! \n";
+                        cout << "Your choice: ";
+                        cin >> option;
+                    }
+                    switch (option) {
+                        case 1: {
+                            cout << "\nInput new midterm mark: ";
+                            cin >> pCourseMarks.midtermMark;
+                            break;
+                        }
+                        case 2: {
+                            cout << "\nInput new final mark: ";
+                            cin >> pCourseMarks.finalMark;
+                            break;
+                        }
+                        case 3: {
+                            cout << "\nInput new other mark: ";
+                            cin >> pCourseMarks.otherMark;
+                            break;
+                        }
+                        case 4: {
+                            cout << "\nInput new total mark: ";
+                            cin >> pCourseMarks.midtermMark;
+                            break;
+                        }
+                    }
+                    cout << "\nUpdate successfully!\n";
+                    return;
+                }
+            }
+        }
+    }
+    cout << "\nThis student doesn't exits in this course!";
+    return;
+}
+
+void Course::deleteCourse() {
+    cout << "Are you sure?, " << this->courseCode << " will be deleted in " << App::pCurrentSemester->pSchoolYear->yearName << "-" << App::pCurrentSemester->semesterName;
+    cout << "1. Yes\n";
+    cout << "2. No\n \n";
+    cout << "Your choice: ";
+    short option;
+    cin >> option;
+    while (option < 1 || option >2) {
+        cout << "Invalid! \n";
+        cout << "Your choice: ";
+        cin >> option;
+    }
+    if (option == 1) {
+        App::pCurrentSemester->pCourses.remove(this);
+        for (int i = 0; i < this->pStudents.size(); ++i) {
+            for (auto p : this->pStudents[i]->courseMarks) {
+                if (p.pCourse == this) {
+                    this->pStudents[i]->courseMarks.remove(p);
+                }
+            }
+            this->pStudents.remove(this->pStudents[i]);
+        }
+        cout << "\nDelete course successfully!\n";
+        return;
+    }
+    else this->courseChooseMenu();
 }
 
 void Course::viewScoreboard() { cout << "Not implemented\n"; }

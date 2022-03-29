@@ -46,7 +46,7 @@ public:
     friend std::ostream& operator<<(std::ostream& stream, const Course& course);
 
     static void create();
-    static void choose(Course* pCourse, short screen, short option); // mainMenu = 1, chooseCourseMenu =2, updateCourseMenu = 3, updateStudentMenu = 4, deleteScoreMenu = 5
+    static void choose(Course* pCourse, short screen, short option); // mainMenu = 1, chooseCourseMenu =2, updateCourseMenu = 3, updateStudentMenu = 4
     static void courseMainMenu();
 
     void updateCourseInfo();
@@ -61,5 +61,5 @@ public:
     void courseChooseMenu();
     void courseUpdateMenu();
     void courseUpdateStudentMenu();
-
+    void courseDeleteMenu(); // deleteCourseMenu
 };
