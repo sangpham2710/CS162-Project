@@ -16,7 +16,7 @@ void Menu::staffMenu() {
   cout << "3. School years/Semester\n";
   cout << "4. Change default semester\n";
 
-  cout << "5. log out\n"
+  cout << "5. log out\n";
   cout << "Your option: ";
   int option = -1;
   while (option < 1 || option > 11) {
