@@ -50,7 +50,7 @@ public:
     static void courseMainMenu();
 
     void updateCourseInfo();
-    void viewScoreboard();
+    void viewStudentScoreboard();
     void importScoreboard();
     void exportScoreboard();
     void addStudent();
@@ -61,5 +61,4 @@ public:
     void courseChooseMenu();
     void courseUpdateMenu();
     void courseUpdateStudentMenu();
-    void courseDeleteMenu(); // deleteCourseMenu
 };

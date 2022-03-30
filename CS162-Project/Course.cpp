@@ -81,6 +81,7 @@ void Course::choose(Course* pCourse, short screen, short option) {
             }
             case 2: {
                 // view students
+                pCourse->viewStudentScoreboard();
                 break;
             }
             case 3: {
@@ -90,10 +91,12 @@ void Course::choose(Course* pCourse, short screen, short option) {
             }
             case 4: {
                 // import scoreboard
+                //pCourse->importScoreboard();
                 break;
             }
             case 5: {
                 // export scoreboard
+                //pCourse->exportScoreboard();
                 break;
             }
             case 6: {
@@ -126,6 +129,11 @@ void Course::choose(Course* pCourse, short screen, short option) {
             case 3: {
                 // update student scoreboard
                 pCourse->updateStudentScoreBoard();
+                break;
+            }
+            case 4: {
+                // back to courseChooseMenu
+                pCourse->courseChooseMenu();
                 break;
             }
         }
@@ -162,7 +170,8 @@ void Course::updateCourseInfo() {
     cout << "5. End date: " << this->endDate << "\n";
     cout << "6. Max number of students: " << this->maxNumberOfStudents << "\n";
     cout << "7. Number of credits: " << this->numberOfCredits << "\n";
-    cout << "8. Schedule: " << this->schedule << "\n" << "\n";
+    cout << "8. Schedule: " << this->schedule << "\n\n";
+    
 
     cout << "Which one do you want to update? \n";
     cout << "Your choice: ";
@@ -212,7 +221,17 @@ void Course::updateCourseInfo() {
         }
     }
     cout << "\nsuccessfully changed information! \n";
-    return;
+
+    cout << "\n1. Return\n";
+    cout << "Your choice: ";
+    short option1;
+    cin >> option1;
+    while (option1 != 1) {
+        cout << "\nInvalid!";
+        cout << "Your choice: ";
+        cin >> option1;
+    }
+    this->courseUpdateMenu();
 }
 
 void Course::courseMainMenu() {
@@ -229,6 +248,11 @@ void Course::courseMainMenu() {
 
     short option;
     cin >> option;
+    while (option < 1 || option > i + 1) {
+        cout << "\nInvalid!\n";
+        cout << "Your choice: ";
+        cin >> option;
+    }
     choose(NULL, 1, option);
 }
 
@@ -242,11 +266,16 @@ void Course::courseChooseMenu() {
     cout << "5. Export scoreboard \n";
     cout << "6. Export list students \n";
     cout << "7. Import list students \n";
-    cout << "8. Return \n \n";
+    cout << "8. Return \n\n";
     
     cout << "Your choice: ";
     short option;
     cin >> option;
+    while (option < 1 || option > 8) {
+        cout << "\nInvalid!\n";
+        cout << "Your choice: ";
+        cin >> option;
+    }
     choose(this, 2, option);
 }
 
@@ -256,10 +285,16 @@ void Course::courseUpdateMenu() {
     cout << "1. Update course information \n";
     cout << "2. Update student \n";
     cout << "3. Update student scoreboard \n";
+    cout << "4. Return";
 
     cout << "\nYour choice: ";
     short option;
     cin >> option;
+    while (option < 1 || option > 4) {
+        cout << "\nInvalid!\n";
+        cout << "Your choice: ";
+        cin >> option;
+    }
     choose(this, 3, option);
 }
 
@@ -273,6 +308,11 @@ void Course::courseUpdateStudentMenu() {
     cout << "Your choice: ";
     short option;
     cin >> option;
+    while (option < 1 || option > 3) {
+        cout << "\nInvalid!\n";
+        cout << "Your choice: ";
+        cin >> option;
+    }
     choose(this, 4, option);
 }
 
@@ -303,21 +343,33 @@ void Course::create() {
     cout << "Input course name: ";
     cin.ignore();
     getline(cin, pCourse->courseName);
-    cout << "Input lecturer's name: ";
+    cout << "\nInput lecturer's name: ";
     getline(cin, pCourse->lecturer);
-    cout << "Input start date: ";
+    cout << "\nInput start date: ";
     getline(cin, pCourse->startDate);
-    cout << "Input end date: ";
+    cout << "\nInput end date: ";
     getline(cin, pCourse->endDate);
-    cout << "Input max number of students: ";
+    cout << "\nInput max number of students: ";
     cin >> pCourse->maxNumberOfStudents;
-    cout << "Input number of credits: ";
+    cout << "\nInput number of credits: ";
     cin >> pCourse->numberOfCredits;
-    cout << "Input schedule (Ex: MON:S1/TUE:S2): ";
+    cout << "\nInput schedule (Ex: MON:S1/TUE:S2): ";
     cin >> pCourse->schedule;
 
     App::pCurrentSemester->pCourses.push_back(pCourse);
     App::pCourses.push_back(pCourse);
+
+    cout << "\nCreated successfully!";
+    cout << "\n1. Return\n";
+    cout << "Your choice: ";
+    short option;
+    cin >> option;
+    while (option != 1) {
+        cout << "\nInvalid!";
+        cout << "Your choice: ";
+        cin >> option;
+    }
+    courseMainMenu();
 }
 
 void Course::addStudent() {
@@ -339,10 +391,32 @@ void Course::addStudent() {
             courseMark.pCourse = this;
             stu->courseMarks.push_back(courseMark);
             cout << "\nAdd successfully!";
+
+            cout << "\n1. Return\n";
+            cout << "Your choice: ";
+            short option;
+            cin >> option;
+            while (option != 1) {
+                cout << "\nInvalid!";
+                cout << "Your choice: ";
+                cin >> option;
+            }
+            this->courseUpdateStudentMenu();
             return;
         }
     }
     cout << "\nThis student doesn't exist!";
+
+    cout << "\n1. Return\n";
+    cout << "Your choice: ";
+    short option;
+    cin >> option;
+    while (option != 1) {
+        cout << "\nInvalid!";
+        cout << "Your choice: ";
+        cin >> option;
+    }
+    this->courseUpdateStudentMenu();
     return;
 }
 
@@ -364,12 +438,34 @@ void Course::removeStudent() {
                 if (p.pCourse == this) {
                     stu->courseMarks.remove(p);
                     cout << "\nRemove successfully!";
+
+                    cout << "\n1. Return\n";
+                    cout << "Your choice: ";
+                    short option;
+                    cin >> option;
+                    while (option != 1) {
+                        cout << "\nInvalid!";
+                        cout << "Your choice: ";
+                        cin >> option;
+                    }
+                    this->courseUpdateStudentMenu();
                     return;
                 }
             }
         }
     }
     cout << "\nThis student doesn't exits in this course!";
+
+    cout << "\n1. Return\n";
+    cout << "Your choice: ";
+    short option;
+    cin >> option;
+    while (option != 1) {
+        cout << "\nInvalid!";
+        cout << "Your choice: ";
+        cin >> option;
+    }
+    this->courseUpdateStudentMenu();
     return;
 }
 
@@ -425,12 +521,34 @@ void Course::updateStudentScoreBoard() {
                         }
                     }
                     cout << "\nUpdate successfully!\n";
+
+                    cout << "\n1. Return\n";
+                    cout << "Your choice: ";
+                    short option1;
+                    cin >> option1;
+                    while (option1 != 1) {
+                        cout << "\nInvalid!";
+                        cout << "Your choice: ";
+                        cin >> option1;
+                    }
+                    this->courseUpdateMenu();
                     return;
                 }
             }
         }
     }
     cout << "\nThis student doesn't exits in this course!";
+
+    cout << "\n1. Return\n";
+    cout << "Your choice: ";
+    short option;
+    cin >> option;
+    while (option != 1) {
+        cout << "\nInvalid!";
+        cout << "Your choice: ";
+        cin >> option;
+    }
+    this->courseUpdateMenu();
     return;
 }
 
@@ -457,11 +575,52 @@ void Course::deleteCourse() {
             this->pStudents.remove(this->pStudents[i]);
         }
         cout << "\nDelete course successfully!\n";
+
+        cout << "\n1. Return\n";
+        cout << "Your choice: ";
+        short option;
+        cin >> option;
+        while (option != 1) {
+            cout << "\nInvalid!";
+            cout << "Your choice: ";
+            cin >> option;
+        }
+        this->courseUpdateMenu();
         return;
     }
     else this->courseChooseMenu();
+    return;
 }
 
-void Course::viewScoreboard() { cout << "Not implemented\n"; }
+void Course::viewStudentScoreboard() {
+    Console::clear();
+
+    int i = 1;
+    cout << "--------------------------------------" << endl;
+    for (auto p : this->pStudents) {
+        cout << i << ". " << p->firstName << " " << p->lastName << "-" << p->studentCode << endl;
+        for (auto pCourseMark : p->courseMarks) {
+            if (pCourseMark.pCourse == this) {
+                cout << "Midterm: " << pCourseMark.midtermMark << endl;
+                cout << "Final: " << pCourseMark.finalMark << endl;
+                cout << "Other: " << pCourseMark.otherMark << endl;
+                cout << "Total: " << pCourseMark.totalMark << endl;
+            }
+        }
+        cout << "--------------------------------------" << endl;
+    }
+    cout << "\n1. Return\n";
+    cout << "Your choice: ";
+    short option;
+    cin >> option;
+    while (option != 1) {
+        cout << "\nInvalid!";
+        cout << "Your choice: ";
+        cin >> option;
+    }
+    this->courseChooseMenu();
+    return;
+}
+
 void Course::importScoreboard() { cout << "Not implemented\n"; }
 void Course::exportScoreboard() { cout << "Not implemented\n"; }
