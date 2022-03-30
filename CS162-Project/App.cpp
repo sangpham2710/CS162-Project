@@ -119,7 +119,6 @@ void App::saveData() {
 void App::main() {
   Console::clear();
   User::login();
-  return;
   if (App::pCurrentUser->userType == User::Type::ACADEMIC_STAFF) {
     Menu::staffMenu();
     return;

@@ -1,17 +1,16 @@
 #pragma once
 
+#include <iostream>
 #include <string>
-#include<iostream>
 
 #include "ID.h"
 #include "List.h"
 #include "Student.h"
-#include "App.h"
 
-using std::string;
-using std::endl;
-using std::cout;
 using std::cin;
+using std::cout;
+using std::endl;
+using std::string;
 
 class Student;
 
@@ -30,6 +29,9 @@ class Class {
   static void viewMainMenu();
   static void create();
   static void choose(const int& choice, const int& i);
-  static void viewEditClass(Class* classEdit);
-
+  void viewEditClass();
+  void updateClass();
+  void deleteClass();
+  void viewListStudents();
+  void viewScoreboardClass();
 };
