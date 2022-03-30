@@ -417,7 +417,6 @@ void Course::addStudent() {
         cin >> option;
     }
     this->courseUpdateStudentMenu();
-    return;
 }
 
 void Course::removeStudent() {
@@ -466,7 +465,6 @@ void Course::removeStudent() {
         cin >> option;
     }
     this->courseUpdateStudentMenu();
-    return;
 }
 
 void Course::updateStudentScoreBoard() {
@@ -549,7 +547,6 @@ void Course::updateStudentScoreBoard() {
         cin >> option;
     }
     this->courseUpdateMenu();
-    return;
 }
 
 void Course::deleteCourse() {
@@ -589,7 +586,6 @@ void Course::deleteCourse() {
         return;
     }
     else this->courseChooseMenu();
-    return;
 }
 
 void Course::viewStudentScoreboard() {
@@ -619,7 +615,6 @@ void Course::viewStudentScoreboard() {
         cin >> option;
     }
     this->courseChooseMenu();
-    return;
 }
 
 void Course::importScoreboard() { cout << "Not implemented\n"; }
