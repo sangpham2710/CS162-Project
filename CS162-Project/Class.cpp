@@ -55,6 +55,8 @@ void Class::deleteClass() {
       [&](const auto& p) { return p->classCode == this->classCode; });
   cout << "Class " << this->classCode << " has been deleted successfully!";
 
+  // NOT IMPLEMENTED: delete pClass of all students in the class
+
   App::pClasses.remove(pDeletingClass);
   delete pDeletingClass;
 }
@@ -68,6 +70,8 @@ void Class::viewListStudents() {
 void Class::viewScoreboardClass() {
   for (const auto& p : this->pStudents) {
     // Print name + scoreboard of each student
+
+    // calculate semester GPA and overall GPA
   }
 }
 
@@ -100,8 +104,7 @@ void Class::viewEditClass() {
     // exportListStudents(classEditCode);
   } else if (choice == 0) {
     Class::viewMainMenu();
-  } 
-  else {
+  } else {
     cout << "Invalid choice!";
   }
 }
