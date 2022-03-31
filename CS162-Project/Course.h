@@ -1,6 +1,5 @@
 #pragma once
 
-#include<iostream>
 #include <list>
 #include <string>
 
@@ -8,8 +7,6 @@
 #include "List.h"
 
 using std::string;
-using std::cin;
-using std::cout;
 
 class Semester;
 class Student;
