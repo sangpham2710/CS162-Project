@@ -74,7 +74,7 @@ void App::loadData() {
   if (fs::exists(Data::STUDENTS_DIR))
     Data::loadObjs(Data::STUDENTS_DIR, App::pStudents);
 
-  ifstream ifs(Data::DATA_DIR + "recentSemester.dat");
+  ifstream ifs(Data::DATA_DIR + "recentSemester.txt");
   if (!ifs.is_open()) return;
   string recentSemesterID;
   ifs >> recentSemesterID;
@@ -110,7 +110,7 @@ void App::saveData() {
   Data::saveObjs(Data::COURSES_DIR, App::pCourses);
   Data::saveObjs(Data::STUDENTS_DIR, App::pStudents);
 
-  ofstream ofs(Data::DATA_DIR + "recentSemester.dat");
+  ofstream ofs(Data::DATA_DIR + "recentSemester.txt");
   if (!ofs.is_open()) return;
   if (pRecentSemester) ofs << App::pRecentSemester->_id << '\n';
   ofs.close();
@@ -119,7 +119,6 @@ void App::saveData() {
 void App::main() {
   Console::clear();
   User::login();
-  return;
   if (App::pCurrentUser->userType == User::Type::ACADEMIC_STAFF) {
     Menu::staffMenu();
     return;

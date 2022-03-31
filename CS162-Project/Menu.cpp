@@ -4,37 +4,45 @@
 
 #include "App.h"
 #include "Console.h"
+#include "Class.h"
 
 using std::cin;
 using std::cout;
 
 void Menu::staffMenu() {
   Console::clear();
-  cout << "1. New school year\n";
-  cout << "2. View school year\n";
-
-  cout << "3. New semester\n";
-  cout << "4. View semester\n";
-
-  cout << "5. New class\n";
-  cout << "6. View/Edit class\n";
-
-  cout << "7. New student\n";
-  cout << "8. View/Edit student\n";
-
-  cout << "9. New course\n";
-  cout << "10. View/Edit course\n";
-
-  cout << "11. Logout\n";
+  
+  cout << "1. Courses\n";
+  cout << "2. Classes\n";
+  cout << "3. School years / Semesters\n";
+  cout << "4. Change default semester\n";
+  cout << "5. Log out\n";
 
   cout << "Your option: ";
   int option = -1;
-  while (option < 1 || option > 11) {
+  while (option < 1 || option > 5) {
     cin >> option;
-    if (option == 11) {
-      App::pCurrentUser = nullptr;
-      App::main();
-      return;
+    switch (option) {
+      case 1: 
+          //Courses scene
+          break;
+      case 2:
+          //Classes scene
+        Class::viewMainMenu();
+        break;
+      case 3:
+          //School years / Semesters
+        break;
+      case 4:
+          //Change default semester
+        break;
+      case 5:
+        App::pCurrentUser = nullptr;
+        App::main();
+        return;
+        break;
+      default:
+        break;
     }
   }
 }
