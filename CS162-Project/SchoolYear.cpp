@@ -58,7 +58,13 @@ void SchoolYear::choose(SchoolYear* pSchoolYear, short screen, short option) {
             break;
         }
         case 1: {
+            // update school year
 
+            break;
+        }
+        case 2: {
+            // delete school year
+            pSchoolYear->schoolYearDelete();
             break;
         }
         }
@@ -206,4 +212,44 @@ void SchoolYear::create() {
     }
     schoolYearMainMenu();
     return;
+}
+
+void SchoolYear::schoolYearDelete() {
+    Console::clear();
+
+    cout << "Are you sure you want to permanently delete this school year?\n";
+    cout << "1. Yes\n";
+    cout << "2. No\n \n";
+    cout << "Your choice: ";
+    short option;
+    cin >> option;
+    while (option < 1 || option > 2) {
+        cout << "Invalid! \n";
+        cout << "Your choice: ";
+        cin >> option;
+    }
+    if (option == 2) {
+        this->schoolYearChooseMenu();
+        return;
+    }
+    if (option == 1) {
+        if (App::pCurrentSemester->pSchoolYear == this) App::pCurrentSemester = NULL;
+        if (App::pRecentSemester->pSchoolYear == this) App::pRecentSemester = NULL;
+        App::pSemesters.remove_if([&](const auto& p) -> bool {return p->pSchoolYear->_id == this->_id; });
+        App::pSchoolYears.remove_if([&](const auto& p) -> bool {return p->_id == this->_id; });
+
+        cout << "\nDelete school year successfully!\n";
+
+        cout << "\n1. Return\n";
+        cout << "Your choice: ";
+        short option1;
+        cin >> option1;
+        while (option1 != 1) {
+            cout << "\nInvalid!";
+            cout << "Your choice: ";
+            cin >> option1;
+        }
+        schoolYearMainMenu();
+        return;
+    }
 }
