@@ -26,4 +26,6 @@ class Semester {
   void addCourse(Course* const& course);
   void viewCourse(const string& courseID);
   static void viewSemesterMenu();
+  static void choose(const int& choice, const int& i);
+  static void create();
 };

@@ -5,8 +5,10 @@
 #include "App.h"
 #include "SchoolYear.h"
 #include "Console.h"
+#include "Menu.h"
 
 using std::cout;
+using std::cin;
 
 std::istream& operator>>(std::istream& stream, Semester& semester) {
   int n;
@@ -41,6 +43,114 @@ void Semester::viewCourse(const string& courseID) {
   cout << "Not implemented\n";
 }
 
+void Semester::create() {
+  Console::clear();
+  cout << "Which School year ? (E.g: 2021-2022)\n";
+  string schoolYear;
+  cin.ignore();
+  getline(cin, schoolYear);
+  for (auto p : App::pSchoolYears) {
+    if (p->yearName == schoolYear) {
+      cout << "--------------\n";
+      cout << "1. Fall\n";
+      cout << "2. Spring\n";
+      cout << "3. Summer\n";
+      cout << "--------------\n";
+      cout << "Input your choice: ";
+      int choice;
+      cin >> choice;
+      switch (choice)
+      { case 1: //Fall
+        {
+          for (auto pSemes : p->pSemesters) {
+            if (pSemes->semesterName == "Fall") {
+              cout << "This semester has already existed!\n";
+              cout << "Do you want to return ?\n";
+              cout << "1. YES\n";
+              cout << "--------------\n";
+              int option;
+              cin >> option;
+              if (option == 1)
+                viewSemesterMenu();
+              else
+                cout << "Invalid choice!\n";
+              return;
+            }
+          }
+          Semester* pSemester1 = new Semester();
+          pSemester1->semesterName = "Fall";
+          App::pSemesters.push_back(pSemester1);
+          p->pSemesters.push_back(pSemester1);
+          cout << "The semester has been created successfully!\n";
+          break;
+        }
+        case 2: //Spring
+        {
+          for (auto pSemes : p->pSemesters) {
+            if (pSemes->semesterName == "Spring") {
+              cout << "This semester has already existed!\n";
+              cout << "Do you want to return ?\n";
+              cout << "1. YES\n";
+              cout << "--------------\n";
+              int option;
+              cin >> option;
+              if (option == 1)
+                viewSemesterMenu();
+              else
+                cout << "Invalid choice!\n";
+              return;
+            } 
+          }
+          Semester* pSemester2 = new Semester();
+          pSemester2->semesterName = "Spring";
+          App::pSemesters.push_back(pSemester2);
+          p->pSemesters.push_back(pSemester2);
+          cout << "The semester has been created successfully!\n";
+          break; 
+        }
+        case 3:  //Summer
+        {
+          for (auto pSemes : p->pSemesters) {
+            if (pSemes->semesterName == "Summer") {
+              cout << "This semester has already existed!\n";
+              cout << "Do you want to return ?\n";
+              cout << "1. YES\n";
+              cout << "--------------\n";
+              int option;
+              cin >> option;
+              if (option == 1)
+                viewSemesterMenu();
+              else
+                cout << "Invalid choice!\n";
+              return;
+            }  
+          }
+          Semester* pSemester3 = new Semester();
+          pSemester3->semesterName = "Summer";
+          App::pSemesters.push_back(pSemester3);
+          p->pSemesters.push_back(pSemester3);
+          cout << "The semester has been created successfully!\n";
+          break;
+        }  
+        default:
+          cout << "Invalid choice !\n";
+          break;
+      }
+    } 
+  }
+  cout << "Wrong school year !\n";
+}
+void Semester::choose(const int& choice, const int& i) {
+  if (choice == i) {
+    Semester::create();
+  } else if (choice < i && choice >= 0) {
+    //App::pClasses[choice]->viewEditClass();
+  } else if (choice == -1) {
+    Menu::staffMenu();
+  } else {
+    cout << "This Semester does not exist";
+  }
+}
 
 void Semester::viewSemesterMenu() {
   Console::clear();
@@ -58,5 +168,5 @@ void Semester::viewSemesterMenu() {
   int choice;
   cout << "Input your choice: ";
   cin >> choice;
-  //choose(choice, i + 1);
+  choose(choice - 1, i);
 }
