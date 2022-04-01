@@ -25,4 +25,5 @@ class Semester {
                                   const Semester& semester);
   void addCourse(Course* const& course);
   void viewCourse(const string& courseID);
+  static void viewSemesterMenu();
 };

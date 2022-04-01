@@ -4,6 +4,7 @@
 
 #include "App.h"
 #include "SchoolYear.h"
+#include "Console.h"
 
 using std::cout;
 
@@ -38,4 +39,24 @@ std::ostream& operator<<(std::ostream& stream, const Semester& semester) {
 void Semester::addCourse(Course* const& course) { cout << "Not implemented\n"; }
 void Semester::viewCourse(const string& courseID) {
   cout << "Not implemented\n";
+}
+
+
+void Semester::viewSemesterMenu() {
+  Console::clear();
+  cout << "----------------------\n";
+  int i = 0;
+  for (const auto& p : App::pSemesters) {
+    ++i;
+    cout << i << ". " << p->pSchoolYear->yearName << ": ";
+    cout << p->semesterName << endl;
+  }
+  cout << i + 1 << ". "
+       << "Create new semester\n";
+  cout << "0. Go back\n";
+  cout << "----------------------\n";
+  int choice;
+  cout << "Input your choice: ";
+  cin >> choice;
+  //choose(choice, i + 1);
 }
