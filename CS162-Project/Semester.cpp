@@ -43,6 +43,61 @@ void Semester::viewCourse(const string& courseID) {
   cout << "Not implemented\n";
 }
 
+void Semester::updateSemester() {
+  Console::clear();
+  cout << "--------------------\n";
+  cout << "1. Change semester name\n";
+  cout << "0. Go back\n";
+  cout << "--------------------\n";
+  cout << "Input your choice: ";
+  int choice;
+  cin >> choice;
+  switch (choice) {
+    case 1: {
+      Console::clear();
+      cout << "--------------\n";
+      cout << "1. Fall\n";
+      cout << "2. Spring\n";
+      cout << "3. Summer\n";
+      cout << "--------------\n";
+      cout << "Input your choice: ";
+      int choiceName;
+      cin >> choiceName;
+      switch (choiceName) {
+        case 1: //Fall
+          /*for (auto sem: this->pSchoolYear->pSemesters) {
+            if (sem->semesterName == "Fall") cout << "This semester existed!\n";
+            return; 
+          }*/
+          this->semesterName = "Fall";
+          break;
+        case 2: //Spring
+          /*for (auto sem : this->pSchoolYear->pSemesters) {
+            if (sem->semesterName == "Spring") cout << "This semester existed!\n";
+            return;
+          }*/
+          this->semesterName = "Spring";
+          break;
+        case 3: //Summer
+          /*for (auto sem : this->pSchoolYear->pSemesters) {
+            if (sem->semesterName == "Summer") cout << "This semester existed!\n";
+            return;
+          }*/
+          this->semesterName = "Summer";
+          break;
+
+      }
+    }
+      this->viewEditSemester();
+      break;
+    case 0: 
+      this->viewEditSemester();
+      break;
+    default:
+      break;
+  }
+}
+
 void Semester::viewEditSemester() { Console::clear();
   cout << "Semester: " << this->pSchoolYear->yearName << ": " << this->semesterName
        << '\n';
@@ -56,7 +111,7 @@ void Semester::viewEditSemester() { Console::clear();
   cin >> choice;
   switch (choice) {
     case 1:
-      //this->updateSemester();
+      this->updateSemester();
       break;
     case 2:
       //this->deleteSemester();

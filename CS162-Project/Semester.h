@@ -29,4 +29,5 @@ class Semester {
   static void choose(const int& choice, const int& i);
   static void create();
   void viewEditSemester();
+  void updateSemester();
 };
