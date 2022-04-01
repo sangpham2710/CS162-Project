@@ -43,6 +43,17 @@ void Semester::viewCourse(const string& courseID) {
   cout << "Not implemented\n";
 }
 
+void Semester::deleteSemester() {
+  //App::pSemesters.remove_if([&](const auto& p) { return p->_id == this->_id; });
+  auto pDeletingSemester = *App::pSemesters.find_if(
+      [&](const auto& p) { return p->_id == this->_id; });
+  cout << "Semester " << this->semesterName << " in school year "
+       << this->pSchoolYear->yearName
+       << "has been deleted\n";
+  App::pSemesters.remove(pDeletingSemester);
+  delete pDeletingSemester;
+}
+
 void Semester::updateSemester() {
   Console::clear();
   cout << "--------------------\n";
@@ -114,7 +125,7 @@ void Semester::viewEditSemester() { Console::clear();
       this->updateSemester();
       break;
     case 2:
-      //this->deleteSemester();
+      this->deleteSemester();
       break;
     case 0:
       viewSemesterMenu();
