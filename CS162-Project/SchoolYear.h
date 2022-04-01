@@ -27,7 +27,7 @@ public:
     static void SchoolYearSemesterMenu();
     static void choose(SchoolYear* pSchoolYear, short screen, short option);
     static void schoolYearMainMenu();
-//    static void create();
+    static void create();
 
     void schoolYearChooseMenu();
 };

@@ -43,7 +43,7 @@ void SchoolYear::choose(SchoolYear* pSchoolYear, short screen, short option) {
             return;
         }
         if (option == App::pSchoolYears.size() + 1) {
-        //    create();
+            create();
             return;
         }
         else {
@@ -137,5 +137,60 @@ void SchoolYear::schoolYearChooseMenu() {
     }
 
     choose(this, 2, option);
+    return;
+}
+
+void SchoolYear::create() {
+    Console::clear();
+
+    string schoolYearName;
+    cout << "School year (Ex:2022-2023): ";
+    cin.ignore();
+    getline(cin, schoolYearName);
+    if (schoolYearName.length() != 9 || schoolYearName[4] != '-') {
+        cout << "Invalid\n";
+        cout << "\n0. Return\n";
+        cout << "Your choice: ";
+        short option1;
+        cin >> option1;
+        while (option1 != 0) {
+            cout << "\nInvalid!";
+            cout << "Your choice: ";
+            cin >> option1;
+        }
+        schoolYearMainMenu();
+        return;
+    }
+    for (auto sy : App::pSchoolYears) {
+        if (sy->yearName == schoolYearName) {
+            cout << "school year " << schoolYearName << "already exists!";
+            cout << "\n0. Return\n";
+            cout << "Your choice: ";
+            short option1;
+            cin >> option1;
+            while (option1 != 0) {
+                cout << "\nInvalid!";
+                cout << "Your choice: ";
+                cin >> option1;
+            }
+            schoolYearMainMenu();
+            return;
+        }
+    }
+
+    SchoolYear* sy = new SchoolYear();
+    sy->yearName = schoolYearName;
+    App::pSchoolYears.push_back(sy);
+    cout << "Create school year " << schoolYearName << "successfully!";
+    cout << "\n0. Return\n";
+    cout << "Your choice: ";
+    short option1;
+    cin >> option1;
+    while (option1 != 0) {
+        cout << "\nInvalid!";
+        cout << "Your choice: ";
+        cin >> option1;
+    }
+    schoolYearMainMenu();
     return;
 }
