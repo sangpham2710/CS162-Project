@@ -43,6 +43,31 @@ void Semester::viewCourse(const string& courseID) {
   cout << "Not implemented\n";
 }
 
+void Semester::viewEditSemester() { Console::clear();
+  cout << "Semester: " << this->pSchoolYear->yearName << ": " << this->semesterName
+       << '\n';
+  cout << "-----------------------\n";
+  cout << "1. Update semester\n";
+  cout << "2. Delete semester\n";
+  cout << "0. Go back\n";
+  cout << "-----------------------\n";
+  cout << "Input your choice: ";
+  int choice;
+  cin >> choice;
+  switch (choice) {
+    case 1:
+      //this->updateSemester();
+      break;
+    case 2:
+      //this->deleteSemester();
+      break;
+    case 0:
+      viewSemesterMenu();
+      break;
+  }
+
+}
+
 void Semester::create() {
   Console::clear();
   cout << "Which School year ? (E.g: 2021-2022)\n";
@@ -144,7 +169,7 @@ void Semester::choose(const int& choice, const int& i) {
   if (choice == i) {
     Semester::create();
   } else if (choice < i && choice >= 0) {
-    //App::pClasses[choice]->viewEditClass();
+    App::pSemesters[choice]->viewEditSemester();
   } else if (choice == -1) {
     Menu::staffMenu();
   } else {
