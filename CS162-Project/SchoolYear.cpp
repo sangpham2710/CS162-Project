@@ -177,11 +177,24 @@ void SchoolYear::create() {
             return;
         }
     }
-
+    
+    string semesterName;
+    cout << "Input first semester in " << schoolYearName << ": ";
+    cin.ignore();
+    getline(cin, semesterName);
+    Semester* sem = new Semester();
+    sem->semesterName = semesterName;
+    
     SchoolYear* sy = new SchoolYear();
     sy->yearName = schoolYearName;
+
+    sem->pSchoolYear = sy;
     App::pSchoolYears.push_back(sy);
-    cout << "Create school year " << schoolYearName << "successfully!";
+    App::pSemesters.push_back(sem);
+    App::pCurrentSemester = sem;
+    App::pRecentSemester = sem;
+   
+    cout << "Create school year " << schoolYearName << " successfully!";
     cout << "\n0. Return\n";
     cout << "Your choice: ";
     short option1;
