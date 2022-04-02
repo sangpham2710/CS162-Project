@@ -59,7 +59,7 @@ void SchoolYear::choose(SchoolYear* pSchoolYear, short screen, short option) {
         }
         case 1: {
             // update school year
-
+            pSchoolYear->schoolYearUpdate();
             break;
         }
         case 2: {
@@ -88,7 +88,8 @@ void SchoolYear::SchoolYearSemesterMenu() {
         cin >> option;
     }
     if (option == 0) {
-        Menu::staffMenu;
+        Menu::staffMenu();
+        return;
     }
     if (option == 1) {
         schoolYearMainMenu();
@@ -233,18 +234,18 @@ void SchoolYear::schoolYearDelete() {
         return;
     }
     if (option == 1) {
-        if (App::pCurrentSemester->pSchoolYear == this) App::pCurrentSemester = NULL;
-        if (App::pRecentSemester->pSchoolYear == this) App::pRecentSemester = NULL;
+        if (App::pCurrentSemester->pSchoolYear->_id == this->_id) App::pCurrentSemester = NULL;
+        if (App::pRecentSemester->pSchoolYear->_id == this->_id) App::pRecentSemester = NULL;
         App::pSemesters.remove_if([&](const auto& p) -> bool {return p->pSchoolYear->_id == this->_id; });
         App::pSchoolYears.remove_if([&](const auto& p) -> bool {return p->_id == this->_id; });
 
         cout << "\nDelete school year successfully!\n";
 
-        cout << "\n1. Return\n";
+        cout << "\n0. Return\n";
         cout << "Your choice: ";
         short option1;
         cin >> option1;
-        while (option1 != 1) {
+        while (option1 != 0) {
             cout << "\nInvalid!";
             cout << "Your choice: ";
             cin >> option1;
@@ -252,4 +253,32 @@ void SchoolYear::schoolYearDelete() {
         schoolYearMainMenu();
         return;
     }
+}
+
+void SchoolYear::schoolYearUpdate() {
+    Console::clear();
+
+    cout << "Input new school year name: ";
+    string schoolYearName;
+    cin.ignore();
+    getline(cin, schoolYearName);
+    auto it = App::pSchoolYears.find_if([&](const auto& p) -> bool {return p->yearName == schoolYearName;  });
+    if (it == App::pSchoolYears.end()) {
+        this->yearName = schoolYearName;
+        cout << "\nCreate successfully! ";
+    }
+    else {
+        cout << "\nThis school year already exists! ";
+    }
+    cout << "\n0. Return\n";
+    cout << "Your choice: ";
+    short option1;
+    cin >> option1;
+    while (option1 != 0) {
+        cout << "\nInvalid!";
+        cout << "Your choice: ";
+        cin >> option1;
+    }
+    this->schoolYearChooseMenu();
+    return;
 }

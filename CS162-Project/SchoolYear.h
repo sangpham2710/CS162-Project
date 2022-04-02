@@ -30,6 +30,6 @@ public:
     static void create();
 
     void schoolYearChooseMenu();
-//  void schoolYearUpdate();
+    void schoolYearUpdate();
     void schoolYearDelete();
 };
