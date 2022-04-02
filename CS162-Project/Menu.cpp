@@ -31,7 +31,29 @@ void Menu::staffMenu() {
         break;
       case 3:
         // School years / Semesters
-          SchoolYear::SchoolYearSemesterMenu();
+        // ------------------NHUT------------------------
+        Console::clear();
+        std::cout << "---------------------\n";
+        std::cout << "1. School year\n";
+        std::cout << "2. Semester\n";
+        std::cout << "0. Go back\n";
+        std::cout << "---------------------\n";
+        int choice;
+        std::cout << "Input your choice: ";
+        std::cin >> choice;
+        if (choice == 1) {
+          // viewSchoolYearMenu()
+        } else if (choice == 2) {
+          Semester::viewSemesterMenu();
+        } else if (choice == 0) {
+          Menu::staffMenu();
+        } else {
+          cout << "Invalid input!!\n";
+          // return
+        }
+
+        // ------------------HOA------------------------
+        SchoolYear::SchoolYearSemesterMenu();
         break;
       case 4:
         // Change default semester
