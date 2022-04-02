@@ -31,6 +31,7 @@ void Menu::staffMenu() {
         break;
       case 3:
         // School years / Semesters
+          SchoolYear::SchoolYearSemesterMenu();
         break;
       case 4:
         // Change default semester

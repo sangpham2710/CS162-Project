@@ -631,7 +631,7 @@ void Course::deleteCourse() {
       cout << "Your choice: ";
       cin >> option1;
     }
-    this->courseMainMenu();
+    courseMainMenu();
     return;
   }
 }
