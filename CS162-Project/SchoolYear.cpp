@@ -238,7 +238,7 @@ void SchoolYear::schoolYearDelete() {
         if (App::pRecentSemester->pSchoolYear->_id == this->_id) App::pRecentSemester = NULL;
         App::pSemesters.remove_if([&](const auto& p) -> bool {return p->pSchoolYear->_id == this->_id; });
         App::pSchoolYears.remove_if([&](const auto& p) -> bool {return p->_id == this->_id; });
-
+        // DEALLOCATE CURRENT SCHOOL YEAR AFTER BEING DELETED
         cout << "\nDelete school year successfully!\n";
 
         cout << "\n0. Return\n";
