@@ -160,3 +160,18 @@ Error readLine(const string &line, Ts &...args) {
 
   return res;
 }
+
+template <class... Ts>
+string writeLine(Ts... args) {
+  List<string> values;
+
+  auto fn = [&](auto &v) {
+    stringstream ss;
+    ss << v;
+    values.push_back(ss.str());
+  };
+  (fn(args), ...);
+
+  return _writeLine(values);
+}
+};  // namespace CSV
