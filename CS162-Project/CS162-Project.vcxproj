@@ -160,6 +160,7 @@
     <ClInclude Include="Class.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="Data.h" />
+    <ClInclude Include="CSV.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="SchoolYear.h" />
