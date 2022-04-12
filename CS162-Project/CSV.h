@@ -98,3 +98,65 @@ Error _readLine(const string &line, List<string> &values) {
 
   return Error::Success;
 }
+string _writeLine(const List<string> &values) {
+  string line = "";
+  bool first = true;
+  for (const string &value : values) {
+    if (first) {
+      first = false;
+    } else {
+      line += ',';
+    }
+
+    bool enclosed = false;
+    for (const char &c : value) {
+      if (c == ',' || c == '"') {
+        enclosed = true;
+      }
+    }
+
+    if (!enclosed) {
+      line += value;
+    } else {
+      string escaped = "";
+      escaped += '"';
+      for (char c : value) {
+        if (c == '"') {
+          escaped += '"';
+          escaped += '"';
+        } else {
+          escaped += c;
+        }
+      }
+      escaped += '"';
+      line += escaped;
+    }
+  }
+
+  return line;
+}
+
+template <class... Ts>
+Error readLine(const string &line, Ts &...args) {
+  auto res = Error::Success;
+
+  List<string> values;
+  _readLine(line, values);
+
+  int index = 0;
+  auto fn = [&](auto &v) {
+    if (index == values.size()) {
+      res = Error::InsufficientColumns;
+      return;
+    }
+    if constexpr (std::is_same_v<decltype(v), string &>) {
+      v = values[index++];
+    } else {
+      stringstream ss(values[index++]);
+      ss >> v;
+    }
+  };
+  (fn(args), ...);
+
+  return res;
+}
