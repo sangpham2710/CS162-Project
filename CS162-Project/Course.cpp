@@ -528,8 +528,21 @@ void Course::viewStudentScoreboard() {
 }
 
 void Course::importScoreboard() {
-  cout << "Not implemented\n";
+  Console::clear();
+  string path;
+  cout << "Input CSV file path: ";
+  ifstream ifs(path);
+  if (!ifs.is_open()) {
+    cout << "Could not open CSV file\n";
+    Utils::waitForKeypress();
+    Course::courseMainMenu();
+    return;
+  }
+
+  ifs.close();
+  cout << "Imported successfully\n";
 }
+
 void Course::exportScoreboard() {
   cout << "Not implemented\n";
 }
