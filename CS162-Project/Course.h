@@ -42,23 +42,19 @@ class Course {
   friend std::istream& operator>>(std::istream& stream, Course& course);
   friend std::ostream& operator<<(std::ostream& stream, const Course& course);
 
-  static void createCourse();  // done
-  static void choose(
-      Course* pCourse, short screen,
-      short option);  // mainMenu = 1, chooseCourseMenu = 2, updateCourseMenu =
-                      // 3, updateStudentMenu = 4
+  static void createCourse();    // done
   static void courseMainMenu();  // done
 
-  void updateCourseInfo();
-  void viewStudentScoreboard();
+  void updateCourseInfo();       // done
+  void viewStudentScoreboard();  // done
   void importScoreboard();
   void exportScoreboard();
-  void addStudent();
-  void removeStudent();
-  void updateStudentScoreBoard();
+  void addStudent();               // done
+  void removeStudent();            // done
+  void updateStudentScoreBoard();  // done
   void deleteCourse();
 
-  void courseChooseMenu();
-  void courseUpdateMenu();
-  void courseUpdateStudentMenu();
+  void courseChooseMenu();         // done
+  void courseUpdateMenu();         // done
+  void courseUpdateStudentMenu();  // done
 };
