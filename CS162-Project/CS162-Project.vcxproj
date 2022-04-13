@@ -168,6 +168,7 @@
     <ClInclude Include="CourseMark.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="ID.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -7,6 +7,7 @@
 #include "Menu.h"
 #include "Semester.h"
 #include "Student.h"
+#include "Utils.h"
 
 using std::cout;
 
@@ -61,7 +62,7 @@ void Course::choose(Course* pCourse, short screen, short option) {
       return;
     }
     if (option == App::pCurrentSemester->pCourses.size() + 1) {
-      create();
+      Course::createCourse();
       return;
     }
     if (option == App::pCurrentSemester->pCourses.size() + 2) {
@@ -171,18 +172,25 @@ void Course::courseMainMenu() {
   cout << "---------------------------------------\n";
   cout << i << ". "
        << "Add new course \n";
-  cout << i + 1 << ". "
+  cout << 0 << ". "
        << "return \n \n";
-  cout << "Your choice: ";
 
-  short option;
-  cin >> option;
-  while (option < 1 || option > i + 1) {
-    cout << "\nInvalid!\n";
-    cout << "Your choice: ";
-    cin >> option;
+  // Handle options
+  int option = Utils::getOption(0, i + 1);
+  if (option >= 1 && option <= i - 1) {
+    int index = option - 1;
+    Course* pCourse = App::pCurrentSemester->pCourses[index];
+    pCourse->courseChooseMenu();
+    return;
   }
-  choose(NULL, 1, option);
+  if (option == i) {
+    Course::createCourse();
+    return;
+  }
+  if (option == 0) {
+    Menu::staffMenu();
+    return;
+  }
 }
 
 void Course::courseChooseMenu() {
@@ -196,17 +204,43 @@ void Course::courseChooseMenu() {
   cout << "6. Export list students \n";
   cout << "7. Import list students \n";
   cout << "---------------------------------------\n";
-  cout << "8. Return \n\n";
+  cout << "0. Return \n\n";
 
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option < 1 || option > 8) {
-    cout << "\nInvalid!\n";
-    cout << "Your choice: ";
-    cin >> option;
+  int option = Utils::getOption(0, 7);
+  switch (option) {
+    case 1: {
+      this->courseUpdateMenu();
+      break;
+    }
+    case 2: {
+      this->viewStudentScoreboard();
+      break;
+    }
+    case 3: {
+      this->deleteCourse();
+      break;
+    }
+    case 4: {
+      // pCourse->importScoreboard();
+      break;
+    }
+    case 5: {
+      // pCourse->exportScoreboard();
+      break;
+    }
+    case 6: {
+      // export list students
+    }
+    case 7: {
+      // import list students
+      break;
+    }
+    case 8: {
+      // return previous menu
+      courseMainMenu();
+      break;
+    }
   }
-  choose(this, 2, option);
 }
 
 void Course::courseUpdateMenu() {
@@ -248,13 +282,13 @@ void Course::courseUpdateStudentMenu() {
   choose(this, 4, option);
 }
 
-void Course::create() {
+void Course::createCourse() {
   Console::clear();
 
   if (!App::pCurrentSemester) {
-    cout << "Please create a semester first \n";
-    cin.ignore();
-    cin.get();
+    cout << "Please create a semester first!\n";
+    Utils::waitForKeypress();
+    Menu::staffMenu();
     return;
   }
 
@@ -266,11 +300,13 @@ void Course::create() {
   string courseCode;
   cout << "Input course code: ";
   cin >> courseCode;
-  for (auto crs : App::pCurrentSemester->pCourses) {
-    if (crs->courseCode == courseCode) {
-      cout << "Current semester already has course " << crs->courseCode;
-      return;
-    }
+  if (App::pCurrentSemester->pCourses.find_if([&](const auto& p) -> bool {
+        return p->courseCode == courseCode;
+      }) != App::pCurrentSemester->pCourses.end()) {
+    cout << "Current semester already has course " << courseCode << '\n';
+    Utils::waitForKeypress();
+    Course::courseMainMenu();
+    return;
   }
 
   Course* pCourse = new Course();
@@ -295,15 +331,7 @@ void Course::create() {
   App::pCourses.push_back(pCourse);
 
   cout << "\nCreated successfully!";
-  cout << "\n1. Return\n";
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option != 1) {
-    cout << "\nInvalid!";
-    cout << "Your choice: ";
-    cin >> option;
-  }
+  Utils::waitForKeypress();
   courseMainMenu();
 }
 
@@ -320,18 +348,15 @@ void Course::updateCourseInfo() {
   cout << "7. Number of credits: " << this->numberOfCredits << "\n";
   cout << "8. Schedule: " << this->schedule << "\n\n";
   cout << "---------------------------------------\n";
+  cout << "0. Return\n";
   cout << "Which one do you want to update? \n";
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option < 1 || option > 8) {
-    cout << "\nInvalid!\n";
-    cout << "Your choice: ";
-    cin >> option;
-  }
+  int option = Utils::getOption(0, 8);
 
-  // convert all to getline
   switch (option) {
+    case 0: {
+      this->courseChooseMenu();
+      return;
+    }
     case 1: {
       cout << "New course code: ";
       cin.ignore();
@@ -668,5 +693,9 @@ void Course::viewStudentScoreboard() {
   return;
 }
 
-void Course::importScoreboard() { cout << "Not implemented\n"; }
-void Course::exportScoreboard() { cout << "Not implemented\n"; }
+void Course::importScoreboard() {
+  cout << "Not implemented\n";
+}
+void Course::exportScoreboard() {
+  cout << "Not implemented\n";
+}
