@@ -44,7 +44,7 @@ void Menu::staffMenu() {
         if (choice == 1) {
           // viewSchoolYearMenu()
         } else if (choice == 2) {
-          Semester::viewSemesterMenu();
+          Semester::viewMainMenu();
         } else if (choice == 0) {
           Menu::staffMenu();
         } else {
@@ -53,7 +53,7 @@ void Menu::staffMenu() {
         }
 
         // ------------------HOA------------------------
-        SchoolYear::SchoolYearSemesterMenu();
+        SchoolYear::viewSchoolYearSemesterMenu();
         break;
       case 4:
         // Change default semester

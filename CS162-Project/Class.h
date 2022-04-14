@@ -26,12 +26,12 @@ class Class {
   friend std::istream& operator>>(std::istream& stream, Class& _class);
   friend std::ostream& operator<<(std::ostream& stream, const Class& _class);
 
-  static void viewMainMenu();
-  static void create();
-  static void choose(const int& choice, const int& i);
-  void viewEditClass();
-  void updateClass();
-  void deleteClass();
-  void viewListStudents();
-  void viewScoreboardClass();
+  static void viewMainMenu();  // done
+  static void createClass();   // done
+  void classUpdateMenu();      // done
+  void updateClass();          // done
+  void deleteClass();          // done
+  void viewStudents();         // done
+  void viewScoreboard();
+  void exportScoreboard();
 };

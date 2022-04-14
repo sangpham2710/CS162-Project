@@ -3,6 +3,7 @@
 #include "App.h"
 #include "Console.h"
 #include "Menu.h"
+#include "Utils.h"
 
 std::istream& operator>>(std::istream& stream, Class& _class) {
   int n;
@@ -29,45 +30,71 @@ std::ostream& operator<<(std::ostream& stream, const Class& _class) {
 
 void Class::updateClass() {
   Console::clear();
-  cout << "1. Change class code" << endl;
-  cout << "2. Add one student" << endl;
-  cout << "--------------------" << endl;
-  int choice;
-  cout << "Input your choice: ";
-  cin >> choice;
-  cin.ignore();
-  if (choice == 1) {
-    string classCode;
-    cout << "New class code: ";
-    getline(cin, classCode);
-    this->classCode = classCode;
-  } else if (choice == 2) {
-    // addStudent()
-  } else {
-    cout << "Invalid choice!" << endl;
+  cout << "1. Change class code" << '\n';
+  cout << "2. Add one student" << '\n';
+  cout << "--------------------" << '\n';
+  cout << "0. Return\n";
+  int option = Utils::getOption(0, 2);
+
+  switch (option) {
+    case 0: {
+      this->classUpdateMenu();
+      return;
+    }
+    case 1: {
+      string classCode;
+      cout << "New class code: ";
+      getline(cin, classCode);
+      this->classCode = classCode;
+      cout << "Successfully updated!\n";
+      Utils::waitForKeypress();
+      this->classUpdateMenu();
+      return;
+    }
+    case 2: {
+      // addStudent()
+      break;
+    }
   }
 }
 
 void Class::deleteClass() {
+  Console::clear();
+  cout << "Are you sure?, " << this->classCode << " will be deleted in "
+       << App::pCurrentSemester->pSchoolYear->yearName << '\n';
+  cout << "1. Yes\n";
+  cout << "2. No\n \n";
+
+  int option = Utils::getOption(1, 2);
+  if (option == 2) {
+    this->classUpdateMenu();
+    return;
+  }
+  App::pStudents.for_each([&](const auto& p) {
+    if (p->pClass->classCode == this->classCode) p->pClass = nullptr;
+  });
   App::pCurrentSemester->pSchoolYear->pClasses.remove_if(
       [&](const auto& p) { return p->classCode == this->classCode; });
-  auto pDeletingClass = *App::pClasses.find_if(
+  auto itDeletingClass = App::pClasses.find_if(
       [&](const auto& p) { return p->classCode == this->classCode; });
   cout << "Class " << this->classCode << " has been deleted successfully!";
-
-  // NOT IMPLEMENTED: delete pClass of all students in the class
-
-  App::pClasses.remove(pDeletingClass);
-  delete pDeletingClass;
+  delete *itDeletingClass;
+  App::pClasses.remove(itDeletingClass);
+  Utils::waitForKeypress();
+  Class::viewMainMenu();
 }
 
-void Class::viewListStudents() {
+void Class::viewStudents() {
+  Console::clear();
+  cout << "List students of class " << this->classCode << '\n';
   for (const auto& p : this->pStudents) {
-    cout << p->firstName << " " << p->lastName << endl;
+    cout << p->studentCode << ' ' << p->firstName << ' ' << p->lastName << '\n';
   }
+  Utils::waitForKeypress();
+  Class::viewMainMenu();
 }
 
-void Class::viewScoreboardClass() {
+void Class::viewScoreboard() {
   for (const auto& p : this->pStudents) {
     // Print name + scoreboard of each student
 
@@ -75,83 +102,92 @@ void Class::viewScoreboardClass() {
   }
 }
 
-void Class::viewEditClass() {
+void Class::classUpdateMenu() {
   Console::clear();
-  cout << "Class: " << this->classCode << endl;
-  cout << "--------------------------" << endl;
-  cout << "1. Update Class" << endl;
-  cout << "2. Delete Class" << endl;
-  cout << "3. View List Students" << endl;
-  cout << "4. View Scoreboard" << endl;
-  cout << "5. Export Scoreboard of students" << endl;
-  cout << "6. Export list students in class" << endl;
-  cout << "0. Go back" << endl;
-  cout << "--------------------------" << endl;
-  int choice;
-  cout << "Input your choice: ";
-  cin >> choice;
-  if (choice == 1) {
-    this->updateClass();
-  } else if (choice == 2) {
-    this->deleteClass();
-  } else if (choice == 3) {
-    this->viewListStudents();
-  } else if (choice == 4) {
-    // viewScoreboardClass(classEditCode);
-  } else if (choice == 5) {
-    // exportScoreboardStudents(classEditCode);
-  } else if (choice == 6) {
-    // exportListStudents(classEditCode);
-  } else if (choice == 0) {
-    Class::viewMainMenu();
-  } else {
-    cout << "Invalid choice!";
-  }
-}
-
-void Class::create() {
-  Class* pClass = new Class();
-  cin.ignore();
-  cout << "Input class code: ";
-  getline(cin, pClass->classCode);
-
-  // Check duplicate class
-  for (auto p : App::pClasses) {
-    if (p->classCode == pClass->classCode) {
-      cout << "This class is already available!";
-      delete pClass;
+  cout << "Class: " << this->classCode << '\n';
+  cout << "--------------------------" << '\n';
+  cout << "1. Update Class" << '\n';
+  cout << "2. Delete Class" << '\n';
+  cout << "3. View List Students" << '\n';
+  cout << "4. View Scoreboard" << '\n';
+  cout << "5. Export Scoreboard of students" << '\n';
+  cout << "6. Export list students in class" << '\n';
+  cout << "0. Go back" << '\n';
+  cout << "--------------------------" << '\n';
+  int option = Utils::getOption(0, 6);
+  switch (option) {
+    case 0: {
+      Class::viewMainMenu();
       return;
     }
+    case 1: {
+      this->updateClass();
+      break;
+    }
+    case 2: {
+      this->deleteClass();
+      break;
+    }
+    case 3: {
+      this->viewStudents();
+      break;
+    }
+    case 4: {
+      // viewScoreboardClass(classEditCode);
+      break;
+    }
+    case 5: {
+      // exportScoreboardStudents(classEditCode);
+      break;
+    }
+    case 6: {
+      // exportListStudents(classEditCode);
+      break;
+    }
   }
-  App::pClasses.push_back(pClass);
-  App::pCurrentSemester->pSchoolYear->pClasses.push_back(pClass);
 }
 
-void Class::choose(const int& choice, const int& i) {
-  if (choice == i) {
-    Class::create();
-  } else if (choice < i && choice >= 0) {
-    App::pClasses[choice]->viewEditClass();
-  } else if (choice == -1) {
-    Menu::staffMenu();
-  } else {
-    cout << "This Class does not exist";
+void Class::createClass() {
+  cout << "This class will be created in "
+       << App::pCurrentSemester->pSchoolYear->yearName << '\n';
+  cout << "Input class code: ";
+  string classCode;
+  cin.ignore();
+  getline(cin, classCode);
+
+  if (App::pClasses.find_if([&](const auto& p) -> bool {
+        return p->classCode == classCode;
+      }) != App::pClasses.end()) {
+    cout << "This class already exists!";
+    Class::viewMainMenu();
+    return;
   }
+
+  Class* pClass = new Class();
+  pClass->classCode = classCode;
+  App::pClasses.push_back(pClass);
+  App::pCurrentSemester->pSchoolYear->pClasses.push_back(pClass);
+  Class::viewMainMenu();
 }
 
 void Class::viewMainMenu() {
   Console::clear();
-  int i = 0;
+  int i = 1;
   for (const auto& p : App::pClasses) {
+    cout << i << ". " << p->classCode << '\n';
     ++i;
-    cout << i << ". " << p->classCode << endl;
   }
-  cout << i + 1 << ". "
-       << "Create class " << endl;
-  cout << "0. Go back" << endl;
+  cout << i << ". "
+       << "Create class " << '\n';
+  cout << "0. Go back" << '\n';
 
-  int choice;
-  cout << "Input your choice: ";
-  cin >> choice;
-  Class::choose(choice - 1, i);
+  int option = Utils::getOption(0, i);
+  if (option == i) {
+    Class::createClass();
+  } else if (0 < option && option < i) {
+    App::pClasses[option - 1]->classUpdateMenu();
+  } else {
+    Menu::staffMenu();
+    return;
+  }
 }

@@ -6,6 +6,7 @@
 #include "Console.h"
 #include "Menu.h"
 #include "SchoolYear.h"
+#include "Utils.h"
 
 using std::cin;
 using std::cout;
@@ -38,7 +39,9 @@ std::ostream& operator<<(std::ostream& stream, const Semester& semester) {
   return stream;
 }
 
-void Semester::addCourse(Course* const& course) { cout << "Not implemented\n"; }
+void Semester::addCourse(Course* const& course) {
+  cout << "Not implemented\n";
+}
 void Semester::viewCourse(const string& courseID) {
   cout << "Not implemented\n";
 }
@@ -51,7 +54,7 @@ void Semester::deleteSemester() {
     bug(p->semesterName);
     bug(p->pSchoolYear->yearName);
   });*/
-    bug(this->_id);
+  bug(this->_id);
   bug(this->pSchoolYear->pSemesters.remove_if(
       [&](const auto& p) -> bool { return p->_id == this->_id; }));
 
@@ -85,10 +88,9 @@ void Semester::deleteSemester() {
     bug(p->pSchoolYear->yearName);
     cout << '\n';
   });
-  
+
   cout << "Semester " << tmpSemesterName << " in school year " << tmpYearName
        << "has been deleted\n";
-  
 }
 
 void Semester::updateSemester() {
@@ -172,12 +174,12 @@ void Semester::viewEditSemester() {
       this->deleteSemester();
       break;
     case 0:
-      viewSemesterMenu();
+      viewMainMenu();
       break;
   }
 }
 
-void Semester::create() {
+void Semester::createSemester() {
   Console::clear();
   cout << "Which School year ? (E.g: 2021-2022)\n";
   string schoolYear;
@@ -205,7 +207,7 @@ void Semester::create() {
               int option;
               cin >> option;
               if (option == 1)
-                viewSemesterMenu();
+                viewMainMenu();
               else
                 cout << "Invalid choice!\n";
               return;
@@ -230,7 +232,7 @@ void Semester::create() {
               int option;
               cin >> option;
               if (option == 1)
-                viewSemesterMenu();
+                viewMainMenu();
               else
                 cout << "Invalid choice!\n";
               return;
@@ -255,7 +257,7 @@ void Semester::create() {
               int option;
               cin >> option;
               if (option == 1)
-                viewSemesterMenu();
+                viewMainMenu();
               else
                 cout << "Invalid choice!\n";
               return;
@@ -279,7 +281,7 @@ void Semester::create() {
 }
 void Semester::choose(const int& choice, const int& i) {
   if (choice == i) {
-    Semester::create();
+    Semester::createSemester();
   } else if (choice < i && choice >= 0) {
     App::pSemesters[choice]->viewEditSemester();
   } else if (choice == -1) {
@@ -289,21 +291,27 @@ void Semester::choose(const int& choice, const int& i) {
   }
 }
 
-void Semester::viewSemesterMenu() {
+void Semester::viewMainMenu() {
   Console::clear();
   cout << "----------------------\n";
-  int i = 0;
+  int i = 1;
   for (const auto& p : App::pSemesters) {
-    ++i;
     cout << i << ". " << p->pSchoolYear->yearName << ": ";
     cout << p->semesterName << endl;
+    ++i;
   }
-  cout << i + 1 << ". "
+  cout << i << ". "
        << "Create new semester\n";
   cout << "0. Go back\n";
   cout << "----------------------\n";
-  int choice;
-  cout << "Input your choice: ";
-  cin >> choice;
-  choose(choice - 1, i);
+  int option = Utils::getOption(0, i);
+  if (option == i) {
+    Semester::createSemester();
+    return;
+  } else if (1 <= option && option < i) {
+    App::pSemesters[option - 1]->viewEditSemester();
+    return;
+  } else {
+    Menu::staffMenu();
+  }
 }
