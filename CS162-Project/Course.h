@@ -47,8 +47,12 @@ class Course {
 
   void updateCourseInfo();       // done
   void viewStudentScoreboard();  // done
+
   void importScoreboard();
   void exportScoreboard();
+  void importStudents();
+  void exportStudents();
+
   void addStudent();               // done
   void removeStudent();            // done
   void updateStudentScoreBoard();  // done

@@ -123,18 +123,18 @@ void Course::courseChooseMenu() {
       break;
     }
     case 4: {
-      // pCourse->importScoreboard();
+      this->importScoreboard();
       break;
     }
     case 5: {
-      // pCourse->exportScoreboard();
+      this->exportScoreboard();
       break;
     }
     case 6: {
-      // export list students
+      this->exportStudents();
     }
     case 7: {
-      // import list students
+      this->importStudents();
       break;
     }
   }
@@ -148,7 +148,6 @@ void Course::courseUpdateMenu() {
   cout << "3. Update student scoreboard \n";
   cout << "---------------------------------------\n";
   cout << "0. Return\n";
-
 
   int option = Utils::getOption(0, 3);
   switch (option) {
@@ -538,11 +537,56 @@ void Course::importScoreboard() {
     Course::courseMainMenu();
     return;
   }
-
+  string line;
+  getline(ifs, line);
+  while (getline(ifs, line)) {
+    int no;
+    string studentCode, fullName;
+    double otherMark, midtermMark, finalMark, totalMark;
+    CSV::readLine(line, no, studentCode, fullName, otherMark, midtermMark,
+                  finalMark, totalMark);
+    cout << no << ' ' << studentCode << ' ' << fullName << ' ' << otherMark
+         << ' ' << midtermMark << ' ' << finalMark << ' ' << totalMark << '\n';
+    // for (const auto& p : this->pStudents) {
+    //   if (p->studentCode == studentCode) {
+    //     auto itCourseMark =
+    //         p->courseMarks.find_if([&](const auto& courseMark) -> bool {
+    //           return courseMark.pCourse->_id == this->_id;
+    //         });
+    //     if (itCourseMark != p->courseMarks.end()) {
+    //       itCourseMark->otherMark = otherMark;
+    //       itCourseMark->midtermMark = midtermMark;
+    //       itCourseMark->finalMark = finalMark;
+    //       itCourseMark->totalMark = totalMark;
+    //     }
+    //   }
+    // }
+  }
   ifs.close();
   cout << "Imported successfully\n";
 }
 
 void Course::exportScoreboard() {
   cout << "Not implemented\n";
+}
+
+void Course::importStudents() {
+  Console::clear();
+  string path;
+  cout << "Input CSV file path: ";
+  ifstream ifs(path);
+  if (!ifs.is_open()) {
+    cout << "Could not open CSV file\n";
+    Utils::waitForKeypress();
+    Course::courseMainMenu();
+    return;
+  }
+  string line;
+  getline(cin, line);
+
+  ifs.close();
+  cout << "Imported successfully\n";
+}
+
+void Course::exportStudents() {
 }
