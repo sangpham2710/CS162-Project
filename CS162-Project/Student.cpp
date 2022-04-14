@@ -50,11 +50,30 @@ std::ostream& operator<<(std::ostream& stream, const Student& student) {
   return stream;
 }
 
-double Student::getSemesterGPA(Semester* const& semester) {
-  cout << "Not implemented\n";
-  return 0;
+double Student::getSemesterGPA() {
+  auto currentSemesterCourseMarks =
+      this->courseMarks.filter([&](const auto& courseMark) -> bool {
+        return courseMark.pCourse->pSemester->_id == App::pCurrentSemester->_id;
+      });
+  if (currentSemesterCourseMarks.empty()) return -1;
+  return currentSemesterCourseMarks
+             .map<double>([&](const auto& courseMark) -> double {
+               return courseMark.finalMark;
+             })
+             .reduce([&](const auto& sum, const auto& mark) -> double {
+               return sum + mark;
+             }) /
+         (double)currentSemesterCourseMarks.size();
 }
+
 double Student::getOverallGPA() {
-  cout << "Not implemented\n";
-  return 0;
+  if (this->courseMarks.empty()) return -1;
+  return this->courseMarks
+             .map<double>([&](const auto& courseMark) -> double {
+               return courseMark.finalMark;
+             })
+             .reduce([&](const auto& sum, const auto& mark) -> double {
+               return sum + mark;
+             }) /
+         (double)this->courseMarks.size();
 }

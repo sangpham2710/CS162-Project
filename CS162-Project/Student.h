@@ -45,6 +45,6 @@ class Student {
   friend std::istream& operator>>(std::istream& stream, Student& student);
   friend std::ostream& operator<<(std::ostream& stream, const Student& student);
 
-  double getSemesterGPA(Semester* const& semester);
+  double getSemesterGPA();
   double getOverallGPA();
 };

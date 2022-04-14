@@ -1,9 +1,14 @@
 #include "Class.h"
 
+#include <fstream>
+
 #include "App.h"
 #include "Console.h"
 #include "Menu.h"
 #include "Utils.h"
+
+using std::ifstream;
+using std::ofstream;
 
 std::istream& operator>>(std::istream& stream, Class& _class) {
   int n;
@@ -38,7 +43,7 @@ void Class::updateClass() {
 
   switch (option) {
     case 0: {
-      this->classUpdateMenu();
+      this->classChooseMenu();
       return;
     }
     case 1: {
@@ -48,7 +53,7 @@ void Class::updateClass() {
       this->classCode = classCode;
       cout << "Successfully updated!\n";
       Utils::waitForKeypress();
-      this->classUpdateMenu();
+      this->classChooseMenu();
       return;
     }
     case 2: {
@@ -67,7 +72,7 @@ void Class::deleteClass() {
 
   int option = Utils::getOption(1, 2);
   if (option == 2) {
-    this->classUpdateMenu();
+    this->classChooseMenu();
     return;
   }
   App::pStudents.for_each([&](const auto& p) {
@@ -88,33 +93,45 @@ void Class::viewStudents() {
   Console::clear();
   cout << "List students of class " << this->classCode << '\n';
   for (const auto& p : this->pStudents) {
-    cout << p->studentCode << ' ' << p->firstName << ' ' << p->lastName << '\n';
+    cout << p->studentCode << ' ' << p->lastName << ' ' << p->firstName << '\n';
   }
   Utils::waitForKeypress();
-  Class::viewMainMenu();
+  this->classChooseMenu();
 }
 
 void Class::viewScoreboard() {
+  Console::clear();
   for (const auto& p : this->pStudents) {
-    // Print name + scoreboard of each student
-
-    // calculate semester GPA and overall GPA
+    cout << p->studentCode << ' ' << p->lastName << ' ' << p->firstName << '\n';
+    p->courseMarks.for_each([](const auto& courseMark) {
+      if (courseMark.pCourse->pSemester->_id == App::pCurrentSemester->_id) {
+        cout << courseMark.pCourse->courseCode << ' ';
+        cout << courseMark.totalMark << "; ";
+      }
+    });
+    cout << '\n';
+    cout << "Semester GPA: " << p->getSemesterGPA() << "; "
+         << "Overall GPA: " << p->getOverallGPA() << '\n';
+    cout << string(20, '-') << '\n';
   }
+  Utils::waitForKeypress();
+  this->classChooseMenu();
 }
 
-void Class::classUpdateMenu() {
+void Class::classChooseMenu() {
   Console::clear();
   cout << "Class: " << this->classCode << '\n';
   cout << "--------------------------" << '\n';
-  cout << "1. Update Class" << '\n';
-  cout << "2. Delete Class" << '\n';
-  cout << "3. View List Students" << '\n';
-  cout << "4. View Scoreboard" << '\n';
-  cout << "5. Export Scoreboard of students" << '\n';
-  cout << "6. Export list students in class" << '\n';
+  cout << "1. Update class" << '\n';
+  cout << "2. Delete class" << '\n';
+  cout << "3. View list students" << '\n';
+  cout << "4. View scoreboard" << '\n';
+  cout << "5. Import list students to class" << '\n';
+  cout << "6. Export scoreboard of students" << '\n';
+  cout << "7. Export list students in class" << '\n';
   cout << "0. Go back" << '\n';
   cout << "--------------------------" << '\n';
-  int option = Utils::getOption(0, 6);
+  int option = Utils::getOption(0, 7);
   switch (option) {
     case 0: {
       Class::viewMainMenu();
@@ -133,15 +150,19 @@ void Class::classUpdateMenu() {
       break;
     }
     case 4: {
-      // viewScoreboardClass(classEditCode);
+      this->viewScoreboard();
       break;
     }
     case 5: {
-      // exportScoreboardStudents(classEditCode);
+      this->importNewStudents();
       break;
     }
     case 6: {
-      // exportListStudents(classEditCode);
+      this->exportScoreboard();
+      break;
+    }
+    case 7: {
+      this->exportStudents();
       break;
     }
   }
@@ -185,9 +206,113 @@ void Class::viewMainMenu() {
   if (option == i) {
     Class::createClass();
   } else if (0 < option && option < i) {
-    App::pClasses[option - 1]->classUpdateMenu();
+    App::pClasses[option - 1]->classChooseMenu();
   } else {
     Menu::staffMenu();
     return;
   }
+}
+
+void Class::exportScoreboard() {
+  Console::clear();
+  string path;
+  cout << "Input CSV file path: ";
+  cin.ignore();
+  getline(cin, path);
+  ofstream ofs(path);
+  if (!ofs.is_open()) {
+    cout << "Could not open CSV file\n";
+    Utils::waitForKeypress();
+    Course::courseMainMenu();
+    return;
+  }
+  int no = 0;
+  string line;
+  line = CSV::writeLine("No", "Student ID", "Last Name", "First Name",
+                        "Semester GPA", "Overall GPA");
+  ofs << line << '\n';
+  for (const auto& p : this->pStudents) {
+    line = CSV::writeLine(++no, p->studentCode, p->lastName, p->firstName,
+                          p->getSemesterGPA(), p->getOverallGPA());
+    ofs << line << '\n';
+  }
+  ofs.close();
+  cout << "Exported successfully\n";
+  Utils::waitForKeypress();
+  this->classChooseMenu();
+}
+
+void Class::exportStudents() {
+  Console::clear();
+  string path;
+  cout << "Input CSV file path: ";
+  cin.ignore();
+  getline(cin, path);
+  ofstream ofs(path);
+  if (!ofs.is_open()) {
+    cout << "Could not open CSV file\n";
+    Utils::waitForKeypress();
+    this->classChooseMenu();
+    return;
+  }
+  int no = 0;
+  string line;
+  line = CSV::writeLine("No", "Student ID", "Last Name", "First Name", "Gender",
+                        "Date of birth", "Social ID");
+  ofs << line << '\n';
+  for (const auto& p : this->pStudents) {
+    line = CSV::writeLine(++no, p->studentCode, p->lastName, p->firstName,
+                          p->gender, p->dateOfBirth, p->socialID);
+    ofs << line << '\n';
+  }
+  ofs.close();
+  cout << "Exported successfully\n";
+  Utils::waitForKeypress();
+  this->classChooseMenu();
+}
+
+void Class::importNewStudents() {
+  Console::clear();
+  string path;
+  cout << "Input CSV file path: ";
+  cin.ignore();
+  getline(cin, path);
+  ifstream ifs(path);
+  if (!ifs.is_open()) {
+    cout << "Could not open CSV file\n";
+    Utils::waitForKeypress();
+    this->classChooseMenu();
+    return;
+  }
+  string line;
+  getline(ifs, line);
+  while (getline(ifs, line)) {
+    int no;
+    string studentCode, lastName, firstName, gender, dateOfBirth, socialID;
+    CSV::readLine(line, no, studentCode, lastName, firstName, gender,
+                  dateOfBirth, socialID);
+    Student* pStudent = new Student();
+    User* pUser = new User();
+    pStudent->studentCode = studentCode;
+    pStudent->lastName = lastName;
+    pStudent->firstName = firstName;
+    pStudent->gender = gender;
+    pStudent->dateOfBirth = dateOfBirth;
+    pStudent->socialID = socialID;
+    pStudent->pClass = this;
+    pStudent->pUser = pUser;
+
+    pUser->userType = User::Type::STUDENT;
+    pUser->username = studentCode;
+    pUser->password = "123456";
+    pUser->pStudent = pStudent;
+
+    this->pStudents.push_back(pStudent);
+    App::pStudents.push_back(pStudent);
+    App::pUsers.push_back(pUser);
+  }
+  ifs.close();
+  cout << "Imported successfully\n";
+  Utils::waitForKeypress();
+  this->classChooseMenu();
 }

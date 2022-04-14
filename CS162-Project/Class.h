@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 
+#include "CSV.h"
 #include "ID.h"
 #include "List.h"
 #include "Student.h"
@@ -28,10 +29,12 @@ class Class {
 
   static void viewMainMenu();  // done
   static void createClass();   // done
-  void classUpdateMenu();      // done
+  void classChooseMenu();      // done
   void updateClass();          // done
   void deleteClass();          // done
   void viewStudents();         // done
   void viewScoreboard();
   void exportScoreboard();
+  void exportStudents();
+  void importNewStudents();
 };

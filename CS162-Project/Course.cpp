@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include "App.h"
-#include "CSV.h"
 #include "Console.h"
 #include "Menu.h"
 #include "Semester.h"
@@ -536,7 +535,7 @@ void Course::importScoreboard() {
   if (!ifs.is_open()) {
     cout << "Could not open CSV file\n";
     Utils::waitForKeypress();
-    Course::courseMainMenu();
+    this->courseChooseMenu();
     return;
   }
   string line;
@@ -547,8 +546,6 @@ void Course::importScoreboard() {
     double otherMark, midtermMark, finalMark, totalMark;
     CSV::readLine(line, no, studentCode, fullName, otherMark, midtermMark,
                   finalMark, totalMark);
-    cout << no << ' ' << studentCode << ' ' << fullName << ' ' << otherMark
-         << ' ' << midtermMark << ' ' << finalMark << ' ' << totalMark << '\n';
     for (const auto& p : this->pStudents) {
       if (p->studentCode == studentCode) {
         auto itCourseMark =
@@ -579,7 +576,7 @@ void Course::exportScoreboard() {
   if (!ofs.is_open()) {
     cout << "Could not open CSV file\n";
     Utils::waitForKeypress();
-    Course::courseMainMenu();
+    this->courseChooseMenu();
     return;
   }
   int no = 0;
