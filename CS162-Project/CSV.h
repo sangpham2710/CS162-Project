@@ -10,9 +10,9 @@ using std::string;
 using std::stringstream;
 
 namespace CSV {
-enum State { Initial, Data, Quote, QuoteInQuote };
+enum class State { Initial, Data, Quote, QuoteInQuote };
 
-enum Error {
+enum class Error {
   Success,
   ImproperQuote,
   UnpairedQuote,

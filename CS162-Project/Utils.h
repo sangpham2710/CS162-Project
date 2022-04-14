@@ -17,7 +17,6 @@ class Utils {
       cout << "Your choice: ";
       cin >> option;
     }
-    cin.ignore();
     return option;
   }
 };

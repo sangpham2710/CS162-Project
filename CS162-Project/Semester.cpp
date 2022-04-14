@@ -49,48 +49,13 @@ void Semester::viewCourse(const string& courseID) {
 #define bug(x) cout << #x << ": " << x << '\n'
 
 void Semester::deleteSemester() {
-  /*this->pSchoolYear->pSemesters.for_each([&](const auto& p) {
-    bug(p->_id);
-    bug(p->semesterName);
-    bug(p->pSchoolYear->yearName);
-  });*/
-  bug(this->_id);
-  bug(this->pSchoolYear->pSemesters.remove_if(
-      [&](const auto& p) -> bool { return p->_id == this->_id; }));
-
-
-  /*this->pSchoolYear->pSemesters.for_each([&](const auto& p) {
-    bug(p->_id);
-    bug(p->semesterName);
-    bug(p->pSchoolYear->yearName);
-  });*/
-  App::pSemesters.for_each([&](const auto& p) {
-    bug(p->_id);
-    bug(p->semesterName);
-    bug(p->pSchoolYear->yearName);
-    cout << '\n';
-  });
-  auto itPDeletingSemester = App::pSemesters.find_if(
+  // need to also delete all the courses associate with this
+  auto itSemester = App::pSemesters.find_if(
       [&](const auto& p) { return p->_id == this->_id; });
-  string tmpSemesterName = this->semesterName;
-  string tmpYearName = this->pSchoolYear->yearName;
-
-
-  delete *itPDeletingSemester;
-
-  App::pSemesters.remove(itPDeletingSemester);
-
-
-  cout << "----------------------------------\n";
-  App::pSemesters.for_each([&](const auto& p) {
-    bug(p->_id);
-    bug(p->semesterName);
-    bug(p->pSchoolYear->yearName);
-    cout << '\n';
-  });
-
-  cout << "Semester " << tmpSemesterName << " in school year " << tmpYearName
-       << "has been deleted\n";
+  cout << "Semester " << this->semesterName << " in school year "
+       << this->pSchoolYear->yearName << "has been deleted\n";
+  delete *itSemester;
+  App::pSemesters.remove(itSemester);
 }
 
 void Semester::updateSemester() {
@@ -99,9 +64,7 @@ void Semester::updateSemester() {
   cout << "1. Change semester name\n";
   cout << "0. Go back\n";
   cout << "--------------------\n";
-  cout << "Input your choice: ";
-  int choice;
-  cin >> choice;
+  int option = Utils::getOption(0, 1);
 
   auto semesterExisted = [&](const List<Semester*>& l,
                              const string& semesterName) -> bool {
@@ -109,7 +72,7 @@ void Semester::updateSemester() {
       return p->semesterName == semesterName;
     }) == this->pSchoolYear->pSemesters.end();
   };
-  switch (choice) {
+  switch (option) {
     case 1: {
       Console::clear();
       cout << "--------------\n";
@@ -278,17 +241,6 @@ void Semester::createSemester() {
     }
   }
   cout << "Wrong school year !\n";
-}
-void Semester::choose(const int& choice, const int& i) {
-  if (choice == i) {
-    Semester::createSemester();
-  } else if (choice < i && choice >= 0) {
-    App::pSemesters[choice]->viewEditSemester();
-  } else if (choice == -1) {
-    Menu::staffMenu();
-  } else {
-    cout << "This Semester does not exist";
-  }
 }
 
 void Semester::viewMainMenu() {

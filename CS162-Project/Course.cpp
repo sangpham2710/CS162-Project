@@ -508,11 +508,11 @@ void Course::viewStudentScoreboard() {
 
   int i = 1;
   cout << "--------------------------------------" << endl;
-  for (auto p : this->pStudents) {
+  for (const auto& p : this->pStudents) {
     cout << i << ". " << p->firstName << " " << p->lastName << "-"
          << p->studentCode << endl;
-    for (auto pCourseMark : p->courseMarks) {
-      if (pCourseMark.pCourse == this) {
+    for (const auto& pCourseMark : p->courseMarks) {
+      if (pCourseMark.pCourse->_id == this->_id) {
         cout << "Midterm: " << pCourseMark.midtermMark << endl;
         cout << "Final: " << pCourseMark.finalMark << endl;
         cout << "Other: " << pCourseMark.otherMark << endl;
