@@ -27,7 +27,9 @@ List<Course*> App::pCourses{};
 List<Class*> App::pClasses{};
 List<Student*> App::pStudents{};
 
-void App::allocate() { Console::setup(); }
+void App::allocate() {
+  // Console::setup();
+}
 
 void App::deallocate() {
   for (const auto& p : App::pUsers) delete p;

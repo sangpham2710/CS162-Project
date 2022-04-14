@@ -530,6 +530,8 @@ void Course::importScoreboard() {
   Console::clear();
   string path;
   cout << "Input CSV file path: ";
+  cin.ignore();
+  getline(cin, path);
   ifstream ifs(path);
   if (!ifs.is_open()) {
     cout << "Could not open CSV file\n";
@@ -547,46 +549,111 @@ void Course::importScoreboard() {
                   finalMark, totalMark);
     cout << no << ' ' << studentCode << ' ' << fullName << ' ' << otherMark
          << ' ' << midtermMark << ' ' << finalMark << ' ' << totalMark << '\n';
-    // for (const auto& p : this->pStudents) {
-    //   if (p->studentCode == studentCode) {
-    //     auto itCourseMark =
-    //         p->courseMarks.find_if([&](const auto& courseMark) -> bool {
-    //           return courseMark.pCourse->_id == this->_id;
-    //         });
-    //     if (itCourseMark != p->courseMarks.end()) {
-    //       itCourseMark->otherMark = otherMark;
-    //       itCourseMark->midtermMark = midtermMark;
-    //       itCourseMark->finalMark = finalMark;
-    //       itCourseMark->totalMark = totalMark;
-    //     }
-    //   }
-    // }
+    for (const auto& p : this->pStudents) {
+      if (p->studentCode == studentCode) {
+        auto itCourseMark =
+            p->courseMarks.find_if([&](const auto& courseMark) -> bool {
+              return courseMark.pCourse->_id == this->_id;
+            });
+        if (itCourseMark == p->courseMarks.end()) continue;
+        itCourseMark->otherMark = otherMark;
+        itCourseMark->midtermMark = midtermMark;
+        itCourseMark->finalMark = finalMark;
+        itCourseMark->totalMark = totalMark;
+      }
+    }
   }
   ifs.close();
   cout << "Imported successfully\n";
+  Utils::waitForKeypress();
+  this->courseChooseMenu();
 }
 
 void Course::exportScoreboard() {
-  cout << "Not implemented\n";
+  Console::clear();
+  string path;
+  cout << "Input CSV file path: ";
+  cin.ignore();
+  getline(cin, path);
+  ofstream ofs(path);
+  if (!ofs.is_open()) {
+    cout << "Could not open CSV file\n";
+    Utils::waitForKeypress();
+    Course::courseMainMenu();
+    return;
+  }
+  int no = 0;
+  string line;
+  line = CSV::writeLine("No", "Student ID", "Full Name", "Other Mark",
+                        "Midterm Mark", "Final Mark", "Total Mark");
+  ofs << line << '\n';
+  for (const auto& p : this->pStudents) {
+    auto itCourseMark =
+        p->courseMarks.find_if([&](const auto& courseMark) -> bool {
+          return courseMark.pCourse->_id == this->_id;
+        });
+    line =
+        CSV::writeLine(++no, p->studentCode, p->lastName + " " + p->firstName,
+                       itCourseMark->otherMark, itCourseMark->midtermMark,
+                       itCourseMark->finalMark, itCourseMark->totalMark);
+    ofs << line << '\n';
+  }
+  ofs.close();
+  cout << "Exported successfully\n";
+  Utils::waitForKeypress();
+  this->courseChooseMenu();
 }
 
 void Course::importStudents() {
   Console::clear();
   string path;
   cout << "Input CSV file path: ";
+  cin.ignore();
+  getline(cin, path);
   ifstream ifs(path);
   if (!ifs.is_open()) {
     cout << "Could not open CSV file\n";
     Utils::waitForKeypress();
-    Course::courseMainMenu();
+    this->courseChooseMenu();
     return;
   }
   string line;
-  getline(cin, line);
-
+  getline(ifs, line);
+  while (getline(ifs, line)) {
+    int no;
+    string studentCode, fullName;
+    CSV::readLine(line, no, studentCode, fullName);
+  }
   ifs.close();
   cout << "Imported successfully\n";
+  Utils::waitForKeypress();
+  this->courseChooseMenu();
 }
 
 void Course::exportStudents() {
+  Console::clear();
+  string path;
+  cout << "Input CSV file path: ";
+  cin.ignore();
+  getline(cin, path);
+  ofstream ofs(path);
+  if (!ofs.is_open()) {
+    cout << "Could not open CSV file\n";
+    Utils::waitForKeypress();
+    this->courseChooseMenu();
+    return;
+  }
+  string line;
+  line = CSV::writeLine("No", "Student ID", "Full Name");
+  ofs << line << '\n';
+  int no = 0;
+  for (const auto& p : this->pStudents) {
+    line =
+        CSV::writeLine(++no, p->studentCode, p->lastName + " " + p->firstName);
+    ofs << line << '\n';
+  }
+  ofs.close();
+  cout << "Exported successfully\n";
+  Utils::waitForKeypress();
+  this->courseChooseMenu();
 }

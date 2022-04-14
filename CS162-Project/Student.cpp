@@ -11,8 +11,8 @@ std::istream& operator>>(std::istream& stream, Student& student) {
   stream >> student._id;
   stream.ignore();
   getline(stream, student.studentCode);
-  getline(stream, student.firstName);
   getline(stream, student.lastName);
+  getline(stream, student.firstName);
   getline(stream, student.gender);
   getline(stream, student.dateOfBirth);
   getline(stream, student.socialID);
@@ -38,8 +38,8 @@ std::istream& operator>>(std::istream& stream, Student& student) {
 std::ostream& operator<<(std::ostream& stream, const Student& student) {
   stream << student._id << '\n';
   stream << student.studentCode << '\n';
-  stream << student.firstName << '\n';
   stream << student.lastName << '\n';
+  stream << student.firstName << '\n';
   stream << student.gender << '\n';
   stream << student.dateOfBirth << '\n';
   stream << student.socialID << '\n';

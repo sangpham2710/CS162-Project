@@ -5,7 +5,7 @@ class Utils {
  public:
   static void waitForKeypress() {
     cout << "Press any key to continue\n";
-    cin.ignore();
+    // cin.ignore();
     cin.get();
   }
   static int getOption(int minOption, int maxOption) {
