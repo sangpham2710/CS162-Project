@@ -620,6 +620,10 @@ void Course::importStudents() {
     int no;
     string studentCode, fullName;
     CSV::readLine(line, no, studentCode, fullName);
+    auto itStudent = App::pStudents.find_if(
+        [&](const auto& p) -> bool { return p->studentCode == studentCode; });
+    if (itStudent != App::pStudents.end())
+      this->pStudents.push_back(*itStudent);
   }
   ifs.close();
   cout << "Imported successfully\n";

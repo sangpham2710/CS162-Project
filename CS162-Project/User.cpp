@@ -4,6 +4,8 @@
 
 #include "App.h"
 #include "List.h"
+#include "Menu.h"
+#include "Utils.h"
 
 using std::cin;
 using std::cout;
@@ -38,19 +40,29 @@ std::ostream& operator<<(std::ostream& stream, const User& user) {
 
 void User::login() {
   List<User*>::iterator it;
-  while (true) {
-    cout << "Username: ";
-    string username;
-    cin >> username;
-    cout << "Password: ";
-    string password;
-    cin >> password;
-    it = App::pUsers.find_if([&](User* const& user) {
-      return username == user->username && password == user->password;
-    });
-    if (it != App::pUsers.end()) break;
+  cout << "Username: ";
+  string username;
+  cin >> username;
+  cout << "Password: ";
+  string password;
+  cin >> password;
+  it = App::pUsers.find_if([&](User* const& user) {
+    return username == user->username && password == user->password;
+  });
+  if (it == App::pUsers.end()) {
     cout << "Incorrect username or password!\n";
+    Utils::waitForKeypress();
+    Menu::welcome();
+    return;
   }
   App::pCurrentUser = *it;
   cout << "Successfully logged in\n";
+  if (App::pCurrentUser->userType == User::Type::ACADEMIC_STAFF) {
+    Menu::staffMenu();
+    return;
+  }
+  if (App::pCurrentUser->userType == User::Type::STUDENT) {
+    Menu::studentMenu();
+    return;
+  }
 }

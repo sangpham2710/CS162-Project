@@ -43,23 +43,23 @@ class Course {
   friend std::istream& operator>>(std::istream& stream, Course& course);
   friend std::ostream& operator<<(std::ostream& stream, const Course& course);
 
-  static void createCourse();    // done
-  static void courseMainMenu();  // done
+  static void createCourse();
+  static void courseMainMenu();
 
-  void updateCourseInfo();       // done
-  void viewStudentScoreboard();  // done
+  void updateCourseInfo();
+  void viewStudentScoreboard();
 
   void importScoreboard();
   void exportScoreboard();
   void importStudents();
   void exportStudents();
 
-  void addStudent();               // done
-  void removeStudent();            // done
-  void updateStudentScoreBoard();  // done
+  void addStudent();
+  void removeStudent();
+  void updateStudentScoreBoard();
   void deleteCourse();
 
-  void courseChooseMenu();         // done
-  void courseUpdateMenu();         // done
-  void courseUpdateStudentMenu();  // done
+  void courseChooseMenu();
+  void courseUpdateMenu();
+  void courseUpdateStudentMenu();
 };

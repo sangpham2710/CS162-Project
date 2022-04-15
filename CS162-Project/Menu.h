@@ -4,4 +4,6 @@ class Menu {
  public:
   static void staffMenu();
   static void studentMenu();
+  static void welcome();
+  static void exit();
 };

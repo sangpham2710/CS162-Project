@@ -11,56 +11,46 @@ using std::stringstream;
 
 class CSV {
  public:
-  enum class State { Initial, Data, Quote, QuoteInQuote };
-
-  enum class Error {
-    Success,
-    ImproperQuote,
-    UnpairedQuote,
-    UnclosedQuote,
-    InsufficientColumns,
-  };
-
-  static Error _readLine(const string &line, List<string> &values) {
+  static int _readLine(const string &line, List<string> &values) {
     string value = "";
-    auto state = State::Initial;
+    int state = 0;
 
     for (const char &c : line) {
       switch (state) {
-        case State::Initial: {
+        case 0: {
           switch (c) {
             case ',':
               values.push_back("");
               break;
             case '"':
-              state = State::Quote;
+              state = 2;
               break;
             default:
               value += c;
-              state = State::Data;
+              state = 1;
               break;
           }
           break;
         }
-        case State::Data: {
+        case 1: {
           switch (c) {
             case ',':
               values.push_back(value);
               value = "";
-              state = State::Initial;
+              state = 0;
               break;
             case '"':
-              return Error::ImproperQuote;
+              return 1;
             default:
               value += c;
               break;
           }
           break;
         }
-        case State::Quote: {
+        case 2: {
           switch (c) {
             case '"':
-              state = State::QuoteInQuote;
+              state = 3;
               break;
             default:
               value += c;
@@ -68,19 +58,19 @@ class CSV {
           }
           break;
         }
-        case State::QuoteInQuote: {
+        case 3: {
           switch (c) {
             case ',':
               values.push_back(value);
               value = "";
-              state = State::Initial;
+              state = 0;
               break;
             case '"':
               value += c;
-              state = State::Quote;
+              state = 2;
               break;
             default:
-              return Error::UnpairedQuote;
+              return 2;
           }
           break;
         }
@@ -88,16 +78,16 @@ class CSV {
     }
 
     switch (state) {
-      case State::Initial:
-      case State::Data:
-      case State::QuoteInQuote:
+      case 0:
+      case 1:
+      case 3:
         values.push_back(value);
         break;
-      case State::Quote:
-        return Error::UnpairedQuote;
+      case 2:
+        return 2;
     }
 
-    return Error::Success;
+    return 0;
   }
   static string _writeLine(const List<string> &values) {
     string line = "";
@@ -138,8 +128,8 @@ class CSV {
   }
 
   template <class... Ts>
-  static Error readLine(const string &line, Ts &...args) {
-    auto res = Error::Success;
+  static int readLine(const string &line, Ts &...args) {
+    auto res = 0;
 
     List<string> values;
     _readLine(line, values);
@@ -147,7 +137,7 @@ class CSV {
     int index = 0;
     auto fn = [&](auto &v) {
       if (index == values.size()) {
-        res = Error::InsufficientColumns;
+        res = 3;
         return;
       }
       if constexpr (std::is_same_v<decltype(v), string &>) {
@@ -175,4 +165,4 @@ class CSV {
 
     return _writeLine(values);
   }
-};  // namespace CSV
+};

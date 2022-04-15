@@ -57,10 +57,50 @@ void Class::updateClass() {
       return;
     }
     case 2: {
-      // addStudent()
+      this->addStudent();
       break;
     }
   }
+}
+
+void Class::addStudent() {
+  string studentCode, firstName, lastName, gender, dateOfBirth, socialID,
+      classCode;
+  cin.ignore();
+  cout << "Input student ID: ";
+  getline(cin, studentCode);
+  cout << "Input first name: ";
+  getline(cin, firstName);
+  cout << "Input last name: ";
+  getline(cin, lastName);
+  cout << "Input gender (Male/Female): ";
+  getline(cin, gender);
+  cout << "Input date of birth: ";
+  getline(cin, dateOfBirth);
+  cout << "Input social ID: ";
+  getline(cin, socialID);
+  Student* pStudent = new Student();
+  User* pUser = new User();
+  pStudent->studentCode = studentCode;
+  pStudent->firstName = firstName;
+  pStudent->lastName = lastName;
+  pStudent->gender = gender;
+  pStudent->dateOfBirth = dateOfBirth;
+  pStudent->socialID = socialID;
+  pStudent->pClass = this;
+  pStudent->pUser = pUser;
+
+  pUser->username = studentCode;
+  pUser->password = "123456";
+  pUser->userType = User::Type::STUDENT;
+  pUser->pStudent = pStudent;
+
+  this->pStudents.push_back(pStudent);
+  App::pStudents.push_back(pStudent);
+  App::pUsers.push_back(pUser);
+  cout << "Successfully added student\n";
+  Utils::waitForKeypress();
+  this->updateClass();
 }
 
 void Class::deleteClass() {
@@ -126,7 +166,7 @@ void Class::classChooseMenu() {
   cout << "2. Delete class" << '\n';
   cout << "3. View list students" << '\n';
   cout << "4. View scoreboard" << '\n';
-  cout << "5. Import list students to class" << '\n';
+  cout << "5. Import list new students to class" << '\n';
   cout << "6. Export scoreboard of students" << '\n';
   cout << "7. Export list students in class" << '\n';
   cout << "0. Go back" << '\n';

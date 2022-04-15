@@ -170,7 +170,7 @@ void SchoolYear::create() {
       cout << "Your choice: ";
       cin >> option1;
     }
-    viewMainMenu();
+    SchoolYear::viewMainMenu();
     return;
   }
   for (auto sy : App::pSchoolYears) {
@@ -185,7 +185,7 @@ void SchoolYear::create() {
         cout << "Your choice: ";
         cin >> option1;
       }
-      viewMainMenu();
+      SchoolYear::viewMainMenu();
       return;
     }
   }
@@ -216,7 +216,7 @@ void SchoolYear::create() {
     cout << "Your choice: ";
     cin >> option1;
   }
-  viewMainMenu();
+  SchoolYear::viewMainMenu();
   return;
 }
 

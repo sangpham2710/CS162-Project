@@ -10,7 +10,6 @@
 
 using std::cin;
 using std::cout;
-using std::endl;
 using std::string;
 
 class Student;
@@ -27,12 +26,13 @@ class Class {
   friend std::istream& operator>>(std::istream& stream, Class& _class);
   friend std::ostream& operator<<(std::ostream& stream, const Class& _class);
 
-  static void viewMainMenu();  // done
-  static void createClass();   // done
-  void classChooseMenu();      // done
-  void updateClass();          // done
-  void deleteClass();          // done
-  void viewStudents();         // done
+  static void viewMainMenu();
+  static void createClass();
+  void classChooseMenu();
+  void addStudent();
+  void updateClass();
+  void deleteClass();
+  void viewStudents();
   void viewScoreboard();
   void exportScoreboard();
   void exportStudents();

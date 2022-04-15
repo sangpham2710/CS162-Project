@@ -120,15 +120,7 @@ void App::saveData() {
 
 void App::main() {
   Console::clear();
-  User::login();
-  if (App::pCurrentUser->userType == User::Type::ACADEMIC_STAFF) {
-    Menu::staffMenu();
-    return;
-  }
-  if (App::pCurrentUser->userType == User::Type::STUDENT) {
-    Menu::studentMenu();
-    return;
-  }
+  Menu::welcome();
 }
 
 void App::run() {

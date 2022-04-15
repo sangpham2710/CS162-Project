@@ -5,6 +5,7 @@
 #include "App.h"
 #include "Class.h"
 #include "Console.h"
+#include "Utils.h"
 
 using std::cin;
 using std::cout;
@@ -76,4 +77,25 @@ void Menu::studentMenu() {
   cout << "3. Enroll in a course\n";
   cout << "4. View/Unenroll courses\n";
   cout << "5. View scoreboard\n";
+}
+
+void Menu::welcome() {
+  cout << "1. Login\n";
+  cout << "2. Exit\n";
+  int option = Utils::getOption(1, 2);
+  if (option == 1)
+    User::login();
+  else
+    Menu::exit();
+}
+
+void Menu::exit() {
+  cout << "Are you sure you want to exit the program?\n";
+  cout << "1. Yes\n";
+  cout << "2. No\n";
+  int option = Utils::getOption(1, 2);
+  if (option == 2) {
+    Menu::welcome();
+    return;
+  }
 }
