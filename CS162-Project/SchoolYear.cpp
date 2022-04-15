@@ -37,40 +37,6 @@ std::ostream& operator<<(std::ostream& stream, const SchoolYear& schoolYear) {
   return stream;
 }
 
-void SchoolYear::choose(SchoolYear* pSchoolYear, short screen, short option) {
-  if (screen == 1) {  // viewMainMenu
-    if (option >= 1 && option <= App::pSchoolYears.size()) {
-      App::pSchoolYears[option - 1]->schoolYearChooseMenu();
-      return;
-    }
-    if (option == App::pSchoolYears.size() + 1) {
-      create();
-      return;
-    } else {
-      Menu::staffMenu();
-      return;
-    }
-  }
-  if (screen == 2) {  // schoolYearChooseMenu
-    switch (option) {
-      case 0: {
-        viewMainMenu();
-        break;
-      }
-      case 1: {
-        // update school year
-        pSchoolYear->schoolYearUpdate();
-        break;
-      }
-      case 2: {
-        // delete school year
-        pSchoolYear->schoolYearDelete();
-        break;
-      }
-    }
-  }
-}
-
 void SchoolYear::viewSchoolYearSemesterMenu() {
   Console::clear();
 
@@ -91,16 +57,8 @@ void SchoolYear::viewSchoolYearSemesterMenu() {
     }
     case 2: {
       Semester::viewMainMenu();
+      return;
     }
-  }
-  if (option == 0) {
-    return;
-  }
-  if (option == 1) {
-    SchoolYear::viewMainMenu();
-    return;
-  }
-  if (option == 2) {
   }
 }
 
@@ -120,14 +78,18 @@ void SchoolYear::viewMainMenu() {
        << "Return \n \n";
   cout << "Your choice: ";
 
-  short option;
-  cin >> option;
-  while (option < 0 || option > i) {
-    cout << "\nInvalid!\n";
-    cout << "Your choice: ";
-    cin >> option;
+
+  int option = Utils::getOption(0, i);
+  if (option == i) {
+    SchoolYear::createSchoolYear();
+    return;
+  } else if (option == 0) {
+    Menu::staffMenu();
+    return;
+  } else {
+    App::pSchoolYears[option - 1]->schoolYearChooseMenu();
+    return;
   }
-  choose(NULL, 1, option);
 }
 
 void SchoolYear::schoolYearChooseMenu() {
@@ -139,27 +101,33 @@ void SchoolYear::schoolYearChooseMenu() {
   cout << "---------------------------------------\n";
   cout << "0. Return\n";
 
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option < 0 || option > 2) {
-    cout << "\nInvalid!\n";
-    cout << "Your choice: ";
-    cin >> option;
+  int option = Utils::getOption(0, 2);
+  switch (option) {
+    case 0: {
+      SchoolYear::viewMainMenu();
+      return;
+    }
+    case 1: {
+      // update school year
+      this->schoolYearUpdate();
+      return;
+    }
+    case 2: {
+      // delete school year
+      this->schoolYearDelete();
+      return;
+    }
   }
-
-  choose(this, 2, option);
-  return;
 }
 
-void SchoolYear::create() {
+void SchoolYear::createSchoolYear() {
   Console::clear();
 
-  string schoolYearName;
+  string yearName;
   cout << "School year (Ex:2022-2023): ";
   cin.ignore();
-  getline(cin, schoolYearName);
-  if (schoolYearName.length() != 9 || schoolYearName[4] != '-') {
+  getline(cin, yearName);
+  if (yearName.length() != 9 || yearName[4] != '-') {
     cout << "Invalid\n";
     cout << "\n0. Return\n";
     cout << "Your choice: ";
@@ -174,8 +142,8 @@ void SchoolYear::create() {
     return;
   }
   for (auto sy : App::pSchoolYears) {
-    if (sy->yearName == schoolYearName) {
-      cout << "school year " << schoolYearName << "already exists!";
+    if (sy->yearName == yearName) {
+      cout << "school year " << yearName << "already exists!";
       cout << "\n0. Return\n";
       cout << "Your choice: ";
       short option1;
@@ -191,14 +159,14 @@ void SchoolYear::create() {
   }
 
   string semesterName;
-  cout << "Input first semester in " << schoolYearName << ": ";
+  cout << "Input first semester in " << yearName << ": ";
   cin.ignore();
   getline(cin, semesterName);
   Semester* sem = new Semester();
   sem->semesterName = semesterName;
 
   SchoolYear* sy = new SchoolYear();
-  sy->yearName = schoolYearName;
+  sy->yearName = yearName;
 
   sem->pSchoolYear = sy;
   App::pSchoolYears.push_back(sy);
@@ -206,16 +174,8 @@ void SchoolYear::create() {
   App::pCurrentSemester = sem;
   App::pRecentSemester = sem;
 
-  cout << "Create school year " << schoolYearName << " successfully!";
-  cout << "\n0. Return\n";
-  cout << "Your choice: ";
-  short option1;
-  cin >> option1;
-  while (option1 != 0) {
-    cout << "\nInvalid!";
-    cout << "Your choice: ";
-    cin >> option1;
-  }
+  cout << "Create school year " << yearName << " successfully!";
+  Utils::waitForKeypress();
   SchoolYear::viewMainMenu();
   return;
 }
@@ -226,69 +186,52 @@ void SchoolYear::schoolYearDelete() {
   cout << "Are you sure you want to permanently delete this school year?\n";
   cout << "1. Yes\n";
   cout << "2. No\n \n";
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option < 1 || option > 2) {
-    cout << "Invalid! \n";
-    cout << "Your choice: ";
-    cin >> option;
-  }
+
+  int option = Utils::getOption(1, 2);
   if (option == 2) {
     this->schoolYearChooseMenu();
     return;
   }
-  if (option == 1) {
-    if (App::pCurrentSemester->pSchoolYear->_id == this->_id)
-      App::pCurrentSemester = NULL;
-    if (App::pRecentSemester->pSchoolYear->_id == this->_id)
-      App::pRecentSemester = NULL;
-    App::pSemesters.remove_if([&](const auto& p) -> bool {
-      return p->pSchoolYear->_id == this->_id;
-    });
-    App::pSchoolYears.remove_if(
-        [&](const auto& p) -> bool { return p->_id == this->_id; });
-    // DEALLOCATE CURRENT SCHOOL YEAR AFTER BEING DELETED
-    cout << "\nDelete school year successfully!\n";
 
-    cout << "\n0. Return\n";
-    cout << "Your choice: ";
-    short option1;
-    cin >> option1;
-    while (option1 != 0) {
-      cout << "\nInvalid!";
-      cout << "Your choice: ";
-      cin >> option1;
-    }
-    viewMainMenu();
-    return;
-  }
+
+  if (App::pCurrentSemester->pSchoolYear->_id == this->_id)
+    App::pCurrentSemester = nullptr;
+  if (App::pRecentSemester->pSchoolYear->_id == this->_id)
+    App::pRecentSemester = nullptr;
+  App::pSemesters.remove_if(
+      [&](const auto& p) -> bool { return p->pSchoolYear->_id == this->_id; });
+  App::pSchoolYears.remove_if(
+      [&](const auto& p) -> bool { return p->_id == this->_id; });
+  // DEALLOCATE CURRENT SCHOOL YEAR AFTER BEING DELETED
+  cout << "\nDelete school year successfully!\n";
+  Utils::waitForKeypress();
+  SchoolYear::viewMainMenu();
 }
 
 void SchoolYear::schoolYearUpdate() {
   Console::clear();
+  cout << "1. Year name: " << this->yearName << '\n';
+  cout << "0. Return\n";
+  cout << "Which one do you want to update? \n";
+  int option = Utils::getOption(0, 1);
+  if (option == 0) {
+    this->schoolYearChooseMenu();
+    return;
+  }
 
   cout << "Input new school year name: ";
-  string schoolYearName;
+  string yearName;
   cin.ignore();
-  getline(cin, schoolYearName);
+  getline(cin, yearName);
   auto it = App::pSchoolYears.find_if(
-      [&](const auto& p) -> bool { return p->yearName == schoolYearName; });
+      [&](const auto& p) -> bool { return p->yearName == yearName; });
   if (it == App::pSchoolYears.end()) {
-    this->yearName = schoolYearName;
-    cout << "\nCreate successfully! ";
+    this->yearName = yearName;
+    cout << "\nUpdated successfully! ";
   } else {
     cout << "\nThis school year already exists! ";
   }
-  cout << "\n0. Return\n";
-  cout << "Your choice: ";
-  short option1;
-  cin >> option1;
-  while (option1 != 0) {
-    cout << "\nInvalid!";
-    cout << "Your choice: ";
-    cin >> option1;
-  }
+  Utils::waitForKeypress();
   this->schoolYearChooseMenu();
   return;
 }

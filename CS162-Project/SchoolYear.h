@@ -25,11 +25,10 @@ class SchoolYear {
                                   const SchoolYear& schoolYear);
 
   static void viewSchoolYearSemesterMenu();
-  static void choose(SchoolYear* pSchoolYear, short screen, short option);
   static void viewMainMenu();
-  static void create();
+  static void createSchoolYear();  // need fix
 
   void schoolYearChooseMenu();
   void schoolYearUpdate();
-  void schoolYearDelete();
+  void schoolYearDelete();  // need fix
 };
