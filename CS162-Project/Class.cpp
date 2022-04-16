@@ -69,6 +69,15 @@ void Class::addStudent() {
   cin.ignore();
   cout << "Input student ID: ";
   getline(cin, studentCode);
+  auto itStudent = App::pStudents.find_if(
+      [&](const auto& p) -> bool { return p->studentCode == studentCode; });
+  if (itStudent != App::pStudents.end()) {
+      (*itStudent)->pClass = this;
+      cout << "Successfully added student\n";     
+      Utils::waitForKeypress();
+      this->updateClass();
+      return;
+  }
   cout << "Input first name: ";
   getline(cin, firstName);
   cout << "Input last name: ";
