@@ -143,7 +143,69 @@ void Semester::viewEditSemester() {
 }
 
 void Semester::createSemester() {
-  
+    Console::clear();
+
+    cout << "-----------------------\n";
+    int i = 1;
+    for (const auto& p : App::pSchoolYears) {
+        cout << i << ". " << p->yearName << endl;
+        ++i;
+    }
+    cout << "0. Go back\n";
+    cout << "-----------------------\n";
+    int option = Utils::getOption(0, i - 1);
+    if (option == 0) {
+        Semester::viewMainMenu();
+        return;
+    }
+    else {
+        Console::clear();
+
+        List <Semester*> sem;
+        for (const auto& p : App::pSchoolYears[option - 1]->pSemesters) {
+            sem.push_back(p);
+        }
+        if (sem.empty()) cout << App::pSchoolYears[option - 1]->yearName;
+        else cout << App::pSchoolYears[option - 1]->yearName << "(";
+        for (int i = 0; i < sem.length(); ++i) {
+            if (i == sem.length() - 1) {
+                cout << sem[i]->semesterName << ")";
+            }
+            else cout << sem[i]->semesterName << "-";
+        }
+        cout << "\n-----------------------\n";
+        List <string> tmp = { "Autumn", "Spring", "Summer" };
+        if (sem.length() != 3) {
+            for (int i = 0; i < 3; ++i) {
+                for (int j = 0; j < sem.length(); ++j) {
+                    if (tmp[i] == sem[j]->semesterName) tmp.remove(tmp[i]);
+                }
+            }
+            int i = 0;
+            for (; i < tmp.length(); ++i) {
+                cout << i + 1 << ". " << tmp[i] << endl;
+            }
+        }
+        cout << "0. Go back\n";
+        cout << "-----------------------\n";
+        int option1 = Utils::getOption(0, i);
+        if (option1 == 0) {
+            Semester::viewMainMenu();
+            return;
+        }
+        else {
+            Semester* semester = new Semester();
+            semester->semesterName = tmp[option1 - 1];
+            semester->pSchoolYear = App::pSchoolYears[option - 1];
+            App::pSchoolYears[option - 1]->pSemesters.push_back(semester);
+            App::pSemesters.push_back(semester);
+
+            cout << "The semester has been created successfully!\n";
+            Utils::waitForKeypress();
+            Semester::viewMainMenu();
+            return;
+        }
+    }
 }
 
 void Semester::viewMainMenu() {
