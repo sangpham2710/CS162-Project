@@ -48,14 +48,24 @@ void Semester::viewCourse(const string& courseID) {
 
 #define bug(x) cout << #x << ": " << x << '\n'
 
-void Semester::deleteSemester() {
-  // need to also delete all the courses associate with this
-  auto itSemester = App::pSemesters.find_if(
-      [&](const auto& p) { return p->_id == this->_id; });
+void Semester::deleteSemesterScene() {
   cout << "Semester " << this->semesterName << " in school year "
        << this->pSchoolYear->yearName << "has been deleted\n";
-  delete *itSemester;
-  App::pSemesters.remove(itSemester);
+  this->deleteSemester();
+  Utils::waitForKeypress();
+  Semester::viewMainMenu();
+}
+
+void Semester::deleteSemester() {
+    for (const auto& p : this->pCourses) {
+        p->deleteCourse();
+    }
+    auto it = this->pSchoolYear->pSemesters.remove_if(
+        [&](const auto& p) { return p->_id == this->_id; });
+    auto itSemester = App::pSemesters.find_if(
+        [&](const auto& p) { return p->_id == this->_id; });
+    delete* itSemester;
+    App::pSemesters.remove(itSemester);
 }
 
 void Semester::updateSemester() {

@@ -29,6 +29,7 @@ class Semester {
   static void createSemester();
   void viewEditSemester();
   void updateSemester();
+  void deleteSemesterScene();
   void deleteSemester();
 
   static void changeDefaultSemester();
