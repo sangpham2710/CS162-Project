@@ -150,11 +150,34 @@ void Semester::viewEditSemester() {
 void Semester::createSemester() {
     Console::clear();
 
-    cout << "-----------------------\n";
+    List <Semester*> sem;
+    for (const auto& p : App::pCurrentSemester->pSchoolYear->pSemesters) {
+        sem.push_back(p);
+    }
+    if (sem.empty()) cout << App::pCurrentSemester->pSchoolYear->yearName;
+    else cout << App::pCurrentSemester->pSchoolYear->yearName << "(";
+    for (int i = 0; i < sem.length(); ++i) {
+        if (i == sem.length() - 1) {
+            cout << sem[i]->semesterName << ")";
+        }
+        else cout << sem[i]->semesterName << "-";
+    }
+    cout << "\n-----------------------\n";
+    List <string> tmp = { "Autumn", "Spring", "Summer" };
     int i = 1;
-    for (const auto& p : App::pSchoolYears) {
-        cout << i << ". " << p->yearName << endl;
-        ++i;
+    bool check = false;
+    for (const auto& p : tmp) {
+        check = false;
+        for (int j = 0; j < sem.length(); ++j) {
+            if (p == sem[j]->semesterName) {
+                check = true;
+                break;
+            }
+        }
+        if (!check) {
+            cout << i << ". " << p << endl;
+            ++i;
+        }
     }
     cout << "0. Go back\n";
     cout << "-----------------------\n";
@@ -164,64 +187,25 @@ void Semester::createSemester() {
         return;
     }
     else {
-        Console::clear();
+        Semester* semester = new Semester();
+        semester->semesterName = tmp[option - 1];
+        semester->pSchoolYear = App::pCurrentSemester->pSchoolYear;
+        App::pCurrentSemester->pSchoolYear->pSemesters.push_back(semester);
+        App::pSemesters.push_back(semester);
 
-        List <Semester*> sem;
-        for (const auto& p : App::pSchoolYears[option - 1]->pSemesters) {
-            sem.push_back(p);
-        }
-        if (sem.empty()) cout << App::pSchoolYears[option - 1]->yearName;
-        else cout << App::pSchoolYears[option - 1]->yearName << "(";
-        for (int i = 0; i < sem.length(); ++i) {
-            if (i == sem.length() - 1) {
-                cout << sem[i]->semesterName << ")";
-            }
-            else cout << sem[i]->semesterName << "-";
-        }
-        cout << "\n-----------------------\n";
-        List <string> tmp = { "Autumn", "Spring", "Summer" };
-        int i = 1;
-        bool check = false;
-        for (const auto& p : tmp) {
-            check = false;
-            for (int j = 0; j < sem.length(); ++j) {
-                if (p == sem[j]->semesterName) {
-                    check = true;
-                    break;
-                }
-            }
-            if (!check) {
-                cout << i << ". " << p << endl;
-                ++i;
-            }
-        }
-        cout << "0. Go back\n";
-        cout << "-----------------------\n";
-        int option1 = Utils::getOption(0, i - 1);
-        if (option1 == 0) {
-            Semester::viewMainMenu();
-            return;
-        }
-        else {
-            Semester* semester = new Semester();
-            semester->semesterName = tmp[option1 - 1];
-            semester->pSchoolYear = App::pSchoolYears[option - 1];
-            App::pSchoolYears[option - 1]->pSemesters.push_back(semester);
-            App::pSemesters.push_back(semester);
-
-            cout << "The semester has been created successfully!\n";
-            Utils::waitForKeypress();
-            Semester::viewMainMenu();
-            return;
-        }
+        cout << "The semester has been created successfully!\n";
+        Utils::waitForKeypress();
+        Semester::viewMainMenu();
+        return;
     }
+
 }
 
 void Semester::viewMainMenu() {
   Console::clear();
   cout << "----------------------\n";
   int i = 1;
-  for (const auto& p : App::pSemesters) {
+  for (const auto& p : App::pCurrentSemester->pSchoolYear->pSemesters) {
     cout << i << ". " << p->pSchoolYear->yearName << ": ";
     cout << p->semesterName << endl;
     ++i;
@@ -235,7 +219,7 @@ void Semester::viewMainMenu() {
     Semester::createSemester();
     return;
   } else if (1 <= option && option < i) {
-    App::pSemesters[option - 1]->viewEditSemester();
+    App::pCurrentSemester->pSchoolYear->pSemesters[option - 1]->viewEditSemester();
     return;
   } else {
     Menu::staffMenu();
