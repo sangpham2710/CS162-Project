@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "App.h"
+#include "Console.h"
 #include "List.h"
 #include "Menu.h"
 #include "Utils.h"
@@ -39,6 +40,7 @@ std::ostream& operator<<(std::ostream& stream, const User& user) {
 }
 
 void User::login() {
+  Console::clear();
   List<User*>::iterator it;
   cout << "Username: ";
   string username;
@@ -64,5 +66,35 @@ void User::login() {
   if (App::pCurrentUser->userType == User::Type::STUDENT) {
     Menu::studentMenu();
     return;
+  }
+}
+
+void User::changePassword() {
+  Console::clear();
+  string tmpPass;
+  cout << "-------------------------\n";
+  cout << "Input current password: ";
+  cin.ignore();
+  getline(cin, tmpPass);
+  if (tmpPass == this->password) {
+    cout << "-------------------------\n";
+    cout << "Input new password: ";
+    getline(cin, this->password);
+    cout << "-------------------------\n";
+    cout << "Successfully changed information\n";
+    App::pCurrentUser = nullptr;
+    Utils::waitForKeypress();
+    User::login();
+  } else {
+    cout << "Wrong password!\n";
+    Utils::waitForKeypress();
+    if (this->userType == User::Type::ACADEMIC_STAFF) {
+      Menu::staffMenu();
+      return;
+    }
+    if (this->userType == User::Type::STUDENT) {
+      Menu::studentMenu();
+      return;
+    }
   }
 }

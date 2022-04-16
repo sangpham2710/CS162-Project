@@ -29,4 +29,5 @@ class User {
   friend std::istream& operator>>(std::istream& stream, User& user);
   friend std::ostream& operator<<(std::ostream& stream, const User& user);
   static void login();
+  void changePassword();
 };

@@ -3,6 +3,9 @@
 #include <iostream>
 
 #include "App.h"
+#include "Console.h"
+#include "Menu.h"
+#include "Utils.h"
 
 using std::cout;
 
@@ -76,4 +79,82 @@ double Student::getOverallGPA() {
                return sum + mark;
              }) /
          (double)this->courseMarks.size();
+}
+
+void Student::updateStudentInfo() {
+  Console::clear();
+  cout << "----------------------------------------\n";
+  cout << "1. Student last name: " << this->lastName << "\n";
+  cout << "2. Student first name: " << this->firstName << "\n";
+  cout << "3. Gender: " << this->gender << "\n";
+  cout << "4. Day of birth: " << this->dateOfBirth << "\n";
+  cout << "5. Social ID: " << this->socialID << "\n";
+  cout << "----------------------------------------\n";
+  cout << "0. Return\n";
+  cout << "Which one do you want to update?\n";
+  int option = Utils::getOption(0, 5);
+  switch (option) {
+    case 0: {
+      Menu::studentMenu();
+      return;
+    }
+
+
+    case 1: {
+      cout << "-------------------\n";
+      cout << "New last name: ";
+      cin.ignore();
+      getline(cin, this->lastName);
+      break;
+    }
+    case 2: {
+      cout << "-------------------\n";
+      cout << "New first name: ";
+      cin.ignore();
+      getline(cin, this->firstName);
+      break;
+    }
+    case 3: {
+      cout << "-------------------\n";
+      cout << "New gender: ";
+      cin.ignore();
+      getline(cin, this->gender);
+      break;
+    }
+    case 4: {
+      cout << "-------------------\n";
+      cout << "New day of birth: ";
+      cin.ignore();
+      getline(cin, this->dateOfBirth);
+      break;
+    }
+    case 5: {
+      cout << "-------------------\n";
+      cout << "New social ID: ";
+      cin.ignore();
+      getline(cin, this->socialID);
+      break;
+    }
+  }
+  cout << "\nSuccessfully changed information!\n";
+
+  Utils::waitForKeypress();
+  Menu::studentMenu();
+}
+
+void Student::viewStudentScoreboard() {
+  Console::clear();
+  cout << "Student code: " << this->studentCode << "\n";
+  cout << "Student name: " << this->lastName << " " << this->firstName << "\n";
+  cout << "-----------------------\n";
+  for (auto p : this->courseMarks) {
+    cout << p.pCourse->courseCode << "-" << p.pCourse->courseName << "\n";
+    cout << "Midterm: " << p.midtermMark << "\n";
+    cout << "Final: " << p.finalMark << "\n";
+    cout << "Other: " << p.otherMark << "\n";
+    cout << "Total: " << p.totalMark << "\n";
+    cout << "------------------------------------\n";
+  }
+  Utils::waitForKeypress();
+  Menu::studentMenu();
 }

@@ -13,7 +13,6 @@ using std::cout;
 using std::string;
 
 class Student;
-
 class Class {
  public:
   string _id;
