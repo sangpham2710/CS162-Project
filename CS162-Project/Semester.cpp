@@ -80,9 +80,7 @@ void Semester::updateSemester() {
       cout << "2. Spring\n";
       cout << "3. Summer\n";
       cout << "--------------\n";
-      cout << "Input your choice: ";
-      int choiceName;
-      cin >> choiceName;
+      int choiceName = Utils::getOption(1, 3);
       switch (choiceName) {
         case 1:  // Fall
           if (semesterExisted(this->pSchoolYear->pSemesters, "Fall")) {
@@ -112,8 +110,6 @@ void Semester::updateSemester() {
     case 0:
       this->viewEditSemester();
       break;
-    default:
-      break;
   }
 }
 
@@ -126,10 +122,9 @@ void Semester::viewEditSemester() {
   cout << "2. Delete semester\n";
   cout << "0. Go back\n";
   cout << "-----------------------\n";
-  cout << "Input your choice: ";
-  int choice;
-  cin >> choice;
-  switch (choice) {
+
+  int option = Utils::getOption(0, 2);
+  switch (option) {
     case 1:
       this->updateSemester();
       break;

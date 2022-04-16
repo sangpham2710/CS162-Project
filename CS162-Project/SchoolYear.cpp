@@ -76,7 +76,6 @@ void SchoolYear::viewMainMenu() {
        << "Add new school year \n";
   cout << 0 << ". "
        << "Return \n \n";
-  cout << "Your choice: ";
 
 
   int option = Utils::getOption(0, i);
@@ -129,30 +128,16 @@ void SchoolYear::createSchoolYear() {
   getline(cin, yearName);
   if (yearName.length() != 9 || yearName[4] != '-') {
     cout << "Invalid\n";
-    cout << "\n0. Return\n";
-    cout << "Your choice: ";
-    short option1;
-    cin >> option1;
-    while (option1 != 0) {
-      cout << "\nInvalid!";
-      cout << "Your choice: ";
-      cin >> option1;
-    }
+
+    Utils::waitForKeypress();
     SchoolYear::viewMainMenu();
     return;
   }
   for (auto sy : App::pSchoolYears) {
     if (sy->yearName == yearName) {
       cout << "school year " << yearName << "already exists!";
-      cout << "\n0. Return\n";
-      cout << "Your choice: ";
-      short option1;
-      cin >> option1;
-      while (option1 != 0) {
-        cout << "\nInvalid!";
-        cout << "Your choice: ";
-        cin >> option1;
-      }
+      
+      Utils::waitForKeypress();
       SchoolYear::viewMainMenu();
       return;
     }
@@ -160,7 +145,6 @@ void SchoolYear::createSchoolYear() {
 
   string semesterName;
   cout << "Input first semester in " << yearName << ": ";
-  cin.ignore();
   getline(cin, semesterName);
   Semester* sem = new Semester();
   sem->semesterName = semesterName;
@@ -168,6 +152,7 @@ void SchoolYear::createSchoolYear() {
   SchoolYear* sy = new SchoolYear();
   sy->yearName = yearName;
 
+  sy->pSemesters.push_back(sem);
   sem->pSchoolYear = sy;
   App::pSchoolYears.push_back(sy);
   App::pSemesters.push_back(sem);
