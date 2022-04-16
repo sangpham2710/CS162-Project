@@ -6,6 +6,7 @@
 #include "List.h"
 #include "Menu.h"
 #include "Utils.h"
+#include "Console.h"
 
 using std::cin;
 using std::cout;
@@ -65,4 +66,17 @@ void User::login() {
     Menu::studentMenu();
     return;
   }
+}
+
+void User::changePassword() {
+  Console::clear();
+  cout << "Current password: " << this->password << "\n";
+  cout << "-------------------------\n";
+  cout << "Input new password: ";
+  cin.ignore();
+  getline(cin, this->password);
+  cout << "-------------------------\n";
+  cout << "Successfully changed information\n";
+  Utils::waitForKeypress();
+  User::login();
 }
