@@ -113,7 +113,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -153,6 +153,7 @@
     <ClCompile Include="Semester.cpp" />
     <ClCompile Include="Semester.h" />
     <ClCompile Include="Student.cpp" />
+    <ClCompile Include="TimeStamp.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +167,7 @@
     <ClInclude Include="SchoolYear.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="CourseMark.h" />
+    <ClInclude Include="TimeStamp.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="ID.h" />
     <ClInclude Include="Utils.h" />
