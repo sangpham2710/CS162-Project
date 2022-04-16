@@ -40,6 +40,7 @@ std::ostream& operator<<(std::ostream& stream, const User& user) {
 }
 
 void User::login() {
+  Console::clear();
   List<User*>::iterator it;
   cout << "Username: ";
   string username;
@@ -81,22 +82,19 @@ void User::changePassword() {
     getline(cin, this->password);
     cout << "-------------------------\n";
     cout << "Successfully changed information\n";
+    App::pCurrentUser = NULL;
     Utils::waitForKeypress();
     User::login();
   } else {
     cout << "Wrong password!\n";
     Utils::waitForKeypress();
-    switch (this->userType) {
-      case STUDENT: {
-           Menu::studentMenu();
-        return;
-      }
-      case ACADEMIC_STAFF: {
-        Menu::staffMenu();
-        return;
-      }
-      default:
-        break;
+    if (this->userType == User::Type::ACADEMIC_STAFF) {
+      Menu::staffMenu();
+      return;
+    }
+    if (this->userType == User::Type::STUDENT) {
+      Menu::studentMenu();
+      return;
     }
     
   }

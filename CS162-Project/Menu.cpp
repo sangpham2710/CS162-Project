@@ -89,7 +89,7 @@ void Menu::studentMenu() {
   switch (option) {
       // Return
     case 0: {
-      User::login();
+      Menu::welcome();
       break;
     }
 
