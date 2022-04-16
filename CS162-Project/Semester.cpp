@@ -274,9 +274,8 @@ void Semester::changeDefaultSemester() {
        << App::pCurrentSemester->pSchoolYear->yearName << endl;
   cout << "---------------------------------\n";
   int i = 1;
-  for (const auto& p : App::pSemesters) {
-    cout << i << ". " << p->semesterName << "-" << p->pSchoolYear->yearName
-         << endl;
+  for (const auto& p : App::pSchoolYears) {
+    cout << i << ". " << p->yearName << endl;
     ++i;
   }
   cout << "0. Go back\n";
@@ -285,11 +284,30 @@ void Semester::changeDefaultSemester() {
   if (option == 0) {
     Menu::staffMenu();
     return;
-  } else {
-    App::pCurrentSemester = App::pSemesters[option - 1];
-    cout << "Successfully changed default semester\n";
-    Utils::waitForKeypress();
-    Menu::staffMenu();
-    return;
+  }
+  else {
+    Console::clear();
+    cout << "Default semester: " << App::pCurrentSemester->semesterName << "-"
+        << App::pCurrentSemester->pSchoolYear->yearName << endl;
+    cout << "---------------------------------\n";
+    i = 1;
+    for (const auto& p : App::pSchoolYears[option - 1]->pSemesters) {
+        cout << i << ". " << p->semesterName << endl;
+        ++i;
+    }
+    cout << "0. Go back\n";
+    cout << "---------------------------------\n";
+    int option1 = Utils::getOption(0, i - 1);
+    if (option1 == 0) {
+        Menu::staffMenu();
+        return;
+    }
+    else {
+        App::pCurrentSemester = App::pSchoolYears[option - 1]->pSemesters[option1 - 1];
+        cout << "Successfully changed default semester\n";
+        Utils::waitForKeypress();
+        Menu::staffMenu();
+        return;
+    }
   }
 }
