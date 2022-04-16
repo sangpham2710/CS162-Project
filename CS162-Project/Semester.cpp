@@ -170,20 +170,24 @@ void Semester::createSemester() {
         }
         cout << "\n-----------------------\n";
         List <string> tmp = { "Autumn", "Spring", "Summer" };
-        if (sem.length() != 3) {
-            for (int i = 0; i < 3; ++i) {
-                for (int j = 0; j < sem.length(); ++j) {
-                    if (tmp[i] == sem[j]->semesterName) tmp.remove(tmp[i]);
+        int i = 1;
+        bool check = false;
+        for (const auto& p : tmp) {
+            check = false;
+            for (int j = 0; j < sem.length(); ++j) {
+                if (p == sem[j]->semesterName) {
+                    check = true;
+                    break;
                 }
             }
-            int i = 0;
-            for (; i < tmp.length(); ++i) {
-                cout << i + 1 << ". " << tmp[i] << endl;
+            if (!check) {
+                cout << i << ". " << p << endl;
+                ++i;
             }
         }
         cout << "0. Go back\n";
         cout << "-----------------------\n";
-        int option1 = Utils::getOption(0, i);
+        int option1 = Utils::getOption(0, i - 1);
         if (option1 == 0) {
             Semester::viewMainMenu();
             return;
