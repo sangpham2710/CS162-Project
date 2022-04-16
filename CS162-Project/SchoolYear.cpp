@@ -192,16 +192,18 @@ void SchoolYear::schoolYearDelete() {
     this->schoolYearChooseMenu();
     return;
   }
-
+  if (!(this->pSemesters.empty() && this->pClasses.empty())) {
+    cout << "Please delete all classes and semesters of this school year "
+            "first!\n";
+    Utils::waitForKeypress();
+    this->schoolYearChooseMenu();
+    return;
+  }
 
   if (App::pCurrentSemester->pSchoolYear->_id == this->_id)
     App::pCurrentSemester = nullptr;
   if (App::pRecentSemester->pSchoolYear->_id == this->_id)
     App::pRecentSemester = nullptr;
-  App::pSemesters.remove_if(
-      [&](const auto& p) -> bool { return p->pSchoolYear->_id == this->_id; });
-  App::pSchoolYears.remove_if(
-      [&](const auto& p) -> bool { return p->_id == this->_id; });
   // DEALLOCATE CURRENT SCHOOL YEAR AFTER BEING DELETED
   cout << "\nDelete school year successfully!\n";
   Utils::waitForKeypress();

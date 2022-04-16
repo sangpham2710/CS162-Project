@@ -331,6 +331,12 @@ void Class::importNewStudents() {
     string studentCode, lastName, firstName, gender, dateOfBirth, socialID;
     CSV::readLine(line, no, studentCode, lastName, firstName, gender,
                   dateOfBirth, socialID);
+    auto itStudent = App::pStudents.find_if(
+        [&](const auto& p) -> bool { return p->studentCode == studentCode; });
+    if (itStudent != App::pStudents.end()) {
+      (*itStudent)->pClass = this;
+      continue;
+    }
     Student* pStudent = new Student();
     User* pUser = new User();
     pStudent->studentCode = studentCode;
