@@ -91,6 +91,10 @@ void User::changePassword() {
            Menu::studentMenu();
         return;
       }
+      case ACADEMIC_STAFF: {
+        Menu::staffMenu();
+        return;
+      }
       default:
         break;
     }
