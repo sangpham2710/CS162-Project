@@ -93,10 +93,13 @@ void Student::updateStudentInfo() { Console::clear();
   cout << "Which one do you want to update?\n";
   int option = Utils::getOption(0, 5);
   switch (option) {
-    case 0: {
+    case 0: 
+    {
       Menu::studentMenu();
-      break;
+      return;
     }
+      
+      
     case 1: {
       cout << "-------------------\n";
       cout << "New last name: ";

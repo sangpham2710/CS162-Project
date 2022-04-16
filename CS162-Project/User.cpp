@@ -70,13 +70,32 @@ void User::login() {
 
 void User::changePassword() {
   Console::clear();
-  cout << "Current password: " << this->password << "\n";
+  string tmpPass;
   cout << "-------------------------\n";
-  cout << "Input new password: ";
+  cout << "Input current password: ";
   cin.ignore();
-  getline(cin, this->password);
-  cout << "-------------------------\n";
-  cout << "Successfully changed information\n";
-  Utils::waitForKeypress();
-  User::login();
+  getline(cin, tmpPass);
+  if (tmpPass == this->password) {
+    cout << "-------------------------\n";
+    cout << "Input new password: ";
+    getline(cin, this->password);
+    cout << "-------------------------\n";
+    cout << "Successfully changed information\n";
+    Utils::waitForKeypress();
+    User::login();
+  } else {
+    cout << "Wrong password!\n";
+    Utils::waitForKeypress();
+    switch (this->userType) {
+      case STUDENT: {
+           Menu::studentMenu();
+        return;
+      }
+      default:
+        break;
+    }
+    
+  }
+  
+  
 }
