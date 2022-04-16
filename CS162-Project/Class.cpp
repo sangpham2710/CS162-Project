@@ -103,7 +103,7 @@ void Class::addStudent() {
   this->updateClass();
 }
 
-void Class::deleteClass() {
+void Class::deleteClassScene() {
   Console::clear();
   cout << "Are you sure?, " << this->classCode << " will be deleted in "
        << App::pCurrentSemester->pSchoolYear->yearName << '\n';
@@ -115,18 +115,25 @@ void Class::deleteClass() {
     this->classChooseMenu();
     return;
   }
-  App::pStudents.for_each([&](const auto& p) {
-    if (p->pClass->classCode == this->classCode) p->pClass = nullptr;
-  });
-  App::pCurrentSemester->pSchoolYear->pClasses.remove_if(
-      [&](const auto& p) { return p->classCode == this->classCode; });
-  auto itDeletingClass = App::pClasses.find_if(
-      [&](const auto& p) { return p->classCode == this->classCode; });
-  cout << "Class " << this->classCode << " has been deleted successfully!";
-  delete *itDeletingClass;
-  App::pClasses.remove(itDeletingClass);
+  string tmp = this->classCode;
+  this->deleteClass();
+  cout << "Class " << tmp << " has been deleted successfully!\n";
+
   Utils::waitForKeypress();
   Class::viewMainMenu();
+}
+
+void Class::deleteClass() {
+    App::pStudents.for_each([&](const auto& p) {
+        if (p->pClass->classCode == this->classCode) p->pClass = nullptr;
+        });
+    App::pCurrentSemester->pSchoolYear->pClasses.remove_if(
+        [&](const auto& p) { return p->classCode == this->classCode; });
+    auto itDeletingClass = App::pClasses.find_if(
+        [&](const auto& p) { return p->classCode == this->classCode; });
+
+    delete* itDeletingClass;
+    App::pClasses.remove(itDeletingClass);
 }
 
 void Class::viewStudents() {
@@ -182,7 +189,7 @@ void Class::classChooseMenu() {
       break;
     }
     case 2: {
-      this->deleteClass();
+      this->deleteClassScene();
       break;
     }
     case 3: {
