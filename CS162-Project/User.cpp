@@ -3,10 +3,10 @@
 #include <iostream>
 
 #include "App.h"
+#include "Console.h"
 #include "List.h"
 #include "Menu.h"
 #include "Utils.h"
-#include "Console.h"
 
 using std::cin;
 using std::cout;
@@ -82,7 +82,7 @@ void User::changePassword() {
     getline(cin, this->password);
     cout << "-------------------------\n";
     cout << "Successfully changed information\n";
-    App::pCurrentUser = NULL;
+    App::pCurrentUser = nullptr;
     Utils::waitForKeypress();
     User::login();
   } else {
@@ -96,8 +96,5 @@ void User::changePassword() {
       Menu::studentMenu();
       return;
     }
-    
   }
-  
-  
 }

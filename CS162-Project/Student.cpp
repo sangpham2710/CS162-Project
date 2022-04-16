@@ -4,8 +4,8 @@
 
 #include "App.h"
 #include "Console.h"
-#include "Utils.h"
 #include "Menu.h"
+#include "Utils.h"
 
 using std::cout;
 
@@ -81,7 +81,8 @@ double Student::getOverallGPA() {
          (double)this->courseMarks.size();
 }
 
-void Student::updateStudentInfo() { Console::clear();
+void Student::updateStudentInfo() {
+  Console::clear();
   cout << "----------------------------------------\n";
   cout << "1. Student last name: " << this->lastName << "\n";
   cout << "2. Student first name: " << this->firstName << "\n";
@@ -93,13 +94,12 @@ void Student::updateStudentInfo() { Console::clear();
   cout << "Which one do you want to update?\n";
   int option = Utils::getOption(0, 5);
   switch (option) {
-    case 0: 
-    {
+    case 0: {
       Menu::studentMenu();
       return;
     }
-      
-      
+
+
     case 1: {
       cout << "-------------------\n";
       cout << "New last name: ";
