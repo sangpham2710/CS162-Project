@@ -30,4 +30,6 @@ class Semester {
   void viewEditSemester();
   void updateSemester();
   void deleteSemester();
+
+  static void changeDefaultSemester();
 };

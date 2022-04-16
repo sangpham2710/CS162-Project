@@ -267,3 +267,22 @@ void Semester::viewMainMenu() {
     Menu::staffMenu();
   }
 }
+
+void Semester::changeDefaultSemester() {
+    Console::clear();
+    cout << "Default semester: " << App::pCurrentSemester->semesterName << "-" << App::pCurrentSemester->pSchoolYear->yearName << endl;
+    cout << "---------------------------------\n";
+    int i = 1;
+    for (const auto& p : App::pSemesters) {
+        cout << i << ". " << p->semesterName << "-" << p->pSchoolYear->yearName << endl;
+        ++i;
+    }
+    cout << "0. Go back\n";
+    cout << "---------------------------------\n";
+    int option = Utils::getOption(0, i);
+    if (option < i && option >= 1) {
+        App::pCurrentSemester = App::pSemesters[option - 1];
+
+    }
+    Menu::staffMenu();
+}

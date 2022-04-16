@@ -58,6 +58,7 @@ void Menu::staffMenu() {
         break;
       case 4:
         // Change default semester
+        Semester::changeDefaultSemester();
         break;
       case 5:
         App::pCurrentUser = nullptr;
