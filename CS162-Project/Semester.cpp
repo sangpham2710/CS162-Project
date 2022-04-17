@@ -39,15 +39,6 @@ std::ostream& operator<<(std::ostream& stream, const Semester& semester) {
   return stream;
 }
 
-void Semester::addCourse(Course* const& course) {
-  cout << "Not implemented\n";
-}
-void Semester::viewCourse(const string& courseID) {
-  cout << "Not implemented\n";
-}
-
-#define bug(x) cout << #x << ": " << x << '\n'
-
 void Semester::deleteSemesterScene() {
   string tmpSemesterName = this->semesterName;
   string tmpYearName = this->pSchoolYear->yearName;
@@ -59,7 +50,8 @@ void Semester::deleteSemesterScene() {
   Semester::viewMainMenu();
 }
 
-void Semester::deleteSemester() {  // need to fix
+void Semester::deleteSemester() {
+
   for (int i = 0; i < this->pCourses.length(); ++i) {
     this->pCourses[i]->deleteCourse();
   }
@@ -73,6 +65,12 @@ void Semester::deleteSemester() {  // need to fix
 
   auto itSemester = App::pSemesters.find_if(
       [&](const auto& p) { return p->_id == this->_id; });
+
+  if (App::pCurrentSemester->_id == this->_id) {
+      App::pCurrentSemester = App::pSchoolYears.back()->pSemesters.back();
+  }
+  App::pRecentSemester = App::pCurrentSemester;
+
   delete *itSemester;
   App::pSemesters.remove(itSemester);
 }

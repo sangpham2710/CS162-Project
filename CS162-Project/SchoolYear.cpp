@@ -94,28 +94,49 @@ void SchoolYear::viewMainMenu() {
 void SchoolYear::schoolYearChooseMenu() {
   Console::clear();
 
-  cout << "---------------------------------------\n";
-  cout << "1. Update school year\n";
-  cout << "2. Delete school year\n";
-  cout << "---------------------------------------\n";
-  cout << "0. Return\n";
+  if (App::pSchoolYears.length() == 1) {
+      cout << "---------------------------------------\n";
+      cout << "1. Update school year\n";
+      cout << "---------------------------------------\n";
+      cout << "0. Return\n";
 
-  int option = Utils::getOption(0, 2);
-  switch (option) {
-    case 0: {
-      SchoolYear::viewMainMenu();
-      return;
-    }
-    case 1: {
-      // update school year
-      this->schoolYearUpdate();
-      return;
-    }
-    case 2: {
-      // delete school year
-      this->schoolYearDeleteScene();
-      return;
-    }
+      int option = Utils::getOption(0, 1);
+      switch (option) {
+      case 0: {
+          SchoolYear::viewMainMenu();
+          return;
+      }
+      case 1: {
+          // update school year
+          this->schoolYearUpdate();
+          return;
+      }
+      }
+  }
+  else {
+      cout << "---------------------------------------\n";
+      cout << "1. Update school year\n";
+      cout << "2. Delete school year\n";
+      cout << "---------------------------------------\n";
+      cout << "0. Return\n";
+
+      int option = Utils::getOption(0, 2);
+      switch (option) {
+      case 0: {
+          SchoolYear::viewMainMenu();
+          return;
+      }
+      case 1: {
+          // update school year
+          this->schoolYearUpdate();
+          return;
+      }
+      case 2: {
+          // delete school year
+          this->schoolYearDeleteScene();
+          return;
+      }
+      }
   }
 }
 
@@ -185,10 +206,14 @@ void SchoolYear::schoolYearDeleteScene() {
 }
 
 void SchoolYear::schoolYearDelete() {
-  if (App::pCurrentSemester->pSchoolYear->_id == this->_id)
-    App::pCurrentSemester = nullptr;
-  if (App::pRecentSemester->pSchoolYear->_id == this->_id)
-    App::pRecentSemester = nullptr;
+    if (App::pCurrentSemester->pSchoolYear->_id == this->_id) {
+        if (App::pSchoolYears.back()->_id == this->_id) {
+            App::pCurrentSemester = App::pSchoolYears[App::pSchoolYears.length() - 2]->pSemesters.back();
+        }
+        else {
+            App::pCurrentSemester = App::pSchoolYears.back()->pSemesters.back();
+        }
+  }
 
   for (int i = 0; i < this->pSemesters.length(); ++i) {
     this->pSemesters[i]->deleteSemester();
