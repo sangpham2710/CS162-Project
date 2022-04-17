@@ -113,7 +113,7 @@ void SchoolYear::schoolYearChooseMenu() {
     }
     case 2: {
       // delete school year
-      this->schoolYearDelete();
+      this->schoolYearDeleteScene();
       return;
     }
   }
@@ -159,40 +159,45 @@ void SchoolYear::createSchoolYear() {
   App::pCurrentSemester = sem;
   App::pRecentSemester = sem;
 
-  cout << "Create school year " << yearName << " successfully!";
+  cout << "Create school year " << yearName << " successfully!\n";
   Utils::waitForKeypress();
   SchoolYear::viewMainMenu();
   return;
 }
 
-void SchoolYear::schoolYearDelete() {
+void SchoolYear::schoolYearDeleteScene() {
   Console::clear();
 
   cout << "Are you sure you want to permanently delete this school year?\n";
   cout << "1. Yes\n";
-  cout << "2. No\n \n";
+  cout << "2. No\n";
 
   int option = Utils::getOption(1, 2);
   if (option == 2) {
     this->schoolYearChooseMenu();
     return;
   }
-  if (!(this->pSemesters.empty() && this->pClasses.empty())) {
-    cout << "Please delete all classes and semesters of this school year "
-            "first!\n";
-    Utils::waitForKeypress();
-    this->schoolYearChooseMenu();
-    return;
-  }
-
-  if (App::pCurrentSemester->pSchoolYear->_id == this->_id)
-    App::pCurrentSemester = nullptr;
-  if (App::pRecentSemester->pSchoolYear->_id == this->_id)
-    App::pRecentSemester = nullptr;
-  // DEALLOCATE CURRENT SCHOOL YEAR AFTER BEING DELETED
-  cout << "\nDelete school year successfully!\n";
+  string tmp = this->yearName;
+  this->schoolYearDelete();
+  cout << "\nDelete school year " << tmp << " successfully!\n";
   Utils::waitForKeypress();
   SchoolYear::viewMainMenu();
+}
+
+void SchoolYear::schoolYearDelete() {
+    if (App::pCurrentSemester->pSchoolYear->_id == this->_id)
+        App::pCurrentSemester = nullptr;
+    if (App::pRecentSemester->pSchoolYear->_id == this->_id)
+        App::pRecentSemester = nullptr;
+
+    for (int i = 0; i < this->pSemesters.length(); ++i) {
+        this->pSemesters[i]->deleteSemester();
+    }
+    
+    auto it = App::pSchoolYears.find_if(
+        [&](const auto& p) -> bool { return p->_id == this->_id; });
+    delete* it;
+    App::pSchoolYears.remove(it);
 }
 
 void SchoolYear::schoolYearUpdate() {

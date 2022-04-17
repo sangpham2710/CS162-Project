@@ -495,9 +495,12 @@ void Course::deleteCourse() {
             });
     }
 
-    auto it = App::pCurrentSemester->pCourses.find_if(
+    this->pSemester->pCourses.remove_if(
         [&](const auto& p) -> bool { return p->_id == this->_id; });
-    App::pCurrentSemester->pCourses.remove(it);
+
+    /*auto it = App::pCurrentSemester->pCourses.find_if(
+        [&](const auto& p) -> bool { return p->_id == this->_id; });
+    App::pCurrentSemester->pCourses.remove(it);*/
 
     auto it1 = App::pCourses.find_if(
         [&](const auto& p) -> bool { return p->_id == this->_id; });

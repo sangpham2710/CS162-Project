@@ -49,19 +49,27 @@ void Semester::viewCourse(const string& courseID) {
 #define bug(x) cout << #x << ": " << x << '\n'
 
 void Semester::deleteSemesterScene() {
-  cout << "Semester " << this->semesterName << " in school year "
-       << this->pSchoolYear->yearName << "has been deleted\n";
+    string tmp_semName = this->semesterName;
+    string tmp_YearName = this->pSchoolYear->yearName;
   this->deleteSemester();
+  cout << "Semester " << tmp_semName << " in school year "
+       << tmp_YearName << " has been deleted\n";
+  
   Utils::waitForKeypress();
   Semester::viewMainMenu();
 }
 
-void Semester::deleteSemester() {
-    for (const auto& p : this->pCourses) {
-        p->deleteCourse();
+void Semester::deleteSemester() { // need to fix
+    for (int i = 0; i < this->pCourses.length(); ++i) {
+        this->pCourses[i]->deleteCourse();
     }
-    auto it = this->pSchoolYear->pSemesters.remove_if(
+    /*for (const auto& p : this->pCourses) {
+        p->deleteCourse();
+    }*/
+    auto it = this->pSchoolYear->pSemesters.find_if(
         [&](const auto& p) { return p->_id == this->_id; });
+    this->pSchoolYear->pSemesters.remove(it);
+
     auto itSemester = App::pSemesters.find_if(
         [&](const auto& p) { return p->_id == this->_id; });
     delete* itSemester;
@@ -139,7 +147,7 @@ void Semester::viewEditSemester() {
       this->updateSemester();
       break;
     case 2:
-      this->deleteSemester();
+      this->deleteSemesterScene();
       break;
     case 0:
       viewMainMenu();
