@@ -489,23 +489,23 @@ void Course::deleteCourseScene() {
 }
 
 void Course::deleteCourse() {
-    for (auto p : this->pStudents) {
-        p->courseMarks.remove_if([&](const auto& pCourseMark) -> bool {
-            return pCourseMark.pCourse->_id == this->_id;
-            });
-    }
+  for (auto p : this->pStudents) {
+    p->courseMarks.remove_if([&](const auto& pCourseMark) -> bool {
+      return pCourseMark.pCourse->_id == this->_id;
+    });
+  }
 
-    this->pSemester->pCourses.remove_if(
-        [&](const auto& p) -> bool { return p->_id == this->_id; });
+  this->pSemester->pCourses.remove_if(
+      [&](const auto& p) -> bool { return p->_id == this->_id; });
 
-    /*auto it = App::pCurrentSemester->pCourses.find_if(
-        [&](const auto& p) -> bool { return p->_id == this->_id; });
-    App::pCurrentSemester->pCourses.remove(it);*/
+  /*auto it = App::pCurrentSemester->pCourses.find_if(
+      [&](const auto& p) -> bool { return p->_id == this->_id; });
+  App::pCurrentSemester->pCourses.remove(it);*/
 
-    auto it1 = App::pCourses.find_if(
-        [&](const auto& p) -> bool { return p->_id == this->_id; });
-    delete* it1;
-    App::pCourses.remove(it1);
+  auto it1 = App::pCourses.find_if(
+      [&](const auto& p) -> bool { return p->_id == this->_id; });
+  delete *it1;
+  App::pCourses.remove(it1);
 }
 
 void Course::viewStudentScoreboard() {

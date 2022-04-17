@@ -136,7 +136,7 @@ void SchoolYear::createSchoolYear() {
   for (auto sy : App::pSchoolYears) {
     if (sy->yearName == yearName) {
       cout << "school year " << yearName << "already exists!";
-      
+
       Utils::waitForKeypress();
       SchoolYear::viewMainMenu();
       return;
@@ -185,19 +185,19 @@ void SchoolYear::schoolYearDeleteScene() {
 }
 
 void SchoolYear::schoolYearDelete() {
-    if (App::pCurrentSemester->pSchoolYear->_id == this->_id)
-        App::pCurrentSemester = nullptr;
-    if (App::pRecentSemester->pSchoolYear->_id == this->_id)
-        App::pRecentSemester = nullptr;
+  if (App::pCurrentSemester->pSchoolYear->_id == this->_id)
+    App::pCurrentSemester = nullptr;
+  if (App::pRecentSemester->pSchoolYear->_id == this->_id)
+    App::pRecentSemester = nullptr;
 
-    for (int i = 0; i < this->pSemesters.length(); ++i) {
-        this->pSemesters[i]->deleteSemester();
-    }
-    
-    auto it = App::pSchoolYears.find_if(
-        [&](const auto& p) -> bool { return p->_id == this->_id; });
-    delete* it;
-    App::pSchoolYears.remove(it);
+  for (int i = 0; i < this->pSemesters.length(); ++i) {
+    this->pSemesters[i]->deleteSemester();
+  }
+
+  auto it = App::pSchoolYears.find_if(
+      [&](const auto& p) -> bool { return p->_id == this->_id; });
+  delete *it;
+  App::pSchoolYears.remove(it);
 }
 
 void SchoolYear::schoolYearUpdate() {
