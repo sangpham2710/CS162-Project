@@ -30,10 +30,15 @@ class Class {
   void classChooseMenu();
   void addStudent();
   void updateClass();
+
+  void deleteClassScene();
   void deleteClass();
+
   void viewStudents();
   void viewScoreboard();
   void exportScoreboard();
   void exportStudents();
   void importNewStudents();
+
+
 };

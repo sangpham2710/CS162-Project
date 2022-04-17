@@ -118,7 +118,7 @@ void Course::courseChooseMenu() {
       break;
     }
     case 3: {
-      this->deleteCourse();
+      this->deleteCourseScene();
       break;
     }
     case 4: {
@@ -465,7 +465,7 @@ void Course::updateStudentScoreBoard() {
   this->courseUpdateMenu();
 }
 
-void Course::deleteCourse() {
+void Course::deleteCourseScene() {
   Console::clear();
 
   cout << "Are you sure?, " << this->courseCode << " will be deleted in "
@@ -479,26 +479,33 @@ void Course::deleteCourse() {
     return;
   }
   if (option == 1) {
-    for (auto p : this->pStudents) {
-      p->courseMarks.remove_if([&](const auto& pCourseMark) -> bool {
-        return pCourseMark.pCourse->_id == this->_id;
-      });
-    }
-
-    auto it = App::pCurrentSemester->pCourses.find_if(
-        [&](const auto& p) -> bool { return p->_id == this->_id; });
-    App::pCurrentSemester->pCourses.remove(it);
-
-    auto it1 = App::pCourses.find_if(
-        [&](const auto& p) -> bool { return p->_id == this->_id; });
-    delete *it1;
-    App::pCourses.remove(it1);
+    this->deleteCourse();
 
     cout << "\nDelete course successfully!\n";
     Utils::waitForKeypress();
     Course::courseMainMenu();
     return;
   }
+}
+
+void Course::deleteCourse() {
+  for (auto p : this->pStudents) {
+    p->courseMarks.remove_if([&](const auto& pCourseMark) -> bool {
+      return pCourseMark.pCourse->_id == this->_id;
+    });
+  }
+
+  this->pSemester->pCourses.remove_if(
+      [&](const auto& p) -> bool { return p->_id == this->_id; });
+
+  /*auto it = App::pCurrentSemester->pCourses.find_if(
+      [&](const auto& p) -> bool { return p->_id == this->_id; });
+  App::pCurrentSemester->pCourses.remove(it);*/
+
+  auto it1 = App::pCourses.find_if(
+      [&](const auto& p) -> bool { return p->_id == this->_id; });
+  delete *it1;
+  App::pCourses.remove(it1);
 }
 
 void Course::viewStudentScoreboard() {

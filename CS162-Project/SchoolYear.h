@@ -30,5 +30,7 @@ class SchoolYear {
 
   void schoolYearChooseMenu();
   void schoolYearUpdate();
-  void schoolYearDelete();  // need fix
+
+  void schoolYearDeleteScene();  // need fix
+  void schoolYearDelete();
 };
