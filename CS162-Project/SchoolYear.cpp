@@ -213,7 +213,8 @@ void SchoolYear::schoolYearDelete() {
         else {
             App::pCurrentSemester = App::pSchoolYears.back()->pSemesters.back();
         }
-  }
+    }
+    App::pRecentSemester = App::pCurrentSemester;
 
   for (int i = 0; i < this->pSemesters.length(); ++i) {
     this->pSemesters[i]->deleteSemester();
