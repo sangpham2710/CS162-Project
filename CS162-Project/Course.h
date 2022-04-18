@@ -58,7 +58,7 @@ class Course {
   void removeStudent();
   void updateStudentScoreBoard();
   void deleteCourseScene();
-  void deleteCourse();
+  void deleteCourse(bool casacade);
 
   void courseChooseMenu();
   void courseUpdateMenu();

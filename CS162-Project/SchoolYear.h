@@ -26,11 +26,11 @@ class SchoolYear {
 
   static void viewSchoolYearSemesterMenu();
   static void viewMainMenu();
-  static void createSchoolYear();  // need fix
+  static void createSchoolYear();
 
   void schoolYearChooseMenu();
   void schoolYearUpdate();
 
-  void schoolYearDeleteScene();  // need fix
-  void schoolYearDelete();
+  void deleteSchoolYearScene();
+  void deleteSchoolYear();
 };

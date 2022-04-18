@@ -133,7 +133,7 @@ void SchoolYear::schoolYearChooseMenu() {
       }
       case 2: {
           // delete school year
-          this->schoolYearDeleteScene();
+          this->deleteSchoolYearScene();
           return;
       }
       }
@@ -186,7 +186,7 @@ void SchoolYear::createSchoolYear() {
   return;
 }
 
-void SchoolYear::schoolYearDeleteScene() {
+void SchoolYear::deleteSchoolYearScene() {
   Console::clear();
 
   cout << "Are you sure you want to permanently delete this school year?\n";
@@ -199,13 +199,13 @@ void SchoolYear::schoolYearDeleteScene() {
     return;
   }
   string tmp = this->yearName;
-  this->schoolYearDelete();
+  this->deleteSchoolYear();
   cout << "\nDelete school year " << tmp << " successfully!\n";
   Utils::waitForKeypress();
   SchoolYear::viewMainMenu();
 }
 
-void SchoolYear::schoolYearDelete() {
+void SchoolYear::deleteSchoolYear() {
     if (App::pCurrentSemester->pSchoolYear->_id == this->_id) {
         if (App::pSchoolYears.back()->_id == this->_id) {
             App::pCurrentSemester = App::pSchoolYears[App::pSchoolYears.length() - 2]->pSemesters.back();
@@ -216,8 +216,8 @@ void SchoolYear::schoolYearDelete() {
     }
     App::pRecentSemester = App::pCurrentSemester;
 
-  for (int i = 0; i < this->pSemesters.length(); ++i) {
-    this->pSemesters[i]->deleteSemester();
+  for (const auto& p : this->pSemesters) {
+      p->deleteSemester(1);
   }
 
   auto it = App::pSchoolYears.find_if(
