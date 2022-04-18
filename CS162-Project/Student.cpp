@@ -24,8 +24,6 @@ std::istream& operator>>(std::istream& stream, Student& student) {
   stream >> classID;
   student.pClass = *App::pClasses.find_if(
       [&](const auto& p) -> bool { return p->_id == classID; });
-  string userID;
-  stream >> userID;
 
   stream >> n;
   for (int i = 0; i < n; ++i) {
@@ -95,7 +93,6 @@ void Student::updateStudentInfo() {
       Menu::studentMenu();
       return;
     }
-
 
     case 1: {
       cout << "-------------------\n";

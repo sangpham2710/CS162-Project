@@ -48,14 +48,6 @@ void App::deallocate() {
 }
 
 void App::loadData() {
-  // App::pUsers.push_back(new User{"admin", "admin", User::Type::ADMIN});
-  // App::pUsers.push_back(new User{"staff", "staff",
-  // User::Type::ACADEMIC_STAFF});
-  //  App::pUsers.push_back(new User{"student", "student",
-  //  User::Type::STUDENT});
-  App::courseRegistrationSession.startTime.setDay(17).setMonth(4).setYear(2022);
-  App::courseRegistrationSession.endTime.setDay(19).setMonth(4).setYear(2022);
-
   if (!fs::exists(Data::DATA_DIR)) return;
   if (fs::exists(Data::USERS_DIR)) Data::loadIDs(Data::USERS_DIR, App::pUsers);
   if (fs::exists(Data::SCHOOLYEARS_DIR))
@@ -71,7 +63,6 @@ void App::loadData() {
   if (fs::exists(Data::STAFFS_DIR))
     Data::loadIDs(Data::STAFFS_DIR, App::pStaffs);
 
-
   if (fs::exists(Data::USERS_DIR)) Data::loadObjs(Data::USERS_DIR, App::pUsers);
   if (fs::exists(Data::SCHOOLYEARS_DIR))
     Data::loadObjs(Data::SCHOOLYEARS_DIR, App::pSchoolYears);
@@ -86,8 +77,9 @@ void App::loadData() {
   if (fs::exists(Data::STAFFS_DIR))
     Data::loadObjs(Data::STAFFS_DIR, App::pStaffs);
 
-  // pRecentSemester & pCurrentSemester
-  ifstream ifs(Data::DATA_DIR + "recentSemester.txt");
+  ifstream ifs;
+
+  ifs.open(Data::DATA_DIR + "recentSemester.txt");
   if (!ifs.is_open()) return;
   string recentSemesterID;
   ifs >> recentSemesterID;
@@ -96,7 +88,10 @@ void App::loadData() {
   App::pCurrentSemester = App::pRecentSemester;
   ifs.close();
 
-  // CourseRegistrationSession
+  ifs.open(Data::DATA_DIR + "courseRegistrationSession.txt");
+  if (!ifs.is_open()) return;
+  ifs >> App::courseRegistrationSession;
+  ifs.close();
 }
 
 void App::saveData() {
@@ -110,6 +105,7 @@ void App::saveData() {
   createIfNotExists(Data::CLASSES_DIR);
   createIfNotExists(Data::COURSES_DIR);
   createIfNotExists(Data::STUDENTS_DIR);
+  createIfNotExists(Data::STAFFS_DIR);
 
   Data::saveIDs(Data::USERS_DIR, App::pUsers);
   Data::saveIDs(Data::SCHOOLYEARS_DIR, App::pSchoolYears);
@@ -127,15 +123,20 @@ void App::saveData() {
   Data::saveObjs(Data::STUDENTS_DIR, App::pStudents);
   Data::saveObjs(Data::STAFFS_DIR, App::pStaffs);
 
-  ofstream ofs(Data::DATA_DIR + "recentSemester.txt");
+  ofstream ofs;
+
+  ofs.open(Data::DATA_DIR + "recentSemester.txt");
   if (!ofs.is_open()) return;
   if (pRecentSemester) ofs << App::pRecentSemester->_id << '\n';
   ofs.close();
+
+  ofs.open(Data::DATA_DIR + "courseRegistrationSession.txt");
+  if (!ofs.is_open()) return;
+  if (pRecentSemester) ofs << App::courseRegistrationSession << '\n';
+  ofs.close();
 }
 
-void App::main() {
-  Menu::welcome();
-}
+void App::main() { Menu::welcome(); }
 
 void App::run() {
   App::allocate();

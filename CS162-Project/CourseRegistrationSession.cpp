@@ -18,8 +18,8 @@ std::istream& operator>>(std::istream& stream,
 
 std::ostream& operator<<(std::ostream& stream,
                          const CourseRegistrationSession& session) {
-  cout << session.startTime << '\n';
-  cout << session.endTime << '\n';
+  stream << session.startTime << '\n';
+  stream << session.endTime << '\n';
   return stream;
 }
 
