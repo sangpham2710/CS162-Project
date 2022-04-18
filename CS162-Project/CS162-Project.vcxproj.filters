@@ -78,6 +78,9 @@
     <ClCompile Include="TimeStamp.cpp">
       <Filter>Library\TimeStamp</Filter>
     </ClCompile>
+    <ClCompile Include="Staff.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="TimeStamp.h">
       <Filter>Library\TimeStamp</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

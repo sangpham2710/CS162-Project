@@ -13,33 +13,43 @@ using std::cout;
 
 void Menu::staffMenu() {
   Console::clear();
-  cout << "1. Courses\n";
-  cout << "2. Classes\n";
-  cout << "3. School years / Semesters\n";
-  cout << "4. Change default semester\n";
-  cout << "5. Log out\n";
-  cout << "Your option: ";
-  int option = -1;
-  while (option < 1 || option > 5) {
-    cin >> option;
+  cout << "-------------------------------\n";
+  cout << "1. Change password\n";
+  cout << "2. Update info\n";
+  cout << "3. Courses\n";
+  cout << "4. Classes\n";
+  cout << "5. School years / Semesters\n";
+  cout << "6. Change default semester\n";
+  cout << "--------------------------------\n";
+  cout << "0. Return\n";
+  cout << "--------------------------------\n";
+  int option = Utils::getOption(0, 6);
     switch (option) {
-      case 1:
+    case 1: {
+      App::pCurrentUser->changePassword();
+      break;
+    }
+    case 2: {
+      App::pCurrentUser->pStaff->updateStaffInfo();
+      break;
+    }
+      case 3:
         // Courses scene
         Course::courseMainMenu();
         break;
-      case 2:
+      case 4:
         // Classes scene
         Class::viewMainMenu();
         break;
-      case 3:
+      case 5:
         // ------------------HOA------------------------
         SchoolYear::viewSchoolYearSemesterMenu();
         break;
-      case 4:
+      case 6:
         // Change default semester
         Semester::changeDefaultSemester();
         break;
-      case 5:
+      case 0:
         App::pCurrentUser = nullptr;
         App::main();
         return;
@@ -48,7 +58,6 @@ void Menu::staffMenu() {
         break;
     }
   }
-}
 
 void Menu::studentMenu() {
   Console::clear();
@@ -67,7 +76,9 @@ void Menu::studentMenu() {
   switch (option) {
       // Return
     case 0: {
-      Menu::welcome();
+      App::pCurrentUser = nullptr;
+      App::main();
+      return;
       break;
     }
 
