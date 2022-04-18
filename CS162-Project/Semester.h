@@ -30,7 +30,7 @@ class Semester {
   void viewEditSemester();
   void updateSemester();
   void deleteSemesterScene();
-  void deleteSemester();
+  void deleteSemester(bool cascade);
 
   static void changeDefaultSemester();
 };

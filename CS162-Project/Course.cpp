@@ -479,7 +479,7 @@ void Course::deleteCourseScene() {
     return;
   }
   if (option == 1) {
-    this->deleteCourse();
+    this->deleteCourse(0);
 
     cout << "\nDelete course successfully!\n";
     Utils::waitForKeypress();
@@ -488,19 +488,17 @@ void Course::deleteCourseScene() {
   }
 }
 
-void Course::deleteCourse() {
-  for (auto p : this->pStudents) {
+void Course::deleteCourse(bool cascade) {
+  for (const auto& p : this->pStudents) {
     p->courseMarks.remove_if([&](const auto& pCourseMark) -> bool {
       return pCourseMark.pCourse->_id == this->_id;
     });
   }
 
-  this->pSemester->pCourses.remove_if(
-      [&](const auto& p) -> bool { return p->_id == this->_id; });
-
-  /*auto it = App::pCurrentSemester->pCourses.find_if(
-      [&](const auto& p) -> bool { return p->_id == this->_id; });
-  App::pCurrentSemester->pCourses.remove(it);*/
+  if (!cascade) {
+      this->pSemester->pCourses.remove_if(
+          [&](const auto& p) -> bool { return p->_id == this->_id; });
+  }
 
   auto it1 = App::pCourses.find_if(
       [&](const auto& p) -> bool { return p->_id == this->_id; });

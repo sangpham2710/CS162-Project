@@ -97,7 +97,6 @@ void Class::addStudent() {
   pStudent->dateOfBirth = dateOfBirth;
   pStudent->socialID = socialID;
   pStudent->pClass = this;
-  pStudent->pUser = pUser;
 
   pUser->username = studentCode;
   pUser->password = "123456";
@@ -362,7 +361,6 @@ void Class::importNewStudents() {
     pStudent->dateOfBirth = dateOfBirth;
     pStudent->socialID = socialID;
     pStudent->pClass = this;
-    pStudent->pUser = pUser;
 
     pUser->userType = User::Type::STUDENT;
     pUser->username = studentCode;

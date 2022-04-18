@@ -39,19 +39,10 @@ std::ostream& operator<<(std::ostream& stream, const Semester& semester) {
   return stream;
 }
 
-void Semester::addCourse(Course* const& course) {
-  cout << "Not implemented\n";
-}
-void Semester::viewCourse(const string& courseID) {
-  cout << "Not implemented\n";
-}
-
-#define bug(x) cout << #x << ": " << x << '\n'
-
 void Semester::deleteSemesterScene() {
   string tmpSemesterName = this->semesterName;
   string tmpYearName = this->pSchoolYear->yearName;
-  this->deleteSemester();
+  this->deleteSemester(0);
   cout << "Semester " << tmpSemesterName << " in school year " << tmpYearName
        << " has been deleted\n";
 
@@ -59,20 +50,25 @@ void Semester::deleteSemesterScene() {
   Semester::viewMainMenu();
 }
 
-void Semester::deleteSemester() {  // need to fix
-  for (int i = 0; i < this->pCourses.length(); ++i) {
-    this->pCourses[i]->deleteCourse();
+void Semester::deleteSemester(bool cascade) {
+
+  for (const auto& p : this->pCourses) {
+    p->deleteCourse(1);
   }
-  /*cout << this->pCourses.size() << '\n';
-  for (const auto& p : this->pCourses) bug(*p);*/
-  /*for (auto p : this->pCourses) {
-    p->deleteCourse();
-  }*/
-  this->pSchoolYear->pSemesters.remove_if(
-      [&](const auto& p) { return p->_id == this->_id; });
+
+  if (!cascade) {
+      this->pSchoolYear->pSemesters.remove_if(
+          [&](const auto& p) { return p->_id == this->_id; });
+  }
 
   auto itSemester = App::pSemesters.find_if(
       [&](const auto& p) { return p->_id == this->_id; });
+
+  if (App::pCurrentSemester->_id == this->_id) {
+      App::pCurrentSemester = App::pSchoolYears.back()->pSemesters.back();
+  }
+  App::pRecentSemester = App::pCurrentSemester;
+
   delete *itSemester;
   App::pSemesters.remove(itSemester);
 }
@@ -134,25 +130,43 @@ void Semester::updateSemester() {
 
 void Semester::viewEditSemester() {
   Console::clear();
+
   cout << "Semester: " << this->pSchoolYear->yearName << ": "
-       << this->semesterName << '\n';
-  cout << "-----------------------\n";
-  cout << "1. Update semester\n";
-  cout << "2. Delete semester\n";
-  cout << "0. Go back\n";
+      << this->semesterName << '\n';
   cout << "-----------------------\n";
 
-  int option = Utils::getOption(0, 2);
-  switch (option) {
-    case 1:
-      this->updateSemester();
-      break;
-    case 2:
-      this->deleteSemesterScene();
-      break;
-    case 0:
-      viewMainMenu();
-      break;
+  if (this->pSchoolYear->pSemesters.length() == 1) {
+      cout << "1. Update semester\n";
+      cout << "0. Go back\n";
+      cout << "-----------------------\n";
+      int option = Utils::getOption(0, 1);
+      switch (option) {
+      case 1:
+          this->updateSemester();
+          break;
+      case 0:
+          viewMainMenu();
+          break;
+      }
+  }
+  else {
+      cout << "1. Update semester\n";
+      cout << "2. Delete semester\n";
+      cout << "0. Go back\n";
+      cout << "-----------------------\n";
+
+      int option = Utils::getOption(0, 2);
+      switch (option) {
+      case 1:
+          this->updateSemester();
+          break;
+      case 2:
+          this->deleteSemesterScene();
+          break;
+      case 0:
+          viewMainMenu();
+          break;
+      }
   }
 }
 
