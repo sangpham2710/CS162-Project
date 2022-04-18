@@ -26,8 +26,6 @@ std::istream& operator>>(std::istream& stream, Student& student) {
       [&](const auto& p) -> bool { return p->_id == classID; });
   string userID;
   stream >> userID;
-  student.pUser = *App::pUsers.find_if(
-      [&](const auto& p) -> bool { return p->_id == userID; });
 
   stream >> n;
   for (int i = 0; i < n; ++i) {
@@ -47,7 +45,6 @@ std::ostream& operator<<(std::ostream& stream, const Student& student) {
   stream << student.dateOfBirth << '\n';
   stream << student.socialID << '\n';
   stream << student.pClass->_id << '\n';
-  stream << student.pUser->_id << '\n';
   stream << student.courseMarks.size() << '\n';
   for (const auto& courseMark : student.courseMarks) stream << courseMark;
   return stream;

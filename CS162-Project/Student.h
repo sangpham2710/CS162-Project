@@ -8,7 +8,6 @@
 #include "ID.h"
 #include "List.h"
 #include "Semester.h"
-#include "User.h"
 
 using std::string;
 
@@ -26,7 +25,6 @@ class Student {
   string dateOfBirth;
   string socialID;
   Class* pClass;
-  User* pUser;
   List<CourseMark> courseMarks;
 
   Student(const string& id)
@@ -38,7 +36,6 @@ class Student {
         dateOfBirth{},
         socialID{},
         pClass{nullptr},
-        pUser{nullptr},
         courseMarks{} {}
   Student() : Student(ID::gen()) {}
 
