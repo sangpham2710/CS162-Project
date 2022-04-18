@@ -22,7 +22,8 @@ class Course {
   string endDate;
   int maxNumberOfStudents;
   int numberOfCredits;
-  string schedule;
+  int session1;
+  int session2;
   Semester* pSemester;
   List<Student*> pStudents;
 
@@ -35,7 +36,8 @@ class Course {
         endDate{},
         maxNumberOfStudents{},
         numberOfCredits{},
-        schedule{},
+        session1{},
+        session2{},
         pSemester{nullptr},
         pStudents{} {}
   Course() : Course{ID::gen()} {}

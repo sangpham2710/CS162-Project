@@ -25,8 +25,8 @@ std::istream& operator>>(std::istream& stream, Course& course) {
   getline(stream, course.endDate);
   stream >> course.maxNumberOfStudents;
   stream >> course.numberOfCredits;
-  stream.ignore();
-  getline(stream, course.schedule);
+  stream >> course.session1;
+  stream >> course.session2;
   string semesterID;
   stream >> semesterID;
   course.pSemester = *App::pSemesters.find_if(
@@ -50,7 +50,8 @@ std::ostream& operator<<(std::ostream& stream, const Course& course) {
   stream << course.endDate << '\n';
   stream << course.maxNumberOfStudents << '\n';
   stream << course.numberOfCredits << '\n';
-  stream << course.schedule << '\n';
+  stream << course.session1 << '\n';
+  stream << course.session2 << '\n';
   stream << course.pSemester->_id << '\n';
   stream << course.pStudents.size() << '\n';
   for (const auto& p : course.pStudents) stream << p->_id << '\n';
@@ -241,13 +242,22 @@ void Course::createCourse() {
   cout << "\nInput number of credits: ";
   cin >> pCourse->numberOfCredits;
   cout << "\nInput schedule (Ex: MON:S1/TUE:S2): ";
-  cin >> pCourse->schedule;
+
+  string tmp;
+  cin.ignore();
+  getline(cin, tmp);
+  if (!Utils::convertStringScheduleToInt(tmp, pCourse->session1, pCourse->session2)) {
+      cout << "Invalid!\n";
+      delete pCourse;
+      Utils::waitForKeypress();
+      courseMainMenu();
+  }
 
   pCourse->pSemester = App::pCurrentSemester;
   App::pCurrentSemester->pCourses.push_back(pCourse);
   App::pCourses.push_back(pCourse);
 
-  cout << "\nCreated successfully!";
+  cout << "\nCreated successfully!\n";
   Utils::waitForKeypress();
   courseMainMenu();
 }
@@ -263,7 +273,12 @@ void Course::updateCourseInfo() {
   cout << "5. End date: " << this->endDate << "\n";
   cout << "6. Max number of students: " << this->maxNumberOfStudents << "\n";
   cout << "7. Number of credits: " << this->numberOfCredits << "\n";
-  cout << "8. Schedule: " << this->schedule << "\n\n";
+  
+  
+  string schedule;
+  Utils::convertIntScheduleToString(this->session1, this->session2, schedule);
+
+  cout << "8. Schedule: " << schedule << "\n";
   cout << "---------------------------------------\n";
   cout << "0. Return\n";
   cout << "Which one do you want to update? \n";
@@ -313,8 +328,11 @@ void Course::updateCourseInfo() {
       break;
     }
     case 8: {
-      cout << "New schedule: ";
-      cin >> this->schedule;
+      cout << "New schedule (Ex: MON:S1/TUE:S2): ";
+      string tmp;
+      cin.ignore();
+      getline(cin, tmp);
+      Utils::convertStringScheduleToInt(tmp, this->session1, this->session2);
       break;
     }
   }
