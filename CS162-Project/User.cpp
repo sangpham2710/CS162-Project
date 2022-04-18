@@ -26,6 +26,9 @@ std::istream& operator>>(std::istream& stream, User& user) {
     user.pStudent = *App::pStudents.find_if(
         [&](const auto& p) -> bool { return p->_id == studentID; });
   }
+  /*if (user.userType == User::Type::ACADEMIC_STAFF) {
+
+  }*/
   return stream;
 }
 
@@ -36,6 +39,8 @@ std::ostream& operator<<(std::ostream& stream, const User& user) {
   stream << user.userType << '\n';
   if (user.userType == User::Type::STUDENT)
     stream << user.pStudent->_id << '\n';
+  if (user.userType == User::Type::ACADEMIC_STAFF)
+      stream << user.pStaff->_id << '\n';
   return stream;
 }
 
