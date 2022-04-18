@@ -40,7 +40,7 @@ class Student {
         pClass{nullptr},
         pUser{nullptr},
         courseMarks{} {}
-  Student() : Student(ID::gen()) {}
+  Student() : Student{ID::gen()} {}
 
   friend std::istream& operator>>(std::istream& stream, Student& student);
   friend std::ostream& operator<<(std::ostream& stream, const Student& student);

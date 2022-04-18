@@ -145,6 +145,7 @@
     <ClCompile Include="Course.cpp" />
     <ClCompile Include="Course.h" />
     <ClCompile Include="CourseMark.cpp" />
+    <ClCompile Include="CourseRegistrationSession.cpp" />
     <ClCompile Include="CS162-Project.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="ID.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="CourseRegistrationSession.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="CSV.h" />
     <ClInclude Include="List.h" />
