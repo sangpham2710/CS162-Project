@@ -153,6 +153,7 @@
     <ClCompile Include="SchoolYear.cpp" />
     <ClCompile Include="Semester.cpp" />
     <ClCompile Include="Semester.h" />
+    <ClCompile Include="Staff.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="TimeStamp.cpp" />
     <ClCompile Include="User.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="List.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="SchoolYear.h" />
+    <ClInclude Include="Staff.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="CourseMark.h" />
     <ClInclude Include="TimeStamp.h" />

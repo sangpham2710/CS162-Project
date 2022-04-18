@@ -4,10 +4,12 @@
 
 #include "ID.h"
 #include "Student.h"
+#include "Staff.h"
 
 using std::string;
 
 class Student;
+class Staff;
 
 class User {
  public:
@@ -18,8 +20,10 @@ class User {
   Type userType;
 
   Student* pStudent;
+  Staff* pStaff;
 
-  User(const string& id) : _id(id), username{}, password{}, userType{} {}
+  User(const string& id)
+      : _id(id), username{}, password{}, userType{}, pStudent{nullptr}, pStaff{nullptr} {}
   User() : _id{ID::gen()} {}
   User(const string& username, const string& password, const Type& userType)
       : _id{ID::gen()},

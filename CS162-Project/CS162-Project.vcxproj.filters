@@ -81,6 +81,9 @@
     <ClCompile Include="CourseRegistrationSession.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="Staff.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -126,6 +129,9 @@
       <Filter>Library\TimeStamp</Filter>
     </ClInclude>
     <ClInclude Include="CourseRegistrationSession.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
