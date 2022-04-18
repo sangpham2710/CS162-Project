@@ -4,6 +4,7 @@
 
 #include "Class.h"
 #include "Course.h"
+#include "CourseRegistrationSession.h"
 #include "List.h"
 #include "SchoolYear.h"
 #include "Semester.h"
@@ -23,6 +24,7 @@ class App {
   static List<Course*> pCourses;
   static List<Class*> pClasses;
   static List<Student*> pStudents;
+  static CourseRegistrationSession courseRegistrationSession;
 
   static void allocate();
   static void loadData();

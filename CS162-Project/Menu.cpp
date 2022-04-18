@@ -5,6 +5,7 @@
 #include "App.h"
 #include "Class.h"
 #include "Console.h"
+#include "CourseRegistrationSession.h"
 #include "Student.h"
 #include "Utils.h"
 
@@ -17,7 +18,8 @@ void Menu::staffMenu() {
   cout << "2. Classes\n";
   cout << "3. School years / Semesters\n";
   cout << "4. Change default semester\n";
-  cout << "5. Log out\n";
+  cout << "5. Course registration session\n";
+  cout << "0. Log out\n";
   cout << "Your option: ";
   int option = -1;
   while (option < 1 || option > 5) {
@@ -40,6 +42,9 @@ void Menu::staffMenu() {
         Semester::changeDefaultSemester();
         break;
       case 5:
+        CourseRegistrationSession::viewMainMenu();
+        break;
+      case 0:
         App::pCurrentUser = nullptr;
         App::main();
         return;
@@ -98,6 +103,7 @@ void Menu::studentMenu() {
 }
 
 void Menu::welcome() {
+  Console::clear();
   cout << "1. Login\n";
   cout << "2. Exit\n";
   int option = Utils::getOption(1, 2);

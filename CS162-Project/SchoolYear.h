@@ -18,7 +18,7 @@ class SchoolYear {
 
   SchoolYear(const string& id)
       : _id{id}, yearName{}, pSemesters{}, pClasses{} {}
-  SchoolYear() : SchoolYear(ID::gen()) {}
+  SchoolYear() : SchoolYear{ID::gen()} {}
 
   friend std::istream& operator>>(std::istream& stream, SchoolYear& schoolYear);
   friend std::ostream& operator<<(std::ostream& stream,

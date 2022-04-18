@@ -26,6 +26,7 @@ List<Semester*> App::pSemesters{};
 List<Course*> App::pCourses{};
 List<Class*> App::pClasses{};
 List<Student*> App::pStudents{};
+CourseRegistrationSession App::courseRegistrationSession{};
 
 void App::allocate() {
   // Console::setup();
@@ -50,6 +51,8 @@ void App::loadData() {
   // User::Type::ACADEMIC_STAFF});
   //  App::pUsers.push_back(new User{"student", "student",
   //  User::Type::STUDENT});
+  App::courseRegistrationSession.startTime.setDay(17).setMonth(4).setYear(2022);
+  App::courseRegistrationSession.endTime.setDay(19).setMonth(4).setYear(2022);
 
   if (!fs::exists(Data::DATA_DIR)) return;
   if (fs::exists(Data::USERS_DIR)) Data::loadIDs(Data::USERS_DIR, App::pUsers);
@@ -118,10 +121,7 @@ void App::saveData() {
   ofs.close();
 }
 
-void App::main() {
-  Console::clear();
-  Menu::welcome();
-}
+void App::main() { Menu::welcome(); }
 
 void App::run() {
   App::allocate();
