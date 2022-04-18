@@ -243,6 +243,7 @@ void Course::createCourse() {
   cout << "\nInput schedule (Ex: MON:S1/TUE:S2): ";
   cin >> pCourse->schedule;
 
+  pCourse->pSemester = App::pCurrentSemester;
   App::pCurrentSemester->pCourses.push_back(pCourse);
   App::pCourses.push_back(pCourse);
 
@@ -496,8 +497,8 @@ void Course::deleteCourse(bool cascade) {
   }
 
   if (!cascade) {
-      this->pSemester->pCourses.remove_if(
-          [&](const auto& p) -> bool { return p->_id == this->_id; });
+    this->pSemester->pCourses.remove_if(
+        [&](const auto& p) -> bool { return p->_id == this->_id; });
   }
 
   auto it1 = App::pCourses.find_if(
