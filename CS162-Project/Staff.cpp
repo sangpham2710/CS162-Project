@@ -10,7 +10,6 @@
 using std::cout;
 
 std::istream& operator>>(std::istream& stream, Staff& staff) {
-  int n;
   stream >> staff._id;
   stream.ignore();
   getline(stream, staff.staffCode);

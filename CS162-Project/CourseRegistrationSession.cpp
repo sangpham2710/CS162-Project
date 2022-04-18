@@ -9,6 +9,20 @@
 
 using std::string;
 
+std::istream& operator>>(std::istream& stream,
+                         CourseRegistrationSession& session) {
+  stream >> session.startTime;
+  stream >> session.endTime;
+  return stream;
+}
+
+std::ostream& operator<<(std::ostream& stream,
+                         const CourseRegistrationSession& session) {
+  cout << session.startTime << '\n';
+  cout << session.endTime << '\n';
+  return stream;
+}
+
 bool CourseRegistrationSession::isOpen() {
   return TimeStamp::now().inRange(this->startTime, this->endTime);
 }

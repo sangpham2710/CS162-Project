@@ -26,6 +26,7 @@ List<Semester*> App::pSemesters{};
 List<Course*> App::pCourses{};
 List<Class*> App::pClasses{};
 List<Student*> App::pStudents{};
+List<Staff*> App::pStaffs{};
 CourseRegistrationSession App::courseRegistrationSession{};
 
 void App::allocate() {
@@ -39,6 +40,7 @@ void App::deallocate() {
   for (const auto& p : App::pCourses) delete p;
   for (const auto& p : App::pClasses) delete p;
   for (const auto& p : App::pStudents) delete p;
+  for (const auto& p : App::pStaffs) delete p;
   // already deallocated
   // delete App::pCurrentUser;
   // delete App::pCurrentSemester;
@@ -66,6 +68,9 @@ void App::loadData() {
     Data::loadIDs(Data::COURSES_DIR, App::pCourses);
   if (fs::exists(Data::STUDENTS_DIR))
     Data::loadIDs(Data::STUDENTS_DIR, App::pStudents);
+  if (fs::exists(Data::STAFFS_DIR))
+    Data::loadIDs(Data::STAFFS_DIR, App::pStaffs);
+
 
   if (fs::exists(Data::USERS_DIR)) Data::loadObjs(Data::USERS_DIR, App::pUsers);
   if (fs::exists(Data::SCHOOLYEARS_DIR))
@@ -78,7 +83,10 @@ void App::loadData() {
     Data::loadObjs(Data::COURSES_DIR, App::pCourses);
   if (fs::exists(Data::STUDENTS_DIR))
     Data::loadObjs(Data::STUDENTS_DIR, App::pStudents);
+  if (fs::exists(Data::STAFFS_DIR))
+    Data::loadObjs(Data::STAFFS_DIR, App::pStaffs);
 
+  // pRecentSemester & pCurrentSemester
   ifstream ifs(Data::DATA_DIR + "recentSemester.txt");
   if (!ifs.is_open()) return;
   string recentSemesterID;
@@ -87,6 +95,8 @@ void App::loadData() {
       [&](const auto& p) -> bool { return p->_id == recentSemesterID; });
   App::pCurrentSemester = App::pRecentSemester;
   ifs.close();
+
+  // CourseRegistrationSession
 }
 
 void App::saveData() {
@@ -107,6 +117,7 @@ void App::saveData() {
   Data::saveIDs(Data::CLASSES_DIR, App::pClasses);
   Data::saveIDs(Data::COURSES_DIR, App::pCourses);
   Data::saveIDs(Data::STUDENTS_DIR, App::pStudents);
+  Data::saveIDs(Data::STAFFS_DIR, App::pStaffs);
 
   Data::saveObjs(Data::USERS_DIR, App::pUsers);
   Data::saveObjs(Data::SCHOOLYEARS_DIR, App::pSchoolYears);
@@ -114,6 +125,7 @@ void App::saveData() {
   Data::saveObjs(Data::CLASSES_DIR, App::pClasses);
   Data::saveObjs(Data::COURSES_DIR, App::pCourses);
   Data::saveObjs(Data::STUDENTS_DIR, App::pStudents);
+  Data::saveObjs(Data::STAFFS_DIR, App::pStaffs);
 
   ofstream ofs(Data::DATA_DIR + "recentSemester.txt");
   if (!ofs.is_open()) return;
@@ -121,7 +133,9 @@ void App::saveData() {
   ofs.close();
 }
 
-void App::main() { Menu::welcome(); }
+void App::main() {
+  Menu::welcome();
+}
 
 void App::run() {
   App::allocate();
