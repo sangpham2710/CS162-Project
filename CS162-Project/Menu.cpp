@@ -14,6 +14,8 @@ using std::cout;
 
 void Menu::staffMenu() {
   Console::clear();
+  bool isRecentSemester =
+      App::pCurrentSemester->_id == App::pRecentSemester->_id;
   cout << "-------------------------------\n";
   cout << "1. Change password\n";
   cout << "2. Update info\n";
@@ -21,11 +23,13 @@ void Menu::staffMenu() {
   cout << "4. Classes\n";
   cout << "5. School years / Semesters\n";
   cout << "6. Change default semester\n";
-  cout << "7. Course registration session\n";
+  if (isRecentSemester) {
+    cout << "7. Course registration session\n";
+  }
   cout << "--------------------------------\n";
   cout << "0. Logout\n";
   cout << "--------------------------------\n";
-  int option = Utils::getOption(0, 7);
+  int option = Utils::getOption(0, isRecentSemester ? 7 : 6);
   switch (option) {
     case 1:
       App::pCurrentUser->changePassword();
@@ -34,19 +38,15 @@ void Menu::staffMenu() {
       App::pCurrentUser->pStaff->updateStaffInfo();
       break;
     case 3:
-      // Courses scene
       Course::courseMainMenu();
       break;
     case 4:
-      // Classes scene
       Class::viewMainMenu();
       break;
     case 5:
-      // ------------------HOA------------------------
       SchoolYear::viewSchoolYearSemesterMenu();
       break;
     case 6:
-      // Change default semester
       Semester::changeDefaultSemester();
       break;
     case 7:
@@ -66,12 +66,11 @@ void Menu::studentMenu() {
   cout << "1. Change password\n";
   cout << "2. Update info\n";
   cout << "3. Enroll in a course\n";
-  cout << "4. View/Unenroll courses\n";
+  cout << "4. View courses\n";
   cout << "5. View scoreboard\n";
   cout << "---------------------------\n";
   cout << "0. Return\n";
   cout << "---------------------------\n";
-  // Handle options
   int option = Utils::getOption(0, 5);
 
   switch (option) {
@@ -87,11 +86,12 @@ void Menu::studentMenu() {
       App::pCurrentUser->pStudent->updateStudentInfo();
       break;
     case 3:
-      // Enroll in course
-      break;
+      // Enroll/Unenroll in course
 
+      break;
     case 4:
-      // View/Unenroll courses
+      // View courses
+
       break;
     case 5:
       App::pCurrentUser->pStudent->viewStudentScoreboard();
