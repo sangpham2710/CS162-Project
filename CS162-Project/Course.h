@@ -67,4 +67,6 @@ class Course {
   void courseUpdateStudentMenu();
 
   void enrollUnenrollCourse();
+
+  void displayCourse();
 };

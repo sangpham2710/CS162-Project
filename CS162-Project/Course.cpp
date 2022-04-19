@@ -740,3 +740,15 @@ void Course::enrollUnenrollCourse() {
     return;
   }
 }
+
+void Course::displayCourse() {
+  cout << string(20, '-') << '\n';
+  cout << this->courseCode << " - " << this->courseName << '\n';
+  cout << "Lecturer: " << this->lecturer << '\n';
+  cout << "Start date: " << this->startDate << '\n';
+  cout << "End date: " << this->endDate << '\n';
+  cout << "Maximum number of students: " << this->maxNumberOfStudents << '\n';
+  cout << "Number of credits: " << this->numberOfCredits << '\n';
+  cout << "Sessions: " << this->session1 << ' ' << this->session2 << '\n';
+  cout << "Number of students: " << this->pStudents.size() << '\n';
+}
