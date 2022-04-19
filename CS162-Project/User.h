@@ -3,8 +3,8 @@
 #include <string>
 
 #include "ID.h"
-#include "Student.h"
 #include "Staff.h"
+#include "Student.h"
 
 using std::string;
 
@@ -23,7 +23,12 @@ class User {
   Staff* pStaff;
 
   User(const string& id)
-      : _id(id), username{}, password{}, userType{}, pStudent{nullptr}, pStaff{nullptr} {}
+      : _id(id),
+        username{},
+        password{},
+        userType{},
+        pStudent{nullptr},
+        pStaff{nullptr} {}
   User() : _id{ID::gen()} {}
   User(const string& username, const string& password, const Type& userType)
       : _id{ID::gen()},
@@ -34,4 +39,6 @@ class User {
   friend std::ostream& operator<<(std::ostream& stream, const User& user);
   static void login();
   void changePassword();
+
+  void displayUser();
 };

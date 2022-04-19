@@ -208,3 +208,13 @@ void Student::viewStudentScoreboard() {
   Utils::waitForKeypress();
   Menu::studentMenu();
 }
+
+
+void Student::displayStudent() {
+  cout << string(20, '-') << '\n';
+  cout << this->studentCode << " - " << this->lastName << ' ' << this->lastName
+       << " - " << this->gender << " - " << this->dateOfBirth << " - "
+       << this->socialID << '\n';
+  cout << "Class: " << this->pClass->classCode << '\n';
+  cout << "Enrolled in " << this->courseMarks.size() << " courses\n";
+}
