@@ -65,11 +65,11 @@ void Menu::studentMenu() {
   cout << "---------------------------\n";
   cout << "1. Change password\n";
   cout << "2. Update info\n";
-  cout << "3. Enroll in a course\n";
-  cout << "4. View courses\n";
+  cout << "3. Enroll/unenroll a course\n";
+  cout << "4. View enrolled courses\n";
   cout << "5. View scoreboard\n";
   cout << "---------------------------\n";
-  cout << "0. Return\n";
+  cout << "0. Logout\n";
   cout << "---------------------------\n";
   int option = Utils::getOption(0, 5);
 
@@ -86,12 +86,12 @@ void Menu::studentMenu() {
       App::pCurrentUser->pStudent->updateStudentInfo();
       break;
     case 3:
-      // Enroll/Unenroll in course
-
+      // Enroll/Unenroll a course
+      App::pCurrentUser->pStudent->enrollUnenrollCourseScene();
       break;
     case 4:
-      // View courses
-
+      // View enrolled courses
+      App::pCurrentUser->pStudent->viewEnrolledCourses();
       break;
     case 5:
       App::pCurrentUser->pStudent->viewStudentScoreboard();

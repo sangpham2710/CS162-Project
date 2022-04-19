@@ -65,4 +65,6 @@ class Course {
   void courseChooseMenu();
   void courseUpdateMenu();
   void courseUpdateStudentMenu();
+
+  void enrollUnenrollCourse();
 };

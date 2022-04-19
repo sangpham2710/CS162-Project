@@ -71,7 +71,7 @@ void Course::courseMainMenu() {
   cout << i << ". "
        << "Add new course \n";
   cout << 0 << ". "
-       << "return \n \n";
+       << "Return\n\n";
 
   // Handle options
   int option = Utils::getOption(0, i + 1);
@@ -246,11 +246,12 @@ void Course::createCourse() {
   string tmp;
   cin.ignore();
   getline(cin, tmp);
-  if (!Utils::convertStringScheduleToInt(tmp, pCourse->session1, pCourse->session2)) {
-      cout << "Invalid!\n";
-      delete pCourse;
-      Utils::waitForKeypress();
-      courseMainMenu();
+  if (!Utils::convertStringScheduleToInt(tmp, pCourse->session1,
+                                         pCourse->session2)) {
+    cout << "Invalid!\n";
+    delete pCourse;
+    Utils::waitForKeypress();
+    courseMainMenu();
   }
 
   pCourse->pSemester = App::pCurrentSemester;
@@ -273,8 +274,7 @@ void Course::updateCourseInfo() {
   cout << "5. End date: " << this->endDate << "\n";
   cout << "6. Max number of students: " << this->maxNumberOfStudents << "\n";
   cout << "7. Number of credits: " << this->numberOfCredits << "\n";
-  
-  
+
   string schedule;
   Utils::convertIntScheduleToString(this->session1, this->session2, schedule);
 
@@ -681,4 +681,74 @@ void Course::exportStudents() {
   cout << "Exported successfully\n";
   Utils::waitForKeypress();
   this->courseChooseMenu();
+}
+
+void Course::enrollUnenrollCourse() {
+  Console::clear();
+  bool isEnrolling = App::pCurrentUser->pStudent->courseMarks.find_if(
+                         [&](const auto& courseMark) -> bool {
+                           return this->_id == courseMark.pCourse->_id;
+                         }) == App::pCurrentUser->pStudent->courseMarks.end();
+  cout << "Do you want to " << (isEnrolling ? "enroll" : "unenroll")
+       << " course " << this->courseCode << "?\n";
+  cout << "1. Yes\n";
+  cout << "2. No\n";
+  int option = Utils::getOption(1, 2);
+  if (option == 1) {
+    if (!App::courseRegistrationSession.isOpen()) {
+      cout << "Sorry the registration session has already closed!\n";
+      Utils::waitForKeypress();
+      Menu::studentMenu();
+      return;
+    }
+    if (isEnrolling) {
+      auto recentSemesterCourseMarks =
+          App::pCurrentUser->pStudent->courseMarks.filter(
+              [&](const auto& courseMark) -> bool {
+                return courseMark.pCourse->pSemester->_id ==
+                       App::pRecentSemester->_id;
+              });
+      auto itScheduleConflictingCourseMark = recentSemesterCourseMarks.find_if(
+          [&](const auto& courseMark) -> bool {
+            return courseMark.pCourse->session1 == this->session1 ||
+                   courseMark.pCourse->session2 == this->session1 ||
+                   courseMark.pCourse->session1 == this->session2 ||
+                   courseMark.pCourse->session2 == this->session2;
+          });
+      bool scheduleConflict =
+          itScheduleConflictingCourseMark != recentSemesterCourseMarks.end();
+      if (scheduleConflict) {
+        cout << "Cannot enroll in this course because there is a schedule "
+                "conflict with the course "
+             << itScheduleConflictingCourseMark->pCourse->courseCode << "!\n";
+        Utils::waitForKeypress();
+        App::pCurrentUser->pStudent->enrollUnenrollCourseScene();
+        return;
+      }
+      CourseMark courseMark;
+      courseMark.pCourse = this;
+      App::pCurrentUser->pStudent->courseMarks.push_back(courseMark);
+
+      this->pStudents.push_back(App::pCurrentUser->pStudent);
+      cout << "Enrolled successfully!\n";
+      Utils::waitForKeypress();
+      App::pCurrentUser->pStudent->enrollUnenrollCourseScene();
+      return;
+    } else {
+      App::pCurrentUser->pStudent->courseMarks.remove_if(
+          [&](const auto& courseMark) -> bool {
+            return courseMark.pCourse->_id == this->_id;
+          });
+      this->pStudents.remove_if([&](const auto& p) -> bool {
+        return p->_id == App::pCurrentUser->pStudent->_id;
+      });
+      cout << "Unenrolled successfully!\n";
+      Utils::waitForKeypress();
+      App::pCurrentUser->pStudent->enrollUnenrollCourseScene();
+      return;
+    }
+  } else {
+    Menu::studentMenu();
+    return;
+  }
 }
