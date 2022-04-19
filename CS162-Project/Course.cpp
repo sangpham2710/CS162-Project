@@ -241,17 +241,9 @@ void Course::createCourse() {
   cin >> pCourse->maxNumberOfStudents;
   cout << "\nInput number of credits: ";
   cin >> pCourse->numberOfCredits;
-  cout << "\nInput schedule (Ex: MON:S1/TUE:S2): ";
 
-  string tmp;
-  cin.ignore();
-  getline(cin, tmp);
-  if (!Utils::convertStringScheduleToInt(tmp, pCourse->session1, pCourse->session2)) {
-      cout << "Invalid!\n";
-      delete pCourse;
-      Utils::waitForKeypress();
-      courseMainMenu();
-  }
+  cout << "\nInput schedule: ";
+  Utils::getSchedule(pCourse->session1, pCourse->session2);
 
   pCourse->pSemester = App::pCurrentSemester;
   App::pCurrentSemester->pCourses.push_back(pCourse);
@@ -328,11 +320,8 @@ void Course::updateCourseInfo() {
       break;
     }
     case 8: {
-      cout << "New schedule (Ex: MON:S1/TUE:S2): ";
-      string tmp;
-      cin.ignore();
-      getline(cin, tmp);
-      Utils::convertStringScheduleToInt(tmp, this->session1, this->session2);
+      cout << "New schedule: ";
+      Utils::getSchedule(this->session1, this->session2);
       break;
     }
   }
