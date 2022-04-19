@@ -13,6 +13,7 @@ using std::cout;
 using std::string;
 
 class Student;
+
 class Class {
  public:
   string _id;
@@ -39,6 +40,4 @@ class Class {
   void exportScoreboard();
   void exportStudents();
   void importNewStudents();
-
-
 };

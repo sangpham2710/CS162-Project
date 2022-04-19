@@ -95,48 +95,47 @@ void SchoolYear::schoolYearChooseMenu() {
   Console::clear();
 
   if (App::pSchoolYears.length() == 1) {
-      cout << "---------------------------------------\n";
-      cout << "1. Update school year\n";
-      cout << "---------------------------------------\n";
-      cout << "0. Return\n";
+    cout << "---------------------------------------\n";
+    cout << "1. Update school year\n";
+    cout << "---------------------------------------\n";
+    cout << "0. Return\n";
 
-      int option = Utils::getOption(0, 1);
-      switch (option) {
+    int option = Utils::getOption(0, 1);
+    switch (option) {
       case 0: {
-          SchoolYear::viewMainMenu();
-          return;
+        SchoolYear::viewMainMenu();
+        return;
       }
       case 1: {
-          // update school year
-          this->schoolYearUpdate();
-          return;
+        // update school year
+        this->schoolYearUpdate();
+        return;
       }
-      }
-  }
-  else {
-      cout << "---------------------------------------\n";
-      cout << "1. Update school year\n";
-      cout << "2. Delete school year\n";
-      cout << "---------------------------------------\n";
-      cout << "0. Return\n";
+    }
+  } else {
+    cout << "---------------------------------------\n";
+    cout << "1. Update school year\n";
+    cout << "2. Delete school year\n";
+    cout << "---------------------------------------\n";
+    cout << "0. Return\n";
 
-      int option = Utils::getOption(0, 2);
-      switch (option) {
+    int option = Utils::getOption(0, 2);
+    switch (option) {
       case 0: {
-          SchoolYear::viewMainMenu();
-          return;
+        SchoolYear::viewMainMenu();
+        return;
       }
       case 1: {
-          // update school year
-          this->schoolYearUpdate();
-          return;
+        // update school year
+        this->schoolYearUpdate();
+        return;
       }
       case 2: {
-          // delete school year
-          this->deleteSchoolYearScene();
-          return;
+        // delete school year
+        this->deleteSchoolYearScene();
+        return;
       }
-      }
+    }
   }
 }
 
@@ -206,18 +205,18 @@ void SchoolYear::deleteSchoolYearScene() {
 }
 
 void SchoolYear::deleteSchoolYear() {
-    if (App::pCurrentSemester->pSchoolYear->_id == this->_id) {
-        if (App::pSchoolYears.back()->_id == this->_id) {
-            App::pCurrentSemester = App::pSchoolYears[App::pSchoolYears.length() - 2]->pSemesters.back();
-        }
-        else {
-            App::pCurrentSemester = App::pSchoolYears.back()->pSemesters.back();
-        }
+  if (App::pCurrentSemester->pSchoolYear->_id == this->_id) {
+    if (App::pSchoolYears.back()->_id == this->_id) {
+      App::pCurrentSemester =
+          App::pSchoolYears[App::pSchoolYears.length() - 2]->pSemesters.back();
+    } else {
+      App::pCurrentSemester = App::pSchoolYears.back()->pSemesters.back();
     }
-    App::pRecentSemester = App::pCurrentSemester;
+  }
+  App::pRecentSemester = App::pCurrentSemester;
 
   for (const auto& p : this->pSemesters) {
-      p->deleteSemester(1);
+    p->deleteSemester(1);
   }
 
   auto it = App::pSchoolYears.find_if(

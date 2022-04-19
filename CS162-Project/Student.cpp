@@ -76,6 +76,63 @@ double Student::getOverallGPA() {
          (double)this->courseMarks.size();
 }
 
+void Student::viewEnrolledCourses() {
+  Console::clear();
+  cout << "All enrolled courses: \n";
+  auto recentSemesterCourseMarks =
+      this->courseMarks.filter([&](const auto& courseMark) -> bool {
+        return courseMark.pCourse->pSemester->_id == App::pRecentSemester->_id;
+      });
+  for (const auto& courseMark : recentSemesterCourseMarks) {
+    cout << courseMark.pCourse->courseCode << " - "
+         << courseMark.pCourse->courseName << '\n';
+  }
+  Utils::waitForKeypress();
+  Menu::studentMenu();
+}
+
+void Student::enrollUnenrollCourseScene() {
+  Console::clear();
+  if (!App::courseRegistrationSession.isOpen()) {
+    cout << "The course registration is not open right now!\n";
+    Utils::waitForKeypress();
+    Menu::studentMenu();
+    return;
+  }
+  cout << "Course registration session is opened!\n";
+  cout << "From: ";
+  App::courseRegistrationSession.startTime.output();
+  cout << '\n';
+  cout << "To: ";
+  App::courseRegistrationSession.endTime.output();
+  cout << '\n';
+  int i = 1;
+  for (const auto& pCourse : App::pRecentSemester->pCourses) {
+    auto itCourseMark =
+        this->courseMarks.find_if([&](const auto& courseMark) -> bool {
+          return courseMark.pCourse->_id == pCourse->_id;
+        });
+    if (itCourseMark != this->courseMarks.end()) {
+      cout << i << ". " << pCourse->courseCode << " - " << pCourse->courseName
+           << '\t' << "ENROLLED\n";
+    } else {
+      cout << i << ". " << pCourse->courseCode << " - " << pCourse->courseName
+           << '\t' << "UNENROLLED\n";
+    }
+    ++i;
+  }
+  cout << "0. Return\n";
+  cout << "Please choose the course that you want to enroll/unenroll\n";
+  int option = Utils::getOption(0, i);
+  if (option == 0) {
+    Menu::studentMenu();
+    return;
+  } else {
+    App::pRecentSemester->pCourses[option - 1]->enrollUnenrollCourse();
+    return;
+  }
+}
+
 void Student::updateStudentInfo() {
   Console::clear();
   cout << "----------------------------------------\n";
@@ -93,7 +150,6 @@ void Student::updateStudentInfo() {
       Menu::studentMenu();
       return;
     }
-
     case 1: {
       cout << "-------------------\n";
       cout << "New last name: ";

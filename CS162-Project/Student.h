@@ -46,4 +46,6 @@ class Student {
   void updateStudentInfo();
   double getSemesterGPA();
   double getOverallGPA();
+  void viewEnrolledCourses();
+  void enrollUnenrollCourseScene();
 };

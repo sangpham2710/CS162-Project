@@ -25,8 +25,8 @@ std::istream& operator>>(std::istream& stream, Course& course) {
   getline(stream, course.endDate);
   stream >> course.maxNumberOfStudents;
   stream >> course.numberOfCredits;
-  stream.ignore();
-  getline(stream, course.schedule);
+  stream >> course.session1;
+  stream >> course.session2;
   string semesterID;
   stream >> semesterID;
   course.pSemester = *App::pSemesters.find_if(
@@ -50,7 +50,8 @@ std::ostream& operator<<(std::ostream& stream, const Course& course) {
   stream << course.endDate << '\n';
   stream << course.maxNumberOfStudents << '\n';
   stream << course.numberOfCredits << '\n';
-  stream << course.schedule << '\n';
+  stream << course.session1 << '\n';
+  stream << course.session2 << '\n';
   stream << course.pSemester->_id << '\n';
   stream << course.pStudents.size() << '\n';
   for (const auto& p : course.pStudents) stream << p->_id << '\n';
@@ -70,7 +71,7 @@ void Course::courseMainMenu() {
   cout << i << ". "
        << "Add new course \n";
   cout << 0 << ". "
-       << "return \n \n";
+       << "Return\n\n";
 
   // Handle options
   int option = Utils::getOption(0, i + 1);
@@ -240,14 +241,15 @@ void Course::createCourse() {
   cin >> pCourse->maxNumberOfStudents;
   cout << "\nInput number of credits: ";
   cin >> pCourse->numberOfCredits;
-  cout << "\nInput schedule (Ex: MON:S1/TUE:S2): ";
-  cin >> pCourse->schedule;
+
+  cout << "\nInput schedule: ";
+  Utils::getSchedule(pCourse->session1, pCourse->session2);
 
   pCourse->pSemester = App::pCurrentSemester;
   App::pCurrentSemester->pCourses.push_back(pCourse);
   App::pCourses.push_back(pCourse);
 
-  cout << "\nCreated successfully!";
+  cout << "\nCreated successfully!\n";
   Utils::waitForKeypress();
   courseMainMenu();
 }
@@ -263,7 +265,11 @@ void Course::updateCourseInfo() {
   cout << "5. End date: " << this->endDate << "\n";
   cout << "6. Max number of students: " << this->maxNumberOfStudents << "\n";
   cout << "7. Number of credits: " << this->numberOfCredits << "\n";
-  cout << "8. Schedule: " << this->schedule << "\n\n";
+
+  string schedule;
+  Utils::convertIntScheduleToString(this->session1, this->session2, schedule);
+
+  cout << "8. Schedule: " << schedule << "\n";
   cout << "---------------------------------------\n";
   cout << "0. Return\n";
   cout << "Which one do you want to update? \n";
@@ -314,7 +320,7 @@ void Course::updateCourseInfo() {
     }
     case 8: {
       cout << "New schedule: ";
-      cin >> this->schedule;
+      Utils::getSchedule(this->session1, this->session2);
       break;
     }
   }
@@ -663,4 +669,74 @@ void Course::exportStudents() {
   cout << "Exported successfully\n";
   Utils::waitForKeypress();
   this->courseChooseMenu();
+}
+
+void Course::enrollUnenrollCourse() {
+  Console::clear();
+  bool isEnrolling = App::pCurrentUser->pStudent->courseMarks.find_if(
+                         [&](const auto& courseMark) -> bool {
+                           return this->_id == courseMark.pCourse->_id;
+                         }) == App::pCurrentUser->pStudent->courseMarks.end();
+  cout << "Do you want to " << (isEnrolling ? "enroll" : "unenroll")
+       << " course " << this->courseCode << "?\n";
+  cout << "1. Yes\n";
+  cout << "2. No\n";
+  int option = Utils::getOption(1, 2);
+  if (option == 1) {
+    if (!App::courseRegistrationSession.isOpen()) {
+      cout << "Sorry the registration session has already closed!\n";
+      Utils::waitForKeypress();
+      Menu::studentMenu();
+      return;
+    }
+    if (isEnrolling) {
+      auto recentSemesterCourseMarks =
+          App::pCurrentUser->pStudent->courseMarks.filter(
+              [&](const auto& courseMark) -> bool {
+                return courseMark.pCourse->pSemester->_id ==
+                       App::pRecentSemester->_id;
+              });
+      auto itScheduleConflictingCourseMark = recentSemesterCourseMarks.find_if(
+          [&](const auto& courseMark) -> bool {
+            return courseMark.pCourse->session1 == this->session1 ||
+                   courseMark.pCourse->session2 == this->session1 ||
+                   courseMark.pCourse->session1 == this->session2 ||
+                   courseMark.pCourse->session2 == this->session2;
+          });
+      bool scheduleConflict =
+          itScheduleConflictingCourseMark != recentSemesterCourseMarks.end();
+      if (scheduleConflict) {
+        cout << "Cannot enroll in this course because there is a schedule "
+                "conflict with the course "
+             << itScheduleConflictingCourseMark->pCourse->courseCode << "!\n";
+        Utils::waitForKeypress();
+        App::pCurrentUser->pStudent->enrollUnenrollCourseScene();
+        return;
+      }
+      CourseMark courseMark;
+      courseMark.pCourse = this;
+      App::pCurrentUser->pStudent->courseMarks.push_back(courseMark);
+
+      this->pStudents.push_back(App::pCurrentUser->pStudent);
+      cout << "Enrolled successfully!\n";
+      Utils::waitForKeypress();
+      App::pCurrentUser->pStudent->enrollUnenrollCourseScene();
+      return;
+    } else {
+      App::pCurrentUser->pStudent->courseMarks.remove_if(
+          [&](const auto& courseMark) -> bool {
+            return courseMark.pCourse->_id == this->_id;
+          });
+      this->pStudents.remove_if([&](const auto& p) -> bool {
+        return p->_id == App::pCurrentUser->pStudent->_id;
+      });
+      cout << "Unenrolled successfully!\n";
+      Utils::waitForKeypress();
+      App::pCurrentUser->pStudent->enrollUnenrollCourseScene();
+      return;
+    }
+  } else {
+    Menu::studentMenu();
+    return;
+  }
 }
