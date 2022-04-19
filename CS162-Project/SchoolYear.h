@@ -18,9 +18,19 @@ class SchoolYear {
 
   SchoolYear(const string& id)
       : _id{id}, yearName{}, pSemesters{}, pClasses{} {}
-  SchoolYear() : SchoolYear(ID::gen()) {}
+  SchoolYear() : SchoolYear{ID::gen()} {}
 
   friend std::istream& operator>>(std::istream& stream, SchoolYear& schoolYear);
   friend std::ostream& operator<<(std::ostream& stream,
                                   const SchoolYear& schoolYear);
+
+  static void viewSchoolYearSemesterMenu();
+  static void viewMainMenu();
+  static void createSchoolYear();
+
+  void schoolYearChooseMenu();
+  void schoolYearUpdate();
+
+  void deleteSchoolYearScene();
+  void deleteSchoolYear();
 };

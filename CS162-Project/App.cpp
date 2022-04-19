@@ -26,8 +26,12 @@ List<Semester*> App::pSemesters{};
 List<Course*> App::pCourses{};
 List<Class*> App::pClasses{};
 List<Student*> App::pStudents{};
+List<Staff*> App::pStaffs{};
+CourseRegistrationSession App::courseRegistrationSession{};
 
-void App::allocate() { Console::setup(); }
+void App::allocate() {
+  // Console::setup();
+}
 
 void App::deallocate() {
   for (const auto& p : App::pUsers) delete p;
@@ -36,6 +40,7 @@ void App::deallocate() {
   for (const auto& p : App::pCourses) delete p;
   for (const auto& p : App::pClasses) delete p;
   for (const auto& p : App::pStudents) delete p;
+  for (const auto& p : App::pStaffs) delete p;
   // already deallocated
   // delete App::pCurrentUser;
   // delete App::pCurrentSemester;
@@ -43,12 +48,6 @@ void App::deallocate() {
 }
 
 void App::loadData() {
-  // App::pUsers.push_back(new User{"admin", "admin", User::Type::ADMIN});
-  // App::pUsers.push_back(new User{"staff", "staff",
-  // User::Type::ACADEMIC_STAFF});
-  //  App::pUsers.push_back(new User{"student", "student",
-  //  User::Type::STUDENT});
-
   if (!fs::exists(Data::DATA_DIR)) return;
   if (fs::exists(Data::USERS_DIR)) Data::loadIDs(Data::USERS_DIR, App::pUsers);
   if (fs::exists(Data::SCHOOLYEARS_DIR))
@@ -61,6 +60,8 @@ void App::loadData() {
     Data::loadIDs(Data::COURSES_DIR, App::pCourses);
   if (fs::exists(Data::STUDENTS_DIR))
     Data::loadIDs(Data::STUDENTS_DIR, App::pStudents);
+  if (fs::exists(Data::STAFFS_DIR))
+    Data::loadIDs(Data::STAFFS_DIR, App::pStaffs);
 
   if (fs::exists(Data::USERS_DIR)) Data::loadObjs(Data::USERS_DIR, App::pUsers);
   if (fs::exists(Data::SCHOOLYEARS_DIR))
@@ -73,14 +74,23 @@ void App::loadData() {
     Data::loadObjs(Data::COURSES_DIR, App::pCourses);
   if (fs::exists(Data::STUDENTS_DIR))
     Data::loadObjs(Data::STUDENTS_DIR, App::pStudents);
+  if (fs::exists(Data::STAFFS_DIR))
+    Data::loadObjs(Data::STAFFS_DIR, App::pStaffs);
 
-  ifstream ifs(Data::DATA_DIR + "recentSemester.txt");
+  ifstream ifs;
+
+  ifs.open(Data::DATA_DIR + "recentSemester.txt");
   if (!ifs.is_open()) return;
   string recentSemesterID;
   ifs >> recentSemesterID;
   App::pRecentSemester = *App::pSemesters.find_if(
       [&](const auto& p) -> bool { return p->_id == recentSemesterID; });
   App::pCurrentSemester = App::pRecentSemester;
+  ifs.close();
+
+  ifs.open(Data::DATA_DIR + "courseRegistrationSession.txt");
+  if (!ifs.is_open()) return;
+  ifs >> App::courseRegistrationSession;
   ifs.close();
 }
 
@@ -95,6 +105,7 @@ void App::saveData() {
   createIfNotExists(Data::CLASSES_DIR);
   createIfNotExists(Data::COURSES_DIR);
   createIfNotExists(Data::STUDENTS_DIR);
+  createIfNotExists(Data::STAFFS_DIR);
 
   Data::saveIDs(Data::USERS_DIR, App::pUsers);
   Data::saveIDs(Data::SCHOOLYEARS_DIR, App::pSchoolYears);
@@ -102,6 +113,7 @@ void App::saveData() {
   Data::saveIDs(Data::CLASSES_DIR, App::pClasses);
   Data::saveIDs(Data::COURSES_DIR, App::pCourses);
   Data::saveIDs(Data::STUDENTS_DIR, App::pStudents);
+  Data::saveIDs(Data::STAFFS_DIR, App::pStaffs);
 
   Data::saveObjs(Data::USERS_DIR, App::pUsers);
   Data::saveObjs(Data::SCHOOLYEARS_DIR, App::pSchoolYears);
@@ -109,25 +121,22 @@ void App::saveData() {
   Data::saveObjs(Data::CLASSES_DIR, App::pClasses);
   Data::saveObjs(Data::COURSES_DIR, App::pCourses);
   Data::saveObjs(Data::STUDENTS_DIR, App::pStudents);
+  Data::saveObjs(Data::STAFFS_DIR, App::pStaffs);
 
-  ofstream ofs(Data::DATA_DIR + "recentSemester.txt");
+  ofstream ofs;
+
+  ofs.open(Data::DATA_DIR + "recentSemester.txt");
   if (!ofs.is_open()) return;
   if (pRecentSemester) ofs << App::pRecentSemester->_id << '\n';
   ofs.close();
+
+  ofs.open(Data::DATA_DIR + "courseRegistrationSession.txt");
+  if (!ofs.is_open()) return;
+  if (pRecentSemester) ofs << App::courseRegistrationSession << '\n';
+  ofs.close();
 }
 
-void App::main() {
-  Console::clear();
-  User::login();
-  if (App::pCurrentUser->userType == User::Type::ACADEMIC_STAFF) {
-    Menu::staffMenu();
-    return;
-  }
-  if (App::pCurrentUser->userType == User::Type::STUDENT) {
-    Menu::studentMenu();
-    return;
-  }
-}
+void App::main() { Menu::welcome(); }
 
 void App::run() {
   App::allocate();

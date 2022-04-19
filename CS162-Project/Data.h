@@ -15,6 +15,7 @@ class Data {
   static const string CLASSES_DIR;
   static const string COURSES_DIR;
   static const string STUDENTS_DIR;
+  static const string STAFFS_DIR;
 
   template <class T>
   static bool loadIDs(const string& path, List<T*>& list);
@@ -39,6 +40,7 @@ const string Data::SEMESTERS_DIR = "data/semesters/";
 const string Data::CLASSES_DIR = "data/classes/";
 const string Data::COURSES_DIR = "data/courses/";
 const string Data::STUDENTS_DIR = "data/students/";
+const string Data::STAFFS_DIR = "data/staffs/";
 
 template <class T>
 bool Data::loadIDs(const string& path, List<T*>& list) {

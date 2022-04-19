@@ -25,4 +25,12 @@ class Semester {
                                   const Semester& semester);
   void addCourse(Course* const& course);
   void viewCourse(const string& courseID);
+  static void viewMainMenu();
+  static void createSemester();
+  void viewEditSemester();
+  void updateSemester();
+  void deleteSemesterScene();
+  void deleteSemester(bool cascade);
+
+  static void changeDefaultSemester();
 };

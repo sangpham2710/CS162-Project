@@ -1,5 +1,6 @@
 #include "Course.h"
 
+#include <fstream>
 #include <iostream>
 
 #include "App.h"
@@ -7,8 +8,11 @@
 #include "Menu.h"
 #include "Semester.h"
 #include "Student.h"
+#include "Utils.h"
 
 using std::cout;
+using std::ifstream;
+using std::ofstream;
 
 std::istream& operator>>(std::istream& stream, Course& course) {
   int n;
@@ -21,8 +25,8 @@ std::istream& operator>>(std::istream& stream, Course& course) {
   getline(stream, course.endDate);
   stream >> course.maxNumberOfStudents;
   stream >> course.numberOfCredits;
-  stream.ignore();
-  getline(stream, course.schedule);
+  stream >> course.session1;
+  stream >> course.session2;
   string semesterID;
   stream >> semesterID;
   course.pSemester = *App::pSemesters.find_if(
@@ -46,117 +50,12 @@ std::ostream& operator<<(std::ostream& stream, const Course& course) {
   stream << course.endDate << '\n';
   stream << course.maxNumberOfStudents << '\n';
   stream << course.numberOfCredits << '\n';
-  stream << course.schedule << '\n';
+  stream << course.session1 << '\n';
+  stream << course.session2 << '\n';
   stream << course.pSemester->_id << '\n';
   stream << course.pStudents.size() << '\n';
   for (const auto& p : course.pStudents) stream << p->_id << '\n';
   return stream;
-}
-
-void Course::choose(Course* pCourse, short screen, short option) {
-  if (screen == 1) {  // mainCourseMenu
-    if (option >= 1 && option <= App::pCurrentSemester->pCourses.size()) {
-      Course* pCourse = App::pCurrentSemester->pCourses[option - 1];
-      pCourse->courseChooseMenu();
-      return;
-    }
-    if (option == App::pCurrentSemester->pCourses.size() + 1) {
-      create();
-      return;
-    }
-    if (option == App::pCurrentSemester->pCourses.size() + 2) {
-      // return;
-      Menu::staffMenu();
-      return;
-    }
-  }
-
-  if (screen == 2) {  // chooseCourseMenu
-    switch (option) {
-      case 1: {
-        // update course
-        pCourse->courseUpdateMenu();
-        break;
-      }
-      case 2: {
-        // view students
-        pCourse->viewStudentScoreboard();
-        break;
-      }
-      case 3: {
-        // delete course
-        pCourse->deleteCourse();
-        break;
-      }
-      case 4: {
-        // import scoreboard
-        // pCourse->importScoreboard();
-        break;
-      }
-      case 5: {
-        // export scoreboard
-        // pCourse->exportScoreboard();
-        break;
-      }
-      case 6: {
-        // export list students
-      }
-      case 7: {
-        // import list students
-        break;
-      }
-      case 8: {
-        // return previous menu
-        courseMainMenu();
-        break;
-      }
-    }
-  }
-
-  if (screen == 3) {  // updateCourseMenu
-    switch (option) {
-      case 1: {
-        // update course information
-        pCourse->updateCourseInfo();
-        break;
-      }
-      case 2: {
-        // update student
-        pCourse->courseUpdateStudentMenu();
-        break;
-      }
-      case 3: {
-        // update student scoreboard
-        pCourse->updateStudentScoreBoard();
-        break;
-      }
-      case 4: {
-        // back to courseChooseMenu
-        pCourse->courseChooseMenu();
-        break;
-      }
-    }
-  }
-
-  if (screen == 4) {  // updateStudentMenu
-    switch (option) {
-      case 1: {
-        // add student
-        pCourse->addStudent();
-        break;
-      }
-      case 2: {
-        // remove student
-        pCourse->removeStudent();
-        break;
-      }
-      case 3: {
-        // retrun
-        pCourse->courseUpdateMenu();
-        break;
-      }
-    }
-  }
 }
 
 void Course::courseMainMenu() {
@@ -171,18 +70,25 @@ void Course::courseMainMenu() {
   cout << "---------------------------------------\n";
   cout << i << ". "
        << "Add new course \n";
-  cout << i + 1 << ". "
-       << "return \n \n";
-  cout << "Your choice: ";
+  cout << 0 << ". "
+       << "Return\n\n";
 
-  short option;
-  cin >> option;
-  while (option < 1 || option > i + 1) {
-    cout << "\nInvalid!\n";
-    cout << "Your choice: ";
-    cin >> option;
+  // Handle options
+  int option = Utils::getOption(0, i + 1);
+  if (option >= 1 && option <= i - 1) {
+    int index = option - 1;
+    Course* pCourse = App::pCurrentSemester->pCourses[index];
+    pCourse->courseChooseMenu();
+    return;
   }
-  choose(NULL, 1, option);
+  if (option == i) {
+    Course::createCourse();
+    return;
+  }
+  if (option == 0) {
+    Menu::staffMenu();
+    return;
+  }
 }
 
 void Course::courseChooseMenu() {
@@ -196,17 +102,42 @@ void Course::courseChooseMenu() {
   cout << "6. Export list students \n";
   cout << "7. Import list students \n";
   cout << "---------------------------------------\n";
-  cout << "8. Return \n\n";
+  cout << "0. Return \n\n";
 
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option < 1 || option > 8) {
-    cout << "\nInvalid!\n";
-    cout << "Your choice: ";
-    cin >> option;
+  int option = Utils::getOption(0, 7);
+  switch (option) {
+    case 0: {
+      Course::courseMainMenu();
+      break;
+    }
+    case 1: {
+      this->courseUpdateMenu();
+      break;
+    }
+    case 2: {
+      this->viewStudentScoreboard();
+      break;
+    }
+    case 3: {
+      this->deleteCourseScene();
+      break;
+    }
+    case 4: {
+      this->importScoreboard();
+      break;
+    }
+    case 5: {
+      this->exportScoreboard();
+      break;
+    }
+    case 6: {
+      this->exportStudents();
+    }
+    case 7: {
+      this->importStudents();
+      break;
+    }
   }
-  choose(this, 2, option);
 }
 
 void Course::courseUpdateMenu() {
@@ -216,17 +147,27 @@ void Course::courseUpdateMenu() {
   cout << "2. Update student \n";
   cout << "3. Update student scoreboard \n";
   cout << "---------------------------------------\n";
-  cout << "4. Return";
+  cout << "0. Return\n";
 
-  cout << "\nYour choice: ";
-  short option;
-  cin >> option;
-  while (option < 1 || option > 4) {
-    cout << "\nInvalid!\n";
-    cout << "Your choice: ";
-    cin >> option;
+  int option = Utils::getOption(0, 3);
+  switch (option) {
+    case 1: {
+      this->updateCourseInfo();
+      break;
+    }
+    case 2: {
+      this->courseUpdateStudentMenu();
+      break;
+    }
+    case 3: {
+      this->updateStudentScoreBoard();
+      break;
+    }
+    case 0: {
+      this->courseChooseMenu();
+      break;
+    }
   }
-  choose(this, 3, option);
 }
 
 void Course::courseUpdateStudentMenu() {
@@ -235,26 +176,36 @@ void Course::courseUpdateStudentMenu() {
   cout << "1. Add student to course \n";
   cout << "2. Remove student from course \n";
   cout << "---------------------------------------\n";
-  cout << "3. Return \n \n";
+  cout << "0. Return \n \n";
 
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option < 1 || option > 3) {
-    cout << "\nInvalid!\n";
-    cout << "Your choice: ";
-    cin >> option;
+  int option = Utils::getOption(0, 2);
+
+  switch (option) {
+    case 1: {
+      // add student
+      this->addStudent();
+      break;
+    }
+    case 2: {
+      // remove student
+      this->removeStudent();
+      break;
+    }
+    case 0: {
+      // return
+      this->courseUpdateMenu();
+      break;
+    }
   }
-  choose(this, 4, option);
 }
 
-void Course::create() {
+void Course::createCourse() {
   Console::clear();
 
   if (!App::pCurrentSemester) {
-    cout << "Please create a semester first \n";
-    cin.ignore();
-    cin.get();
+    cout << "Please create a semester first!\n";
+    Utils::waitForKeypress();
+    Menu::staffMenu();
     return;
   }
 
@@ -266,11 +217,13 @@ void Course::create() {
   string courseCode;
   cout << "Input course code: ";
   cin >> courseCode;
-  for (auto crs : App::pCurrentSemester->pCourses) {
-    if (crs->courseCode == courseCode) {
-      cout << "Current semester already has course " << crs->courseCode;
-      return;
-    }
+  if (App::pCurrentSemester->pCourses.find_if([&](const auto& p) -> bool {
+        return p->courseCode == courseCode;
+      }) != App::pCurrentSemester->pCourses.end()) {
+    cout << "Current semester already has course " << courseCode << '\n';
+    Utils::waitForKeypress();
+    Course::courseMainMenu();
+    return;
   }
 
   Course* pCourse = new Course();
@@ -288,22 +241,16 @@ void Course::create() {
   cin >> pCourse->maxNumberOfStudents;
   cout << "\nInput number of credits: ";
   cin >> pCourse->numberOfCredits;
-  cout << "\nInput schedule (Ex: MON:S1/TUE:S2): ";
-  cin >> pCourse->schedule;
 
+  cout << "\nInput schedule: ";
+  Utils::getSchedule(pCourse->session1, pCourse->session2);
+
+  pCourse->pSemester = App::pCurrentSemester;
   App::pCurrentSemester->pCourses.push_back(pCourse);
   App::pCourses.push_back(pCourse);
 
-  cout << "\nCreated successfully!";
-  cout << "\n1. Return\n";
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option != 1) {
-    cout << "\nInvalid!";
-    cout << "Your choice: ";
-    cin >> option;
-  }
+  cout << "\nCreated successfully!\n";
+  Utils::waitForKeypress();
   courseMainMenu();
 }
 
@@ -318,20 +265,21 @@ void Course::updateCourseInfo() {
   cout << "5. End date: " << this->endDate << "\n";
   cout << "6. Max number of students: " << this->maxNumberOfStudents << "\n";
   cout << "7. Number of credits: " << this->numberOfCredits << "\n";
-  cout << "8. Schedule: " << this->schedule << "\n\n";
-  cout << "---------------------------------------\n";
-  cout << "Which one do you want to update? \n";
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option < 1 || option > 8) {
-    cout << "\nInvalid!\n";
-    cout << "Your choice: ";
-    cin >> option;
-  }
 
-  // convert all to getline
+  string schedule;
+  Utils::convertIntScheduleToString(this->session1, this->session2, schedule);
+
+  cout << "8. Schedule: " << schedule << "\n";
+  cout << "---------------------------------------\n";
+  cout << "0. Return\n";
+  cout << "Which one do you want to update? \n";
+  int option = Utils::getOption(0, 8);
+
   switch (option) {
+    case 0: {
+      this->courseChooseMenu();
+      return;
+    }
     case 1: {
       cout << "New course code: ";
       cin.ignore();
@@ -372,78 +320,50 @@ void Course::updateCourseInfo() {
     }
     case 8: {
       cout << "New schedule: ";
-      cin >> this->schedule;
+      Utils::getSchedule(this->session1, this->session2);
       break;
     }
   }
-  cout << "\nsuccessfully changed information!\n";
+  cout << "\nSuccessfully changed information!\n";
 
-  cout << "\n1. Return\n";
-  cout << "Your choice: ";
-  short option1;
-  cin >> option1;
-  while (option1 != 1) {
-    cout << "\nInvalid!";
-    cout << "Your choice: ";
-    cin >> option1;
-  }
+  Utils::waitForKeypress();
   this->courseUpdateMenu();
 }
 
 void Course::addStudent() {
   Console::clear();
 
-  string studentID;
+  string studentCode;
   cout << "Input studentID: ";
-  cin >> studentID;
-  for (auto crs : this->pStudents) {
-    if (studentID == crs->studentCode) {
-      cout << "\n" << this->courseCode << " already has this student!\n";
-      cout << "\n1. Return\n";
-      cout << "Your choice: ";
-      short option;
-      cin >> option;
-      while (option != 1) {
-        cout << "\nInvalid!";
-        cout << "Your choice: ";
-        cin >> option;
-      }
-      this->courseUpdateStudentMenu();
-      return;
-    }
-  }
-  for (auto stu : App::pStudents) {
-    if (studentID == stu->studentCode) {
-      this->pStudents.push_back(stu);
-      CourseMark courseMark = CourseMark();
-      courseMark.pCourse = this;
-      stu->courseMarks.push_back(courseMark);
-      cout << "\nAdd successfully!";
+  cin >> studentCode;
 
-      cout << "\n1. Return\n";
-      cout << "Your choice: ";
-      short option;
-      cin >> option;
-      while (option != 1) {
-        cout << "\nInvalid!";
-        cout << "Your choice: ";
-        cin >> option;
-      }
-      this->courseUpdateStudentMenu();
-      return;
-    }
+  for (const auto& p : this->pStudents) {
+    cout << p->studentCode << '\n';
   }
-  cout << "\nThis student doesn't exist!";
 
-  cout << "\n1. Return\n";
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option != 1) {
-    cout << "\nInvalid!";
-    cout << "Your choice: ";
-    cin >> option;
+  if (this->pStudents.find_if([&](const auto& p) -> bool {
+        return p->studentCode == studentCode;
+      }) != this->pStudents.end()) {
+    cout << "\n" << this->courseCode << " already has this student!\n";
+    Utils::waitForKeypress();
+    this->courseUpdateStudentMenu();
+    return;
   }
+  auto itStudent = App::pStudents.find_if(
+      [&](const auto& p) -> bool { return p->studentCode == studentCode; });
+  if (itStudent == App::pStudents.end()) {
+    cout << "\nThis student doesn't exist!\n";
+    Utils::waitForKeypress();
+    this->courseUpdateStudentMenu();
+    return;
+  }
+  auto pStudent = *itStudent;
+  this->pStudents.push_back(pStudent);
+  CourseMark courseMark;
+  courseMark.pCourse = this;
+  pStudent->courseMarks.push_back(courseMark);
+  cout << "\nAdd successfully!\n";
+  Utils::waitForKeypress();
   this->courseUpdateStudentMenu();
 }
 
@@ -452,48 +372,31 @@ void Course::removeStudent() {
 
   if (!this->pStudents.size()) {
     cout << "This course is empty!";
-    cout << "\n1. Return\n";
-    cout << "Your choice: ";
-    short option;
-    cin >> option;
-    while (option != 1) {
-      cout << "\nInvalid!";
-      cout << "Your choice: ";
-      cin >> option;
-    }
+    Utils::waitForKeypress();
     this->courseUpdateStudentMenu();
     return;
   }
 
-  string studentID;
+  string studentCode;
   cout << "Input studentID: ";
-  cin >> studentID;
+  cin >> studentCode;
 
-  auto it = this->pStudents.find_if(
-      [&](const auto& p) -> bool { return p->studentCode == studentID; });
+  auto itStudent = this->pStudents.find_if(
+      [&](const auto& p) -> bool { return p->studentCode == studentCode; });
 
-  if (it == this->pStudents.end()) {
+  if (itStudent == this->pStudents.end()) {
     cout << "\nThis student doesn't exits in this course!\n";
-  }
+    Utils::waitForKeypress();
+  } else {
+    auto itCourseMark =
+        (*itStudent)->courseMarks.find_if([&](const auto& courseMark) -> bool {
+          return courseMark.pCourse->_id == this->_id;
+        });
 
-  else {
-    auto it1 = (*it)->courseMarks.find_if([&](const auto& courseMark) -> bool {
-      return courseMark.pCourse->_id == this->_id;
-    });
-
-    (*it)->courseMarks.remove(it1);
-    this->pStudents.remove(it);
+    (*itStudent)->courseMarks.remove(itCourseMark);
+    this->pStudents.remove(itStudent);
 
     cout << "\nRemove successfully!\n";
-  }
-  cout << "\n1. Return\n";
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option != 1) {
-    cout << "\nInvalid!";
-    cout << "Your choice: ";
-    cin >> option;
   }
   this->courseUpdateStudentMenu();
   return;
@@ -504,87 +407,72 @@ void Course::updateStudentScoreBoard() {
 
   if (!this->pStudents.size()) {
     cout << "This course is empty!";
+    Utils::waitForKeypress();
     return;
   }
 
-  string studentID;
+  string studentCode;
   cout << "Input studentID: ";
-  cin >> studentID;
-  for (auto p : this->pStudents) {
-    if (p->studentCode == studentID) {
-      cout << "---------------------------------------\n";
-      cout << p->studentCode << "_" << p->firstName << " " << p->lastName
-           << endl;
-      for (auto& pCourseMarks : p->courseMarks) {
-        if (pCourseMarks.pCourse == this) {
-          cout << "1. Midterm: " << pCourseMarks.midtermMark << endl;
-          cout << "2. Final: " << pCourseMarks.finalMark << endl;
-          cout << "3. Other: " << pCourseMarks.otherMark << endl;
-          cout << "4. Total: " << pCourseMarks.totalMark << endl;
-          cout << "---------------------------------------\n";
-          cout << "Which one do you want to update? \n";
-          cout << "Your choice: ";
-          short option;
-          cin >> option;
-          while (option < 1 || option > 4) {
-            cout << "Invalid! \n";
-            cout << "Your choice: ";
-            cin >> option;
-          }
-          switch (option) {
-            case 1: {
-              cout << "\nInput new midterm mark: ";
-              cin >> pCourseMarks.midtermMark;
-              break;
-            }
-            case 2: {
-              cout << "\nInput new final mark: ";
-              cin >> pCourseMarks.finalMark;
-              break;
-            }
-            case 3: {
-              cout << "\nInput new other mark: ";
-              cin >> pCourseMarks.otherMark;
-              break;
-            }
-            case 4: {
-              cout << "\nInput new total mark: ";
-              cin >> pCourseMarks.midtermMark;
-              break;
-            }
-          }
-          cout << "\nUpdate successfully!\n";
+  cin >> studentCode;
+  auto itStudent = this->pStudents.find_if(
+      [&](const auto& p) -> bool { return p->studentCode == studentCode; });
 
-          cout << "\n1. Return\n";
-          cout << "Your choice: ";
-          short option1;
-          cin >> option1;
-          while (option1 != 1) {
-            cout << "\nInvalid!";
-            cout << "Your choice: ";
-            cin >> option1;
-          }
-          this->courseUpdateMenu();
-          return;
-        }
-      }
+  if (itStudent == this->pStudents.end()) {
+    cout << "\nThis student doesn't exits in this course!\n";
+    Utils::waitForKeypress();
+    this->courseUpdateMenu();
+    return;
+  }
+  auto pStudent = *itStudent;
+  cout << "---------------------------------------\n";
+  cout << pStudent->studentCode << "_" << pStudent->firstName << " "
+       << pStudent->lastName << endl;
+
+  auto itCourseMark =
+      pStudent->courseMarks.find_if([&](const auto& courseMark) -> bool {
+        return courseMark.pCourse->_id == this->_id;
+      });
+  cout << "1. Midterm: " << itCourseMark->midtermMark << endl;
+  cout << "2. Final: " << itCourseMark->finalMark << endl;
+  cout << "3. Other: " << itCourseMark->otherMark << endl;
+  cout << "4. Total: " << itCourseMark->totalMark << endl;
+  cout << "---------------------------------------\n";
+  cout << "0. Return\n";
+  cout << "Which one do you want to update? \n";
+  int option = Utils::getOption(0, 4);
+  switch (option) {
+    case 0: {
+      this->courseUpdateMenu();
+      return;
+    }
+    case 1: {
+      cout << "\nInput new midterm mark: ";
+      cin >> itCourseMark->midtermMark;
+      break;
+    }
+    case 2: {
+      cout << "\nInput new final mark: ";
+      cin >> itCourseMark->finalMark;
+      break;
+    }
+    case 3: {
+      cout << "\nInput new other mark: ";
+      cin >> itCourseMark->otherMark;
+      break;
+    }
+    case 4: {
+      cout << "\nInput new total mark: ";
+      cin >> itCourseMark->midtermMark;
+      break;
     }
   }
-  cout << "\nThis student doesn't exits in this course!";
+  cout << "\nUpdate successfully!\n";
 
-  cout << "\n1. Return\n";
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option != 1) {
-    cout << "\nInvalid!";
-    cout << "Your choice: ";
-    cin >> option;
-  }
+  Utils::waitForKeypress();
   this->courseUpdateMenu();
 }
 
-void Course::deleteCourse() {
+void Course::deleteCourseScene() {
   Console::clear();
 
   cout << "Are you sure?, " << this->courseCode << " will be deleted in "
@@ -592,48 +480,37 @@ void Course::deleteCourse() {
        << App::pCurrentSemester->semesterName << endl;
   cout << "1. Yes\n";
   cout << "2. No\n \n";
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option < 1 || option > 2) {
-    cout << "Invalid! \n";
-    cout << "Your choice: ";
-    cin >> option;
-  }
+  int option = Utils::getOption(1, 2);
   if (option == 2) {
     this->courseChooseMenu();
     return;
   }
   if (option == 1) {
-    for (auto p : this->pStudents) {
-      p->courseMarks.remove_if([&](const auto& pCourseMark) -> bool {
-        return pCourseMark.pCourse->_id == this->_id;
-      });
-    }
-
-    auto it = App::pCurrentSemester->pCourses.find_if(
-        [&](const auto& p) -> bool { return p->_id == this->_id; });
-    App::pCurrentSemester->pCourses.remove(it);
-
-    auto it1 = App::pCourses.find_if(
-        [&](const auto& p) -> bool { return p->_id == this->_id; });
-    delete *it1;
-    App::pCourses.remove(it1);
+    this->deleteCourse(0);
 
     cout << "\nDelete course successfully!\n";
-
-    cout << "\n1. Return\n";
-    cout << "Your choice: ";
-    short option1;
-    cin >> option1;
-    while (option1 != 1) {
-      cout << "\nInvalid!";
-      cout << "Your choice: ";
-      cin >> option1;
-    }
-    this->courseMainMenu();
+    Utils::waitForKeypress();
+    Course::courseMainMenu();
     return;
   }
+}
+
+void Course::deleteCourse(bool cascade) {
+  for (const auto& p : this->pStudents) {
+    p->courseMarks.remove_if([&](const auto& pCourseMark) -> bool {
+      return pCourseMark.pCourse->_id == this->_id;
+    });
+  }
+
+  if (!cascade) {
+    this->pSemester->pCourses.remove_if(
+        [&](const auto& p) -> bool { return p->_id == this->_id; });
+  }
+
+  auto it1 = App::pCourses.find_if(
+      [&](const auto& p) -> bool { return p->_id == this->_id; });
+  delete *it1;
+  App::pCourses.remove(it1);
 }
 
 void Course::viewStudentScoreboard() {
@@ -641,11 +518,11 @@ void Course::viewStudentScoreboard() {
 
   int i = 1;
   cout << "--------------------------------------" << endl;
-  for (auto p : this->pStudents) {
+  for (const auto& p : this->pStudents) {
     cout << i << ". " << p->firstName << " " << p->lastName << "-"
          << p->studentCode << endl;
-    for (auto pCourseMark : p->courseMarks) {
-      if (pCourseMark.pCourse == this) {
+    for (const auto& pCourseMark : p->courseMarks) {
+      if (pCourseMark.pCourse->_id == this->_id) {
         cout << "Midterm: " << pCourseMark.midtermMark << endl;
         cout << "Final: " << pCourseMark.finalMark << endl;
         cout << "Other: " << pCourseMark.otherMark << endl;
@@ -655,18 +532,211 @@ void Course::viewStudentScoreboard() {
     cout << "--------------------------------------" << endl;
     ++i;
   }
-  cout << "\n1. Return\n";
-  cout << "Your choice: ";
-  short option;
-  cin >> option;
-  while (option != 1) {
-    cout << "\nInvalid!";
-    cout << "Your choice: ";
-    cin >> option;
-  }
+  Utils::waitForKeypress();
   this->courseChooseMenu();
   return;
 }
 
-void Course::importScoreboard() { cout << "Not implemented\n"; }
-void Course::exportScoreboard() { cout << "Not implemented\n"; }
+void Course::importScoreboard() {
+  Console::clear();
+  string path;
+  cout << "Input CSV file path: ";
+  cin.ignore();
+  getline(cin, path);
+  ifstream ifs(path);
+  if (!ifs.is_open()) {
+    cout << "Could not open CSV file\n";
+    Utils::waitForKeypress();
+    this->courseChooseMenu();
+    return;
+  }
+  string line;
+  getline(ifs, line);
+  while (getline(ifs, line)) {
+    int no;
+    string studentCode, fullName;
+    double otherMark, midtermMark, finalMark, totalMark;
+    CSV::readLine(line, no, studentCode, fullName, otherMark, midtermMark,
+                  finalMark, totalMark);
+    for (const auto& p : this->pStudents) {
+      if (p->studentCode == studentCode) {
+        auto itCourseMark =
+            p->courseMarks.find_if([&](const auto& courseMark) -> bool {
+              return courseMark.pCourse->_id == this->_id;
+            });
+        if (itCourseMark == p->courseMarks.end()) continue;
+        itCourseMark->otherMark = otherMark;
+        itCourseMark->midtermMark = midtermMark;
+        itCourseMark->finalMark = finalMark;
+        itCourseMark->totalMark = totalMark;
+      }
+    }
+  }
+  ifs.close();
+  cout << "Imported successfully\n";
+  Utils::waitForKeypress();
+  this->courseChooseMenu();
+}
+
+void Course::exportScoreboard() {
+  Console::clear();
+  string path;
+  cout << "Input CSV file path: ";
+  cin.ignore();
+  getline(cin, path);
+  ofstream ofs(path);
+  if (!ofs.is_open()) {
+    cout << "Could not open CSV file\n";
+    Utils::waitForKeypress();
+    this->courseChooseMenu();
+    return;
+  }
+  int no = 0;
+  string line;
+  line = CSV::writeLine("No", "Student ID", "Full Name", "Other Mark",
+                        "Midterm Mark", "Final Mark", "Total Mark");
+  ofs << line << '\n';
+  for (const auto& p : this->pStudents) {
+    auto itCourseMark =
+        p->courseMarks.find_if([&](const auto& courseMark) -> bool {
+          return courseMark.pCourse->_id == this->_id;
+        });
+    line =
+        CSV::writeLine(++no, p->studentCode, p->lastName + " " + p->firstName,
+                       itCourseMark->otherMark, itCourseMark->midtermMark,
+                       itCourseMark->finalMark, itCourseMark->totalMark);
+    ofs << line << '\n';
+  }
+  ofs.close();
+  cout << "Exported successfully\n";
+  Utils::waitForKeypress();
+  this->courseChooseMenu();
+}
+
+void Course::importStudents() {
+  Console::clear();
+  string path;
+  cout << "Input CSV file path: ";
+  cin.ignore();
+  getline(cin, path);
+  ifstream ifs(path);
+  if (!ifs.is_open()) {
+    cout << "Could not open CSV file\n";
+    Utils::waitForKeypress();
+    this->courseChooseMenu();
+    return;
+  }
+  string line;
+  getline(ifs, line);
+  while (getline(ifs, line)) {
+    int no;
+    string studentCode, fullName;
+    CSV::readLine(line, no, studentCode, fullName);
+    auto itStudent = App::pStudents.find_if(
+        [&](const auto& p) -> bool { return p->studentCode == studentCode; });
+    if (itStudent != App::pStudents.end())
+      this->pStudents.push_back(*itStudent);
+  }
+  ifs.close();
+  cout << "Imported successfully\n";
+  Utils::waitForKeypress();
+  this->courseChooseMenu();
+}
+
+void Course::exportStudents() {
+  Console::clear();
+  string path;
+  cout << "Input CSV file path: ";
+  cin.ignore();
+  getline(cin, path);
+  ofstream ofs(path);
+  if (!ofs.is_open()) {
+    cout << "Could not open CSV file\n";
+    Utils::waitForKeypress();
+    this->courseChooseMenu();
+    return;
+  }
+  string line;
+  line = CSV::writeLine("No", "Student ID", "Full Name");
+  ofs << line << '\n';
+  int no = 0;
+  for (const auto& p : this->pStudents) {
+    line =
+        CSV::writeLine(++no, p->studentCode, p->lastName + " " + p->firstName);
+    ofs << line << '\n';
+  }
+  ofs.close();
+  cout << "Exported successfully\n";
+  Utils::waitForKeypress();
+  this->courseChooseMenu();
+}
+
+void Course::enrollUnenrollCourse() {
+  Console::clear();
+  bool isEnrolling = App::pCurrentUser->pStudent->courseMarks.find_if(
+                         [&](const auto& courseMark) -> bool {
+                           return this->_id == courseMark.pCourse->_id;
+                         }) == App::pCurrentUser->pStudent->courseMarks.end();
+  cout << "Do you want to " << (isEnrolling ? "enroll" : "unenroll")
+       << " course " << this->courseCode << "?\n";
+  cout << "1. Yes\n";
+  cout << "2. No\n";
+  int option = Utils::getOption(1, 2);
+  if (option == 1) {
+    if (!App::courseRegistrationSession.isOpen()) {
+      cout << "Sorry the registration session has already closed!\n";
+      Utils::waitForKeypress();
+      Menu::studentMenu();
+      return;
+    }
+    if (isEnrolling) {
+      auto recentSemesterCourseMarks =
+          App::pCurrentUser->pStudent->courseMarks.filter(
+              [&](const auto& courseMark) -> bool {
+                return courseMark.pCourse->pSemester->_id ==
+                       App::pRecentSemester->_id;
+              });
+      auto itScheduleConflictingCourseMark = recentSemesterCourseMarks.find_if(
+          [&](const auto& courseMark) -> bool {
+            return courseMark.pCourse->session1 == this->session1 ||
+                   courseMark.pCourse->session2 == this->session1 ||
+                   courseMark.pCourse->session1 == this->session2 ||
+                   courseMark.pCourse->session2 == this->session2;
+          });
+      bool scheduleConflict =
+          itScheduleConflictingCourseMark != recentSemesterCourseMarks.end();
+      if (scheduleConflict) {
+        cout << "Cannot enroll in this course because there is a schedule "
+                "conflict with the course "
+             << itScheduleConflictingCourseMark->pCourse->courseCode << "!\n";
+        Utils::waitForKeypress();
+        App::pCurrentUser->pStudent->enrollUnenrollCourseScene();
+        return;
+      }
+      CourseMark courseMark;
+      courseMark.pCourse = this;
+      App::pCurrentUser->pStudent->courseMarks.push_back(courseMark);
+
+      this->pStudents.push_back(App::pCurrentUser->pStudent);
+      cout << "Enrolled successfully!\n";
+      Utils::waitForKeypress();
+      App::pCurrentUser->pStudent->enrollUnenrollCourseScene();
+      return;
+    } else {
+      App::pCurrentUser->pStudent->courseMarks.remove_if(
+          [&](const auto& courseMark) -> bool {
+            return courseMark.pCourse->_id == this->_id;
+          });
+      this->pStudents.remove_if([&](const auto& p) -> bool {
+        return p->_id == App::pCurrentUser->pStudent->_id;
+      });
+      cout << "Unenrolled successfully!\n";
+      Utils::waitForKeypress();
+      App::pCurrentUser->pStudent->enrollUnenrollCourseScene();
+      return;
+    }
+  } else {
+    Menu::studentMenu();
+    return;
+  }
+}

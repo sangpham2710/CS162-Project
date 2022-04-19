@@ -8,7 +8,6 @@
 #include "ID.h"
 #include "List.h"
 #include "Semester.h"
-#include "User.h"
 
 using std::string;
 
@@ -26,7 +25,6 @@ class Student {
   string dateOfBirth;
   string socialID;
   Class* pClass;
-  User* pUser;
   List<CourseMark> courseMarks;
 
   Student(const string& id)
@@ -38,13 +36,16 @@ class Student {
         dateOfBirth{},
         socialID{},
         pClass{nullptr},
-        pUser{nullptr},
         courseMarks{} {}
-  Student() : Student(ID::gen()) {}
+  Student() : Student{ID::gen()} {}
 
   friend std::istream& operator>>(std::istream& stream, Student& student);
   friend std::ostream& operator<<(std::ostream& stream, const Student& student);
 
-  double getSemesterGPA(Semester* const& semester);
+  void viewStudentScoreboard();
+  void updateStudentInfo();
+  double getSemesterGPA();
   double getOverallGPA();
+  void viewEnrolledCourses();
+  void enrollUnenrollCourseScene();
 };

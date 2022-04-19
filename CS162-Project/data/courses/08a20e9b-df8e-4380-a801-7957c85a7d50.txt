@@ -6,7 +6,8 @@ Dinh Ba Tien
 27/05
 50
 4
-MON:S1/SAT:S3
+21
+73
 1b360a1b-7f13-4197-8b94-5ed31a057ae4
 8
 06a4045e-06e0-4cb7-aeed-53596cfc58ef

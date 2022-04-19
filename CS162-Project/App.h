@@ -4,9 +4,11 @@
 
 #include "Class.h"
 #include "Course.h"
+#include "CourseRegistrationSession.h"
 #include "List.h"
 #include "SchoolYear.h"
 #include "Semester.h"
+#include "Staff.h"
 #include "Student.h"
 #include "User.h"
 
@@ -23,6 +25,8 @@ class App {
   static List<Course*> pCourses;
   static List<Class*> pClasses;
   static List<Student*> pStudents;
+  static List<Staff*> pStaffs;
+  static CourseRegistrationSession courseRegistrationSession;
 
   static void allocate();
   static void loadData();

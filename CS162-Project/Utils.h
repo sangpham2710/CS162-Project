@@ -1,0 +1,61 @@
+#pragma once
+#include <iostream>
+
+class Utils {
+ public:
+  static void waitForKeypress() {
+#pragma push_macro("max")
+#undef max
+    if (cin.rdbuf()->sungetc() != std::char_traits<char>::eof() &&
+        cin.get() != '\n') {
+      cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    cout << "Press Enter to continue\n";
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+#pragma pop_macro("max")
+  }
+  static int getOption(int minOption, int maxOption) {
+    int option;
+    cout << "Your choice: ";
+    cin >> option;
+    while (option < minOption || option > maxOption) {
+      cout << "\nInvalid!\n";
+      cout << "Your choice: ";
+      cin >> option;
+    }
+    return option;
+  }
+  static void getSchedule(int& session1, int& session2) {
+    cout << "\nFirst session: \n";
+    cout << "Day of week: 1.MON    2.TUE   3.WED   4.THU   5.FRI   6.SAT   "
+            "7.SUN\n";
+    int option = Utils::getOption(1, 7);
+    session1 = option + 1;
+    cout << "Session: 1.S1 (07:30)    2.S2 (09:30)    3.S3 (13:30)    4.S4 "
+            "(15:30)\n";
+    option = Utils::getOption(1, 4);
+    session1 = session1 * 10 + option;
+    cout << "\nSecond session: \n";
+    cout << "Day of week: 1.MON    2.TUE   3.WED   4.THU   5.FRI   6.SAT   "
+            "7.SUN\n";
+    option = Utils::getOption(1, 7);
+    session2 = option + 1;
+    cout << "Session: 1.S1 (07:30)    2.S2 (09:30)    3.S3 (13:30)    4.S4 "
+            "(15:30)\n";
+    option = Utils::getOption(1, 4);
+    session2 = session2 * 10 + option;
+  }
+  static void convertIntScheduleToString(int session1, int session2,
+                                         string& schedule) {
+    string day[7] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+    string time[4] = {"S1", "S2", "S3", "S4"};
+    schedule.resize(13);
+    schedule = day[session1 / 10 - 2];
+    schedule = schedule + ":";
+    schedule = schedule + time[session1 % 10 - 1];
+    schedule = schedule + "/";
+    schedule = schedule + day[session2 / 10 - 2];
+    schedule = schedule + ":";
+    schedule = schedule + time[session2 % 10 - 1];
+  }
+};

@@ -113,7 +113,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -145,6 +145,7 @@
     <ClCompile Include="Course.cpp" />
     <ClCompile Include="Course.h" />
     <ClCompile Include="CourseMark.cpp" />
+    <ClCompile Include="CourseRegistrationSession.cpp" />
     <ClCompile Include="CS162-Project.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="ID.cpp" />
@@ -152,21 +153,28 @@
     <ClCompile Include="SchoolYear.cpp" />
     <ClCompile Include="Semester.cpp" />
     <ClCompile Include="Semester.h" />
+    <ClCompile Include="Staff.cpp" />
     <ClCompile Include="Student.cpp" />
+    <ClCompile Include="TimeStamp.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="CourseRegistrationSession.h" />
     <ClInclude Include="Data.h" />
+    <ClInclude Include="CSV.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="SchoolYear.h" />
+    <ClInclude Include="Staff.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="CourseMark.h" />
+    <ClInclude Include="TimeStamp.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="ID.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,6 +3,7 @@
 #include <list>
 #include <string>
 
+#include "CSV.h"
 #include "ID.h"
 #include "List.h"
 
@@ -12,21 +13,22 @@ class Semester;
 class Student;
 
 class Course {
-public:
-    string _id;
-    string courseCode;
-    string courseName;
-    string lecturer;
-    string startDate;
-    string endDate;
-    int maxNumberOfStudents;
-    int numberOfCredits;
-    string schedule;
-    Semester* pSemester;
-    List<Student*> pStudents;
+ public:
+  string _id;
+  string courseCode;
+  string courseName;
+  string lecturer;
+  string startDate;
+  string endDate;
+  int maxNumberOfStudents;
+  int numberOfCredits;
+  int session1;
+  int session2;
+  Semester* pSemester;
+  List<Student*> pStudents;
 
-    Course(const string& id)
-        : _id{ id },
+  Course(const string& id)
+      : _id{id},
         courseCode{},
         courseName{},
         lecturer{},
@@ -34,28 +36,35 @@ public:
         endDate{},
         maxNumberOfStudents{},
         numberOfCredits{},
-        schedule{},
-        pSemester{ nullptr },
+        session1{},
+        session2{},
+        pSemester{nullptr},
         pStudents{} {}
-    Course() : Course{ ID::gen() } {}
+  Course() : Course{ID::gen()} {}
 
-    friend std::istream& operator>>(std::istream& stream, Course& course);
-    friend std::ostream& operator<<(std::ostream& stream, const Course& course);
+  friend std::istream& operator>>(std::istream& stream, Course& course);
+  friend std::ostream& operator<<(std::ostream& stream, const Course& course);
 
-    static void create();
-    static void choose(Course* pCourse, short screen, short option); // mainMenu = 1, chooseCourseMenu =2, updateCourseMenu = 3, updateStudentMenu = 4
-    static void courseMainMenu();
+  static void createCourse();
+  static void courseMainMenu();
 
-    void updateCourseInfo();
-    void viewStudentScoreboard();
-    void importScoreboard();
-    void exportScoreboard();
-    void addStudent();
-    void removeStudent();
-    void updateStudentScoreBoard();
-    void deleteCourse();
+  void updateCourseInfo();
+  void viewStudentScoreboard();
 
-    void courseChooseMenu();
-    void courseUpdateMenu();
-    void courseUpdateStudentMenu();
+  void importScoreboard();
+  void exportScoreboard();
+  void importStudents();
+  void exportStudents();
+
+  void addStudent();
+  void removeStudent();
+  void updateStudentScoreBoard();
+  void deleteCourseScene();
+  void deleteCourse(bool casacade);
+
+  void courseChooseMenu();
+  void courseUpdateMenu();
+  void courseUpdateStudentMenu();
+
+  void enrollUnenrollCourse();
 };

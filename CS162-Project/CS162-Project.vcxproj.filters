@@ -25,6 +25,12 @@
     <Filter Include="Library\UUID">
       <UniqueIdentifier>{7fe8171a-b824-4fa8-b681-8aabe9e0b0c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\CSV">
+      <UniqueIdentifier>{ab290b43-fe18-4a29-9fde-cfc66083e6fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\TimeStamp">
+      <UniqueIdentifier>{5d6cfc97-4daf-4d08-9398-0ae20427d9b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CS162-Project.cpp">
@@ -69,6 +75,15 @@
     <ClCompile Include="Class.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="TimeStamp.cpp">
+      <Filter>Library\TimeStamp</Filter>
+    </ClCompile>
+    <ClCompile Include="CourseRegistrationSession.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Staff.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -102,6 +117,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSV.h">
+      <Filter>Library\CSV</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeStamp.h">
+      <Filter>Library\TimeStamp</Filter>
+    </ClInclude>
+    <ClInclude Include="CourseRegistrationSession.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

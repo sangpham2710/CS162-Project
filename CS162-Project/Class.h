@@ -3,13 +3,13 @@
 #include <iostream>
 #include <string>
 
+#include "CSV.h"
 #include "ID.h"
 #include "List.h"
 #include "Student.h"
 
 using std::cin;
 using std::cout;
-using std::endl;
 using std::string;
 
 class Student;
@@ -27,11 +27,17 @@ class Class {
   friend std::ostream& operator<<(std::ostream& stream, const Class& _class);
 
   static void viewMainMenu();
-  static void create();
-  static void choose(const int& choice, const int& i);
-  void viewEditClass();
+  static void createClass();
+  void classChooseMenu();
+  void addStudent();
   void updateClass();
+
+  void deleteClassScene();
   void deleteClass();
-  void viewListStudents();
-  void viewScoreboardClass();
+
+  void viewStudents();
+  void viewScoreboard();
+  void exportScoreboard();
+  void exportStudents();
+  void importNewStudents();
 };
