@@ -33,4 +33,6 @@ class Semester {
   void deleteSemester(bool cascade);
 
   static void changeDefaultSemester();
+
+  void displaySemester();
 };
