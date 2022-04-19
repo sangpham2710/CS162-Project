@@ -55,7 +55,6 @@ void Menu::staffMenu() {
     case 0:
       App::pCurrentUser = nullptr;
       App::main();
-      return;
       break;
   }
 }
@@ -77,7 +76,6 @@ void Menu::studentMenu() {
     case 0:
       App::pCurrentUser = nullptr;
       App::main();
-      return;
       break;
     case 1:
       App::pCurrentUser->changePassword();
@@ -97,6 +95,60 @@ void Menu::studentMenu() {
       App::pCurrentUser->pStudent->viewStudentScoreboard();
       break;
   }
+}
+
+void Menu::adminMenu() {
+  Console::clear();
+  cout << "---------------------------\n";
+  cout << "1. Show all users\n";
+  cout << "2. Show all school years\n";
+  cout << "3. Show all semesters\n";
+  cout << "4. Show all courses\n";
+  cout << "5. Show all classes\n";
+  cout << "6. Show all students\n";
+  cout << "7. Show all staffs\n";
+  cout << "8. Show course registration session\n";
+  cout << "9. Add new staff\n";
+  cout << "---------------------------\n";
+  cout << "0. Logout\n";
+  cout << "---------------------------\n";
+  int option = Utils::getOption(0, 9);
+  Console::clear();
+  switch (option) {
+    case 0:
+      App::pCurrentUser = nullptr;
+      App::main();
+      return;
+    case 1:
+      for (const auto& p : App::pUsers) p->displayUser();
+      break;
+    case 2:
+      for (const auto& p : App::pSchoolYears) p->displaySchoolYear();
+      break;
+    case 3:
+      for (const auto& p : App::pSemesters) p->displaySemester();
+      break;
+    case 4:
+      for (const auto& p : App::pCourses) p->displayCourse();
+      break;
+    case 5:
+      for (const auto& p : App::pClasses) p->displayClass();
+      break;
+    case 6:
+      for (const auto& p : App::pStudents) p->displayStudent();
+      break;
+    case 7:
+      for (const auto& p : App::pStaffs) p->displayStaff();
+      break;
+    case 8:
+      App::courseRegistrationSession.displayCourseRegistrationSession();
+      break;
+    case 9:
+      Staff::createStaff();
+      break;
+  }
+  Utils::waitForKeypress();
+  Menu::adminMenu();
 }
 
 void Menu::welcome() {

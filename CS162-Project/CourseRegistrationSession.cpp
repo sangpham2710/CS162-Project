@@ -124,3 +124,12 @@ void CourseRegistrationSession::closeSession() {
   Utils::waitForKeypress();
   CourseRegistrationSession::viewMainMenu();
 }
+
+void CourseRegistrationSession::displayCourseRegistrationSession() {
+  cout << "From: ";
+  this->startTime.output();
+  cout << '\n';
+  cout << "To: ";
+  this->endTime.output();
+  cout << '\n';
+}

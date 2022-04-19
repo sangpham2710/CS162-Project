@@ -75,6 +75,10 @@ void User::login() {
     Menu::studentMenu();
     return;
   }
+  if (App::pCurrentUser->userType == User::Type::ADMIN) {
+    Menu::adminMenu();
+    return;
+  }
 }
 
 void User::changePassword() {
@@ -105,4 +109,10 @@ void User::changePassword() {
       return;
     }
   }
+}
+
+void User::displayUser() {
+  List<string> type = {"Admin", "Student", "Staff"};
+  cout << this->username << " - " << this->password << " - "
+       << type[this->userType] << '\n';
 }

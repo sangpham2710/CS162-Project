@@ -26,10 +26,13 @@ class Staff {
         dateOfBirth{},
         socialID{},
         faculty{} {}
-  Staff() : Staff(ID::gen()) {}
+  Staff() : Staff{ID::gen()} {}
 
   friend std::istream& operator>>(std::istream& stream, Staff& staff);
   friend std::ostream& operator<<(std::ostream& stream, const Staff& staff);
 
+  static void createStaff();
   void updateStaffInfo();
+
+  void displayStaff();
 };

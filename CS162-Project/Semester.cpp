@@ -51,21 +51,20 @@ void Semester::deleteSemesterScene() {
 }
 
 void Semester::deleteSemester(bool cascade) {
-
   for (const auto& p : this->pCourses) {
     p->deleteCourse(1);
   }
 
   if (!cascade) {
-      this->pSchoolYear->pSemesters.remove_if(
-          [&](const auto& p) { return p->_id == this->_id; });
+    this->pSchoolYear->pSemesters.remove_if(
+        [&](const auto& p) { return p->_id == this->_id; });
   }
 
   auto itSemester = App::pSemesters.find_if(
       [&](const auto& p) { return p->_id == this->_id; });
 
   if (App::pCurrentSemester->_id == this->_id) {
-      App::pCurrentSemester = App::pSchoolYears.back()->pSemesters.back();
+    App::pCurrentSemester = App::pSchoolYears.back()->pSemesters.back();
   }
   App::pRecentSemester = App::pCurrentSemester;
 
@@ -132,41 +131,40 @@ void Semester::viewEditSemester() {
   Console::clear();
 
   cout << "Semester: " << this->pSchoolYear->yearName << ": "
-      << this->semesterName << '\n';
+       << this->semesterName << '\n';
   cout << "-----------------------\n";
 
   if (this->pSchoolYear->pSemesters.length() == 1) {
-      cout << "1. Update semester\n";
-      cout << "0. Go back\n";
-      cout << "-----------------------\n";
-      int option = Utils::getOption(0, 1);
-      switch (option) {
+    cout << "1. Update semester\n";
+    cout << "0. Go back\n";
+    cout << "-----------------------\n";
+    int option = Utils::getOption(0, 1);
+    switch (option) {
       case 1:
-          this->updateSemester();
-          break;
+        this->updateSemester();
+        break;
       case 0:
-          viewMainMenu();
-          break;
-      }
-  }
-  else {
-      cout << "1. Update semester\n";
-      cout << "2. Delete semester\n";
-      cout << "0. Go back\n";
-      cout << "-----------------------\n";
+        viewMainMenu();
+        break;
+    }
+  } else {
+    cout << "1. Update semester\n";
+    cout << "2. Delete semester\n";
+    cout << "0. Go back\n";
+    cout << "-----------------------\n";
 
-      int option = Utils::getOption(0, 2);
-      switch (option) {
+    int option = Utils::getOption(0, 2);
+    switch (option) {
       case 1:
-          this->updateSemester();
-          break;
+        this->updateSemester();
+        break;
       case 2:
-          this->deleteSemesterScene();
-          break;
+        this->deleteSemesterScene();
+        break;
       case 0:
-          viewMainMenu();
-          break;
-      }
+        viewMainMenu();
+        break;
+    }
   }
 }
 
@@ -291,4 +289,9 @@ void Semester::changeDefaultSemester() {
       return;
     }
   }
+}
+
+void Semester::displaySemester() {
+  cout << this->pSchoolYear->yearName << " - " << this->semesterName << " - "
+       << this->pCourses.size() << " courses\n";
 }

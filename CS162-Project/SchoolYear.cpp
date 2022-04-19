@@ -252,3 +252,8 @@ void SchoolYear::schoolYearUpdate() {
   this->schoolYearChooseMenu();
   return;
 }
+
+void SchoolYear::displaySchoolYear() {
+  cout << this->yearName << " - " << this->pSemesters.size() << " semesters - "
+       << this->pClasses.size() << " classes\n";
+}

@@ -16,4 +16,5 @@ class CourseRegistrationSession {
                                   CourseRegistrationSession& session);
   friend std::ostream& operator<<(std::ostream& stream,
                                   const CourseRegistrationSession& session);
+  void displayCourseRegistrationSession();
 };

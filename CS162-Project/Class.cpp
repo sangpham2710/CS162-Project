@@ -72,11 +72,11 @@ void Class::addStudent() {
   auto itStudent = App::pStudents.find_if(
       [&](const auto& p) -> bool { return p->studentCode == studentCode; });
   if (itStudent != App::pStudents.end()) {
-      (*itStudent)->pClass = this;
-      cout << "Successfully added student\n";     
-      Utils::waitForKeypress();
-      this->updateClass();
-      return;
+    (*itStudent)->pClass = this;
+    cout << "Successfully added student\n";
+    Utils::waitForKeypress();
+    this->updateClass();
+    return;
   }
   cout << "Input first name: ";
   getline(cin, firstName);
@@ -132,16 +132,16 @@ void Class::deleteClassScene() {
 }
 
 void Class::deleteClass() {
-    App::pStudents.for_each([&](const auto& p) {
-        if (p->pClass->classCode == this->classCode) p->pClass = nullptr;
-        });
-    App::pCurrentSemester->pSchoolYear->pClasses.remove_if(
-        [&](const auto& p) { return p->classCode == this->classCode; });
-    auto itDeletingClass = App::pClasses.find_if(
-        [&](const auto& p) { return p->classCode == this->classCode; });
+  App::pStudents.for_each([&](const auto& p) {
+    if (p->pClass->classCode == this->classCode) p->pClass = nullptr;
+  });
+  App::pCurrentSemester->pSchoolYear->pClasses.remove_if(
+      [&](const auto& p) { return p->classCode == this->classCode; });
+  auto itDeletingClass = App::pClasses.find_if(
+      [&](const auto& p) { return p->classCode == this->classCode; });
 
-    delete* itDeletingClass;
-    App::pClasses.remove(itDeletingClass);
+  delete *itDeletingClass;
+  App::pClasses.remove(itDeletingClass);
 }
 
 void Class::viewStudents() {
@@ -375,4 +375,10 @@ void Class::importNewStudents() {
   cout << "Imported successfully\n";
   Utils::waitForKeypress();
   this->classChooseMenu();
+}
+
+void Class::displayClass() {
+  cout << string(20, '-') << '\n';
+  cout << this->classCode << " - " << this->pStudents.size() << " students"
+       << '\n';
 }

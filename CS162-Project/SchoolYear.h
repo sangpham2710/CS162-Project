@@ -33,4 +33,6 @@ class SchoolYear {
 
   void deleteSchoolYearScene();
   void deleteSchoolYear();
+
+  void displaySchoolYear();
 };

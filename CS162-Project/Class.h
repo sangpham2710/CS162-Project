@@ -40,4 +40,6 @@ class Class {
   void exportScoreboard();
   void exportStudents();
   void importNewStudents();
+
+  void displayClass();
 };

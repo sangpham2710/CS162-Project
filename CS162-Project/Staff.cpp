@@ -101,3 +101,47 @@ void Staff::updateStaffInfo() {
   Utils::waitForKeypress();
   Menu::staffMenu();
 }
+
+void Staff::displayStaff() {
+  cout << this->staffCode << " - " << this->lastName << ' ' << this->lastName
+       << " - " << this->gender << " - " << this->dateOfBirth << " - "
+       << this->socialID << " - " << this->faculty << '\n';
+}
+
+void Staff::createStaff() {
+  Console::clear();
+  string staffCode, firstName, lastName, gender, dateOfBirth, socialID, faculty;
+  cin.ignore();
+  cout << "Input staff code: ";
+  getline(cin, staffCode);
+  cout << "Input last name: ";
+  getline(cin, lastName);
+  cout << "Input first name: ";
+  getline(cin, firstName);
+  cout << "Input gender: ";
+  getline(cin, gender);
+  cout << "Input date of birth: ";
+  getline(cin, dateOfBirth);
+  cout << "Input social ID: ";
+  getline(cin, socialID);
+  cout << "Input faculty: ";
+  getline(cin, faculty);
+  Staff* pStaff = new Staff();
+  User* pUser = new User();
+  pStaff->staffCode = staffCode;
+  pStaff->lastName = lastName;
+  pStaff->firstName = firstName;
+  pStaff->gender = gender;
+  pStaff->dateOfBirth = dateOfBirth;
+  pStaff->socialID = socialID;
+  pStaff->faculty = faculty;
+  pUser->userType = User::Type::ACADEMIC_STAFF;
+  pUser->username = staffCode;
+  pUser->password = "123456";
+  pUser->pStaff = pStaff;
+  App::pStaffs.push_back(pStaff);
+  App::pUsers.push_back(pUser);
+  cout << "Created successfully\n";
+  Utils::waitForKeypress();
+  Menu::adminMenu();
+}

@@ -48,4 +48,6 @@ class Student {
   double getOverallGPA();
   void viewEnrolledCourses();
   void enrollUnenrollCourseScene();
+
+  void displayStudent();
 };
