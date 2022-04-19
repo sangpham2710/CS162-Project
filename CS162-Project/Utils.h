@@ -25,64 +25,37 @@ class Utils {
     }
     return option;
   }
-  static bool convertStringScheduleToInt(string tmp, int& session1, int& session2) {
-      while (tmp[6] != '/') {
-          cout << "Invalid!\n";
-          cout << "\nInput schedule (Ex: MON:S1/TUE:S2): ";
-          getline(cin, tmp);
-      }
-      
-      string session1_day;
-      string session2_day;
-      string session1_s;
-      string session2_s;
-      session1_day.resize(3);
-      session2_day.resize(3);
-      session1_s.resize(2);
-      session2_s.resize(2);
-      for (int i = 0; i < 3; ++i) {
-          session1_day[i] = tmp[i];
-          session2_day[i] = tmp[7 + i];
-      }
-      for (int i = 0; i < 2; ++i) {
-          session1_s[i] = tmp[4 + i];
-          session2_s[i] = tmp[11 + i];
-      }
-
-      bool check1 = false, check2 = false;
-      string day[7] = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
-      string time[4] = { "S1", "S2", "S3", "S4" };
-      for (int i = 0; i < 7; ++i) {
-          if (session1_day == day[i]) {
-              for (int j = 0; j < 4; ++j) {
-                  if (session1_s == time[j]) {
-                      session1 = (i + 2) * 10 + j + 1;
-                      check1 = true;
-                  }
-              }
-          }
-          if (session2_day == day[i]) {
-              for (int j = 0; j < 4; ++j) {
-                  if (session2_s == time[j]) {
-                      session2 = (i + 2) * 10 + j + 1;
-                      check2 = true;
-                  }
-              }
-          }
-      }
-      if (!check1 || !check2) return false;
-      return true;
+  static void getSchedule(int& session1, int& session2) {
+    cout << "\nFirst session: \n";
+    cout << "Day of week: 1.MON    2.TUE   3.WED   4.THU   5.FRI   6.SAT   "
+            "7.SUN\n";
+    int option = Utils::getOption(1, 7);
+    session1 = option + 1;
+    cout << "Session: 1.S1 (07:30)    2.S2 (09:30)    3.S3 (13:30)    4.S4 "
+            "(15:30)\n";
+    option = Utils::getOption(1, 4);
+    session1 = session1 * 10 + option;
+    cout << "\nSecond session: \n";
+    cout << "Day of week: 1.MON    2.TUE   3.WED   4.THU   5.FRI   6.SAT   "
+            "7.SUN\n";
+    option = Utils::getOption(1, 7);
+    session2 = option + 1;
+    cout << "Session: 1.S1 (07:30)    2.S2 (09:30)    3.S3 (13:30)    4.S4 "
+            "(15:30)\n";
+    option = Utils::getOption(1, 4);
+    session2 = session2 * 10 + option;
   }
-  static void convertIntScheduleToString(int session1, int session2, string& schedule) {
-      string day[7] = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
-      string time[4] = { "S1", "S2", "S3", "S4" };
-      schedule.resize(13);
-      schedule = day[session1 / 10 - 2];
-      schedule = schedule + ":";
-      schedule = schedule + time[session1 % 10 - 1];
-      schedule = schedule + "/";
-      schedule = schedule + day[session2 / 10 - 2];
-      schedule = schedule + ":";
-      schedule = schedule + time[session2 % 10 - 1];
+  static void convertIntScheduleToString(int session1, int session2,
+                                         string& schedule) {
+    string day[7] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+    string time[4] = {"S1", "S2", "S3", "S4"};
+    schedule.resize(13);
+    schedule = day[session1 / 10 - 2];
+    schedule = schedule + ":";
+    schedule = schedule + time[session1 % 10 - 1];
+    schedule = schedule + "/";
+    schedule = schedule + day[session2 / 10 - 2];
+    schedule = schedule + ":";
+    schedule = schedule + time[session2 % 10 - 1];
   }
 };
