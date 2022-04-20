@@ -60,16 +60,17 @@ std::ostream& operator<<(std::ostream& stream, const Course& course) {
 
 void Course::courseMainMenu() {
   Console::clear();
-
+  Utils::getCurrentSemester();
   int i = 1;
-  cout << "---------------------------------------\n";
+  Utils::printLine();
   for (const auto& crs : App::pCurrentSemester->pCourses) {
     cout << i << ". " << crs->courseCode << "\n";
     ++i;
   }
-  cout << "---------------------------------------\n";
+  Utils::printLine();
   cout << i << ". "
        << "Add new course \n";
+  Utils::printLine();
   cout << 0 << ". "
        << "Return\n\n";
 
@@ -93,7 +94,8 @@ void Course::courseMainMenu() {
 
 void Course::courseChooseMenu() {
   Console::clear();
-  cout << "---------------------------------------\n";
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "1. Update course \n";
   cout << "2. View students \n";
   cout << "3. Delete course \n";
@@ -101,7 +103,7 @@ void Course::courseChooseMenu() {
   cout << "5. Export scoreboard \n";
   cout << "6. Export list students \n";
   cout << "7. Import list students \n";
-  cout << "---------------------------------------\n";
+  Utils::printLine();
   cout << "0. Return \n\n";
 
   int option = Utils::getOption(0, 7);
@@ -142,12 +144,13 @@ void Course::courseChooseMenu() {
 
 void Course::courseUpdateMenu() {
   Console::clear();
-  cout << "---------------------------------------\n";
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "1. Update course information \n";
   cout << "2. Update student \n";
   cout << "3. Update student scoreboard \n";
-  cout << "---------------------------------------\n";
-  cout << "0. Return\n";
+  Utils::printLine();
+  cout << "0. Return\n\n";
 
   int option = Utils::getOption(0, 3);
   switch (option) {
@@ -172,10 +175,11 @@ void Course::courseUpdateMenu() {
 
 void Course::courseUpdateStudentMenu() {
   Console::clear();
-  cout << "---------------------------------------\n";
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "1. Add student to course \n";
   cout << "2. Remove student from course \n";
-  cout << "---------------------------------------\n";
+  Utils::printLine();
   cout << "0. Return \n \n";
 
   int option = Utils::getOption(0, 2);
@@ -201,7 +205,8 @@ void Course::courseUpdateStudentMenu() {
 
 void Course::createCourse() {
   Console::clear();
-
+  Utils::getCurrentSemester();
+  Utils::printLine();
   if (!App::pCurrentSemester) {
     cout << "Please create a semester first!\n";
     Utils::waitForKeypress();
@@ -256,8 +261,8 @@ void Course::createCourse() {
 
 void Course::updateCourseInfo() {
   Console::clear();
-
-  cout << "---------------------------------------\n";
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "1. Course code: " << this->courseCode << "\n";
   cout << "2. Course name: " << this->courseName << "\n";
   cout << "3. Lecturer: " << this->lecturer << "\n";
@@ -270,8 +275,8 @@ void Course::updateCourseInfo() {
   Utils::convertIntScheduleToString(this->session1, this->session2, schedule);
 
   cout << "8. Schedule: " << schedule << "\n";
-  cout << "---------------------------------------\n";
-  cout << "0. Return\n";
+  Utils::printLine();
+  cout << "0. Return\n\n";
   cout << "Which one do you want to update? \n";
   int option = Utils::getOption(0, 8);
 
@@ -332,7 +337,8 @@ void Course::updateCourseInfo() {
 
 void Course::addStudent() {
   Console::clear();
-
+  Utils::getCurrentSemester();
+  Utils::printLine();
   string studentCode;
   cout << "Input studentID: ";
   cin >> studentCode;
@@ -369,7 +375,8 @@ void Course::addStudent() {
 
 void Course::removeStudent() {
   Console::clear();
-
+  Utils::getCurrentSemester();
+  Utils::printLine();
   if (!this->pStudents.size()) {
     cout << "This course is empty!";
     Utils::waitForKeypress();
@@ -404,7 +411,8 @@ void Course::removeStudent() {
 
 void Course::updateStudentScoreBoard() {
   Console::clear();
-
+  Utils::getCurrentSemester();
+  Utils::printLine();
   if (!this->pStudents.size()) {
     cout << "This course is empty!";
     Utils::waitForKeypress();
@@ -424,7 +432,7 @@ void Course::updateStudentScoreBoard() {
     return;
   }
   auto pStudent = *itStudent;
-  cout << "---------------------------------------\n";
+  Utils::printLine();
   cout << pStudent->studentCode << "_" << pStudent->firstName << " "
        << pStudent->lastName << endl;
 
@@ -436,8 +444,8 @@ void Course::updateStudentScoreBoard() {
   cout << "2. Final: " << itCourseMark->finalMark << endl;
   cout << "3. Other: " << itCourseMark->otherMark << endl;
   cout << "4. Total: " << itCourseMark->totalMark << endl;
-  cout << "---------------------------------------\n";
-  cout << "0. Return\n";
+  Utils::printLine();
+  cout << "0. Return\n\n";
   cout << "Which one do you want to update? \n";
   int option = Utils::getOption(0, 4);
   switch (option) {
@@ -474,7 +482,8 @@ void Course::updateStudentScoreBoard() {
 
 void Course::deleteCourseScene() {
   Console::clear();
-
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "Are you sure?, " << this->courseCode << " will be deleted in "
        << App::pCurrentSemester->pSchoolYear->yearName << "-"
        << App::pCurrentSemester->semesterName << endl;
@@ -515,9 +524,9 @@ void Course::deleteCourse(bool cascade) {
 
 void Course::viewStudentScoreboard() {
   Console::clear();
-
+  Utils::getCurrentSemester();
   int i = 1;
-  cout << "--------------------------------------" << endl;
+  Utils::printLine();
   for (const auto& p : this->pStudents) {
     cout << i << ". " << p->firstName << " " << p->lastName << "-"
          << p->studentCode << endl;
@@ -529,7 +538,7 @@ void Course::viewStudentScoreboard() {
         cout << "Total: " << pCourseMark.totalMark << endl;
       }
     }
-    cout << "--------------------------------------" << endl;
+    Utils::printLine();
     ++i;
   }
   Utils::waitForKeypress();
@@ -539,6 +548,8 @@ void Course::viewStudentScoreboard() {
 
 void Course::importScoreboard() {
   Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
   string path;
   cout << "Input CSV file path: ";
   cin.ignore();
@@ -580,6 +591,8 @@ void Course::importScoreboard() {
 
 void Course::exportScoreboard() {
   Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
   string path;
   cout << "Input CSV file path: ";
   cin.ignore();
@@ -615,6 +628,8 @@ void Course::exportScoreboard() {
 
 void Course::importStudents() {
   Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
   string path;
   cout << "Input CSV file path: ";
   cin.ignore();
@@ -645,6 +660,8 @@ void Course::importStudents() {
 
 void Course::exportStudents() {
   Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
   string path;
   cout << "Input CSV file path: ";
   cin.ignore();
@@ -673,6 +690,8 @@ void Course::exportStudents() {
 
 void Course::enrollUnenrollCourse() {
   Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
   bool isEnrolling = App::pCurrentUser->pStudent->courseMarks.find_if(
                          [&](const auto& courseMark) -> bool {
                            return this->_id == courseMark.pCourse->_id;
@@ -742,7 +761,7 @@ void Course::enrollUnenrollCourse() {
 }
 
 void Course::displayCourse() {
-  cout << string(20, '-') << '\n';
+  Utils::printLine();
   cout << this->courseCode << " - " << this->courseName << '\n';
   cout << "Lecturer: " << this->lecturer << '\n';
   cout << "Start date: " << this->startDate << '\n';

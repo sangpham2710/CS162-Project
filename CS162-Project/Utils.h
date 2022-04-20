@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
+#include <string>
 
+#include "App.h"
 class Utils {
  public:
   static void waitForKeypress() {
@@ -58,4 +60,11 @@ class Utils {
     schedule = schedule + ":";
     schedule = schedule + time[session2 % 10 - 1];
   }
+
+  static void getCurrentSemester() {
+    cout << "Current Semester: " << App::pCurrentSemester->pSchoolYear->yearName
+         << " - " << App::pCurrentSemester->semesterName << '\n';
+  }
+
+  static void printLine() { cout << string(40, '-') << '\n'; }
 };

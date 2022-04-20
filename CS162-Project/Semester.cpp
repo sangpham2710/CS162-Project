@@ -74,10 +74,11 @@ void Semester::deleteSemester(bool cascade) {
 
 void Semester::updateSemester() {
   Console::clear();
-  cout << "--------------------\n";
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "1. Change semester name\n";
-  cout << "0. Go back\n";
-  cout << "--------------------\n";
+  Utils::printLine();
+  cout << "0. Return\n\n";
   int option = Utils::getOption(0, 1);
 
   auto semesterExisted = [&](const List<Semester*>& l,
@@ -89,11 +90,12 @@ void Semester::updateSemester() {
   switch (option) {
     case 1: {
       Console::clear();
-      cout << "--------------\n";
+      Utils::getCurrentSemester();
+      Utils::printLine();
       cout << "1. Fall\n";
       cout << "2. Spring\n";
       cout << "3. Summer\n";
-      cout << "--------------\n";
+      Utils::printLine();
       int choiceName = Utils::getOption(1, 3);
       switch (choiceName) {
         case 1:  // Fall
@@ -129,15 +131,16 @@ void Semester::updateSemester() {
 
 void Semester::viewEditSemester() {
   Console::clear();
-
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "Semester: " << this->pSchoolYear->yearName << ": "
        << this->semesterName << '\n';
-  cout << "-----------------------\n";
+  Utils::printLine();
 
   if (this->pSchoolYear->pSemesters.length() == 1) {
     cout << "1. Update semester\n";
-    cout << "0. Go back\n";
-    cout << "-----------------------\n";
+    Utils::printLine();
+    cout << "0. Return\n\n";
     int option = Utils::getOption(0, 1);
     switch (option) {
       case 1:
@@ -150,8 +153,8 @@ void Semester::viewEditSemester() {
   } else {
     cout << "1. Update semester\n";
     cout << "2. Delete semester\n";
-    cout << "0. Go back\n";
-    cout << "-----------------------\n";
+    Utils::printLine();
+    cout << "0. Return\n\n";
 
     int option = Utils::getOption(0, 2);
     switch (option) {
@@ -170,7 +173,8 @@ void Semester::viewEditSemester() {
 
 void Semester::createSemester() {
   Console::clear();
-
+  Utils::getCurrentSemester();
+  Utils::printLine();
   List<Semester*> sem;
   for (const auto& p : App::pCurrentSemester->pSchoolYear->pSemesters) {
     sem.push_back(p);
@@ -185,7 +189,8 @@ void Semester::createSemester() {
     } else
       cout << sem[i]->semesterName << "-";
   }
-  cout << "\n-----------------------\n";
+  cout << "\n";
+  Utils::printLine();
   List<string> tmp = {"Autumn", "Spring", "Summer"};
   int i = 1;
   bool check = false;
@@ -202,8 +207,8 @@ void Semester::createSemester() {
       ++i;
     }
   }
-  cout << "0. Go back\n";
-  cout << "-----------------------\n";
+  Utils::printLine();
+  cout << "0. Return\n\n";
   int option = Utils::getOption(0, i - 1);
   if (option == 0) {
     Semester::viewMainMenu();
@@ -224,7 +229,8 @@ void Semester::createSemester() {
 
 void Semester::viewMainMenu() {
   Console::clear();
-  cout << "----------------------\n";
+  Utils::getCurrentSemester();
+  Utils::printLine();
   int i = 1;
   for (const auto& p : App::pCurrentSemester->pSchoolYear->pSemesters) {
     cout << i << ". " << p->pSchoolYear->yearName << ": ";
@@ -233,8 +239,8 @@ void Semester::viewMainMenu() {
   }
   cout << i << ". "
        << "Create new semester\n";
-  cout << "0. Go back\n";
-  cout << "----------------------\n";
+  Utils::printLine();
+  cout << "0. Return\n\n";
   int option = Utils::getOption(0, i);
   if (option == i) {
     Semester::createSemester();
@@ -250,16 +256,16 @@ void Semester::viewMainMenu() {
 
 void Semester::changeDefaultSemester() {
   Console::clear();
-  cout << "Default semester: " << App::pCurrentSemester->semesterName << "-"
+  cout << "Default semester: " << App::pCurrentSemester->semesterName << " - "
        << App::pCurrentSemester->pSchoolYear->yearName << endl;
-  cout << "---------------------------------\n";
+  Utils::printLine();
   int i = 1;
   for (const auto& p : App::pSchoolYears) {
     cout << i << ". " << p->yearName << endl;
     ++i;
   }
-  cout << "0. Go back\n";
-  cout << "---------------------------------\n";
+  Utils::printLine();
+  cout << "0. Return\n\n";
   int option = Utils::getOption(0, i - 1);
   if (option == 0) {
     Menu::staffMenu();
@@ -268,14 +274,14 @@ void Semester::changeDefaultSemester() {
     Console::clear();
     cout << "Default semester: " << App::pCurrentSemester->semesterName << "-"
          << App::pCurrentSemester->pSchoolYear->yearName << endl;
-    cout << "---------------------------------\n";
+    Utils::printLine();
     i = 1;
     for (const auto& p : App::pSchoolYears[option - 1]->pSemesters) {
       cout << i << ". " << p->semesterName << endl;
       ++i;
     }
-    cout << "0. Go back\n";
-    cout << "---------------------------------\n";
+    Utils::printLine();
+    cout << "0. Return\n\n";
     int option1 = Utils::getOption(0, i - 1);
     if (option1 == 0) {
       Menu::staffMenu();

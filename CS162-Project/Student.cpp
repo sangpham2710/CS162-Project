@@ -78,6 +78,8 @@ double Student::getOverallGPA() {
 
 void Student::viewEnrolledCourses() {
   Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "All enrolled courses: \n";
   auto recentSemesterCourseMarks =
       this->courseMarks.filter([&](const auto& courseMark) -> bool {
@@ -93,6 +95,8 @@ void Student::viewEnrolledCourses() {
 
 void Student::enrollUnenrollCourseScene() {
   Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
   if (!App::courseRegistrationSession.isOpen()) {
     cout << "The course registration is not open right now!\n";
     Utils::waitForKeypress();
@@ -121,7 +125,7 @@ void Student::enrollUnenrollCourseScene() {
     }
     ++i;
   }
-  cout << "0. Return\n";
+  cout << "0. Return\n\n";
   cout << "Please choose the course that you want to enroll/unenroll\n";
   int option = Utils::getOption(0, i);
   if (option == 0) {
@@ -135,14 +139,15 @@ void Student::enrollUnenrollCourseScene() {
 
 void Student::updateStudentInfo() {
   Console::clear();
-  cout << "----------------------------------------\n";
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "1. Student last name: " << this->lastName << "\n";
   cout << "2. Student first name: " << this->firstName << "\n";
   cout << "3. Gender: " << this->gender << "\n";
   cout << "4. Day of birth: " << this->dateOfBirth << "\n";
   cout << "5. Social ID: " << this->socialID << "\n";
-  cout << "----------------------------------------\n";
-  cout << "0. Return\n";
+  Utils::printLine();
+  cout << "0. Return\n\n";
   cout << "Which one do you want to update?\n";
   int option = Utils::getOption(0, 5);
   switch (option) {
@@ -151,35 +156,35 @@ void Student::updateStudentInfo() {
       return;
     }
     case 1: {
-      cout << "-------------------\n";
+      Utils::printLine();
       cout << "New last name: ";
       cin.ignore();
       getline(cin, this->lastName);
       break;
     }
     case 2: {
-      cout << "-------------------\n";
+      Utils::printLine();
       cout << "New first name: ";
       cin.ignore();
       getline(cin, this->firstName);
       break;
     }
     case 3: {
-      cout << "-------------------\n";
+      Utils::printLine();
       cout << "New gender: ";
       cin.ignore();
       getline(cin, this->gender);
       break;
     }
     case 4: {
-      cout << "-------------------\n";
+      Utils::printLine();
       cout << "New day of birth: ";
       cin.ignore();
       getline(cin, this->dateOfBirth);
       break;
     }
     case 5: {
-      cout << "-------------------\n";
+      Utils::printLine();
       cout << "New social ID: ";
       cin.ignore();
       getline(cin, this->socialID);
@@ -194,16 +199,18 @@ void Student::updateStudentInfo() {
 
 void Student::viewStudentScoreboard() {
   Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "Student code: " << this->studentCode << "\n";
   cout << "Student name: " << this->lastName << " " << this->firstName << "\n";
-  cout << "-----------------------\n";
+  Utils::printLine();
   for (auto p : this->courseMarks) {
     cout << p.pCourse->courseCode << "-" << p.pCourse->courseName << "\n";
     cout << "Midterm: " << p.midtermMark << "\n";
     cout << "Final: " << p.finalMark << "\n";
     cout << "Other: " << p.otherMark << "\n";
     cout << "Total: " << p.totalMark << "\n";
-    cout << "------------------------------------\n";
+    Utils::printLine();
   }
   Utils::waitForKeypress();
   Menu::studentMenu();
@@ -211,7 +218,7 @@ void Student::viewStudentScoreboard() {
 
 
 void Student::displayStudent() {
-  cout << string(20, '-') << '\n';
+  Utils::printLine();
   cout << this->studentCode << " - " << this->lastName << ' ' << this->lastName
        << " - " << this->gender << " - " << this->dateOfBirth << " - "
        << this->socialID << '\n';

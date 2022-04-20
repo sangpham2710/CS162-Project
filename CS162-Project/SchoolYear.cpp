@@ -39,12 +39,12 @@ std::ostream& operator<<(std::ostream& stream, const SchoolYear& schoolYear) {
 
 void SchoolYear::viewSchoolYearSemesterMenu() {
   Console::clear();
-
-  cout << "---------------------------------------\n";
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "1. School Years\n";
   cout << "2. Semesters\n";
-  cout << "---------------------------------------\n";
-  cout << "0. Return\n";
+  Utils::printLine();
+  cout << "0. Return\n\n";
   int option = Utils::getOption(0, 2);
   switch (option) {
     case 0: {
@@ -64,16 +64,17 @@ void SchoolYear::viewSchoolYearSemesterMenu() {
 
 void SchoolYear::viewMainMenu() {
   Console::clear();
-
+  Utils::getCurrentSemester();
   int i = 1;
-  cout << "---------------------------------------\n";
+  Utils::printLine();
   for (const auto& p : App::pSchoolYears) {
     cout << i << ". " << p->yearName << "\n";
     ++i;
   }
-  cout << "---------------------------------------\n";
+  Utils::printLine();
   cout << i << ". "
        << "Add new school year \n";
+  Utils::printLine();
   cout << 0 << ". "
        << "Return \n \n";
 
@@ -93,12 +94,12 @@ void SchoolYear::viewMainMenu() {
 
 void SchoolYear::schoolYearChooseMenu() {
   Console::clear();
-
+  Utils::getCurrentSemester();
   if (App::pSchoolYears.length() == 1) {
-    cout << "---------------------------------------\n";
+    Utils::printLine();
     cout << "1. Update school year\n";
-    cout << "---------------------------------------\n";
-    cout << "0. Return\n";
+    Utils::printLine();
+    cout << "0. Return\n\n";
 
     int option = Utils::getOption(0, 1);
     switch (option) {
@@ -113,11 +114,11 @@ void SchoolYear::schoolYearChooseMenu() {
       }
     }
   } else {
-    cout << "---------------------------------------\n";
+    Utils::printLine();
     cout << "1. Update school year\n";
     cout << "2. Delete school year\n";
-    cout << "---------------------------------------\n";
-    cout << "0. Return\n";
+    Utils::printLine();
+    cout << "0. Return\n\n";
 
     int option = Utils::getOption(0, 2);
     switch (option) {
@@ -141,7 +142,8 @@ void SchoolYear::schoolYearChooseMenu() {
 
 void SchoolYear::createSchoolYear() {
   Console::clear();
-
+  Utils::getCurrentSemester();
+  Utils::printLine();
   string yearName;
   cout << "School year (Ex:2022-2023): ";
   cin.ignore();
@@ -187,10 +189,11 @@ void SchoolYear::createSchoolYear() {
 
 void SchoolYear::deleteSchoolYearScene() {
   Console::clear();
-
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "Are you sure you want to permanently delete this school year?\n";
   cout << "1. Yes\n";
-  cout << "2. No\n";
+  cout << "2. No\n\n";
 
   int option = Utils::getOption(1, 2);
   if (option == 2) {
@@ -227,8 +230,11 @@ void SchoolYear::deleteSchoolYear() {
 
 void SchoolYear::schoolYearUpdate() {
   Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "1. Year name: " << this->yearName << '\n';
-  cout << "0. Return\n";
+  Utils::printLine();
+  cout << "0. Return\n\n";
   cout << "Which one do you want to update? \n";
   int option = Utils::getOption(0, 1);
   if (option == 0) {

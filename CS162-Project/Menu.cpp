@@ -14,9 +14,10 @@ using std::cout;
 
 void Menu::staffMenu() {
   Console::clear();
+  Utils::getCurrentSemester();
   bool isRecentSemester =
       App::pCurrentSemester->_id == App::pRecentSemester->_id;
-  cout << "-------------------------------\n";
+  Utils::printLine();
   cout << "1. Change password\n";
   cout << "2. Update info\n";
   cout << "3. Courses\n";
@@ -26,9 +27,9 @@ void Menu::staffMenu() {
   if (isRecentSemester) {
     cout << "7. Course registration session\n";
   }
-  cout << "--------------------------------\n";
-  cout << "0. Logout\n";
-  cout << "--------------------------------\n";
+  Utils::printLine();
+  cout << "0. Logout\n\n";
+  
   int option = Utils::getOption(0, isRecentSemester ? 7 : 6);
   switch (option) {
     case 1:
@@ -61,15 +62,16 @@ void Menu::staffMenu() {
 
 void Menu::studentMenu() {
   Console::clear();
-  cout << "---------------------------\n";
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "1. Change password\n";
   cout << "2. Update info\n";
   cout << "3. Enroll/unenroll a course\n";
   cout << "4. View enrolled courses\n";
   cout << "5. View scoreboard\n";
-  cout << "---------------------------\n";
-  cout << "0. Logout\n";
-  cout << "---------------------------\n";
+  Utils::printLine();
+  cout << "0. Logout\n\n";
+  
   int option = Utils::getOption(0, 5);
 
   switch (option) {
@@ -99,7 +101,8 @@ void Menu::studentMenu() {
 
 void Menu::adminMenu() {
   Console::clear();
-  cout << "---------------------------\n";
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "1. Show all users\n";
   cout << "2. Show all school years\n";
   cout << "3. Show all semesters\n";
@@ -109,9 +112,9 @@ void Menu::adminMenu() {
   cout << "7. Show all staffs\n";
   cout << "8. Show course registration session\n";
   cout << "9. Add new staff\n";
-  cout << "---------------------------\n";
-  cout << "0. Logout\n";
-  cout << "---------------------------\n";
+  Utils::printLine();
+  cout << "0. Logout\n\n";
+  
   int option = Utils::getOption(0, 9);
   Console::clear();
   switch (option) {
@@ -120,27 +123,43 @@ void Menu::adminMenu() {
       App::main();
       return;
     case 1:
+      Utils::getCurrentSemester();
+      Utils::printLine();
       for (const auto& p : App::pUsers) p->displayUser();
       break;
     case 2:
+      Utils::getCurrentSemester();
+      Utils::printLine();
       for (const auto& p : App::pSchoolYears) p->displaySchoolYear();
       break;
     case 3:
+      Utils::getCurrentSemester();
+      Utils::printLine();
       for (const auto& p : App::pSemesters) p->displaySemester();
       break;
     case 4:
+      Utils::getCurrentSemester();
+      Utils::printLine();
       for (const auto& p : App::pCourses) p->displayCourse();
       break;
     case 5:
+      Utils::getCurrentSemester();
+      Utils::printLine();
       for (const auto& p : App::pClasses) p->displayClass();
       break;
     case 6:
+      Utils::getCurrentSemester();
+      Utils::printLine();
       for (const auto& p : App::pStudents) p->displayStudent();
       break;
     case 7:
+      Utils::getCurrentSemester();
+      Utils::printLine();
       for (const auto& p : App::pStaffs) p->displayStaff();
       break;
     case 8:
+      Utils::getCurrentSemester();
+      Utils::printLine();
       App::courseRegistrationSession.displayCourseRegistrationSession();
       break;
     case 9:
@@ -154,7 +173,7 @@ void Menu::adminMenu() {
 void Menu::welcome() {
   Console::clear();
   cout << "1. Login\n";
-  cout << "2. Exit\n";
+  cout << "2. Exit\n\n";
   int option = Utils::getOption(1, 2);
   if (option == 1)
     User::login();
@@ -165,7 +184,7 @@ void Menu::welcome() {
 void Menu::exit() {
   cout << "Are you sure you want to exit the program?\n";
   cout << "1. Yes\n";
-  cout << "2. No\n";
+  cout << "2. No\n\n";
   int option = Utils::getOption(1, 2);
   if (option == 2) {
     Menu::welcome();
