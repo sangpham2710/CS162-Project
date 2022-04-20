@@ -163,12 +163,25 @@ void SchoolYear::createSchoolYear() {
     return;
   }
 
-  string semesterName;
   cout << "Input first semester in " << yearName << ": ";
-  getline(cin, semesterName);
+  cout << "\n1. Autumn      2. Spring       3.Summer\n";
+  int option = Utils::getOption(1, 3);
   Semester* pSemester = new Semester();
-  pSemester->semesterName = semesterName;
-
+  switch (option) {
+      case 1: {
+          pSemester->semesterName = "Autumn";
+          break;
+      }
+      case 2: {
+          pSemester->semesterName = "Spring";
+          break;
+      }
+      case 3: {
+          pSemester->semesterName = "Summer";
+          break;
+      }
+  }
+  
   SchoolYear* pSchoolYear = new SchoolYear();
   pSchoolYear->yearName = yearName;
 

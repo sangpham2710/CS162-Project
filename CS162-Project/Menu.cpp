@@ -128,11 +128,14 @@ void Menu::adminMenu() {
   cout << "7. Show all staffs\n";
   cout << "8. Show course registration session\n";
   cout << "9. Add new staff\n";
-  cout << "10. Create first semester\n";
+  if (!App::pCurrentSemester) 
+    cout << "10. Create first semester\n";
   Utils::printLine();
   cout << "0. Logout\n\n";
-
-  int option = Utils::getOption(0, 9);
+  int option;
+  if (!App::pCurrentSemester) 
+    option = Utils::getOption(0, 10);
+  else option = Utils::getOption(0, 10);
   Console::clear();
   switch (option) {
     case 0:
@@ -184,6 +187,7 @@ void Menu::adminMenu() {
       break;
     case 10:
       // Create first semester
+      Semester::createFirstSemester();
       break;
   }
   Utils::printLine();

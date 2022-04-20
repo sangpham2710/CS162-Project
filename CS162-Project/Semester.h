@@ -23,16 +23,19 @@ class Semester {
   friend std::istream& operator>>(std::istream& stream, Semester& semester);
   friend std::ostream& operator<<(std::ostream& stream,
                                   const Semester& semester);
+
   void addCourse(Course* const& course);
   void viewCourse(const string& courseID);
+
   static void viewMainMenu();
   static void createSemester();
+  static void changeDefaultSemester();
+  static void createFirstSemester();
+
   void viewEditSemester();
   void updateSemester();
   void deleteSemesterScene();
   void deleteSemester(bool cascade);
-
-  static void changeDefaultSemester();
 
   void displaySemester();
 };

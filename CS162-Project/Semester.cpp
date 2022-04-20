@@ -297,6 +297,57 @@ void Semester::changeDefaultSemester() {
   }
 }
 
+void Semester::createFirstSemester() {
+    Console::clear();
+    Utils::getCurrentSemester();
+    Utils::printLine();
+
+    string yearName;
+    cout << "School year (Ex: 2022-2023): ";
+    cin.ignore();
+    getline(cin, yearName);
+    if (yearName.length() != 9 || yearName[4] != '-') {
+        cout << "Invalid!\n";
+
+        Utils::waitForKeypress();
+        Menu::adminMenu();
+        return;
+    }
+
+    cout << "Input first semester in " << yearName << ": ";
+    cout << "\n1. Autumn      2. Spring       3.Summer\n";
+    int option = Utils::getOption(1, 3);
+    Semester* pSemester = new Semester();
+    switch (option) {
+        case 1: {
+            pSemester->semesterName = "Autumn";
+            break;
+        }
+        case 2: {
+            pSemester->semesterName = "Spring";
+            break;
+        }
+        case 3: {
+            pSemester->semesterName = "Summer";
+            break;
+        }
+    }
+
+    SchoolYear* pSchoolYear = new SchoolYear();
+    pSchoolYear->yearName = yearName;
+
+    pSchoolYear->pSemesters.push_back(pSemester);
+    pSemester->pSchoolYear = pSchoolYear;
+    App::pSchoolYears.push_back(pSchoolYear);
+    App::pSemesters.push_back(pSemester);
+    App::pCurrentSemester = pSemester;
+    App::pRecentSemester = pSemester;
+
+    cout << "Created first semester " << pSemester->semesterName << " in " << yearName << " successfully!\n";
+    Utils::waitForKeypress();
+    Menu::adminMenu();
+}
+
 void Semester::displaySemester() {
   cout << this->pSchoolYear->yearName << " - " << this->semesterName << " - "
        << this->pCourses.size() << " courses\n";

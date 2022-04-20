@@ -1,10 +1,20 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <windows.h>
 
 #include "App.h"
 class Utils {
  public:
+
+  static void gotoxy(int x, int y) {
+    static HANDLE h = NULL;
+    if (!h)
+    h = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD c = { x, y };
+    SetConsoleCursorPosition(h, c);
+  }
+
   static void waitForKeypress() {
 #pragma push_macro("max")
 #undef max
@@ -62,8 +72,18 @@ class Utils {
   }
 
   static void getCurrentSemester() {
+    if (!App::pCurrentSemester) {
+        cout << "Current Semester: None";
+        gotoxy(80, 0);
+        cout << "Signed in as " << App::pCurrentUser->username;
+        gotoxy(0, 0);
+        return;
+    }
     cout << "Current Semester: " << App::pCurrentSemester->pSchoolYear->yearName
          << " - " << App::pCurrentSemester->semesterName << '\n';
+    gotoxy(80, 0);
+    cout << "Signed in as " << App::pCurrentUser->username;
+    gotoxy(0, 1);
   }
 
   static void printLine() { cout << string(40, '-') << '\n'; }
