@@ -83,9 +83,14 @@ void App::loadData() {
   if (ifs.is_open()) {
     string recentSemesterID;
     ifs >> recentSemesterID;
-    App::pRecentSemester = *App::pSemesters.find_if(
+    auto itSemester = App::pSemesters.find_if(
         [&](const auto& p) -> bool { return p->_id == recentSemesterID; });
-    App::pCurrentSemester = App::pRecentSemester;
+
+    if (itSemester != App::pSemesters.end()) {
+      App::pRecentSemester = *itSemester;
+      App::pCurrentSemester = App::pRecentSemester;
+    }
+
     ifs.close();
   }
   ifs.open(Data::DATA_DIR + "courseRegistrationSession.txt");
@@ -133,11 +138,13 @@ void App::saveData() {
 
   ofs.open(Data::DATA_DIR + "courseRegistrationSession.txt");
   if (!ofs.is_open()) return;
-  if (pRecentSemester) ofs << App::courseRegistrationSession << '\n';
+  ofs << App::courseRegistrationSession << '\n';
   ofs.close();
 }
 
-void App::main() { Menu::welcome(); }
+void App::main() {
+  Menu::welcome();
+}
 
 void App::run() {
   App::allocate();

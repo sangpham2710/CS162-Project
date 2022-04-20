@@ -14,6 +14,14 @@ using std::cout;
 
 void Menu::staffMenu() {
   Console::clear();
+  if (!App::pRecentSemester) {
+    cout << "There's currently no semester in the system, please contact "
+            "Admin!\n";
+    Utils::waitForKeypress();
+    App::pCurrentUser = nullptr;
+    App::main();
+    return;
+  }
   Utils::getCurrentSemester();
   bool isRecentSemester =
       App::pCurrentSemester->_id == App::pRecentSemester->_id;
@@ -62,6 +70,14 @@ void Menu::staffMenu() {
 
 void Menu::studentMenu() {
   Console::clear();
+  if (!App::pRecentSemester) {
+    cout << "There's currently no semester in the system, please contact "
+            "Admin!\n";
+    Utils::waitForKeypress();
+    App::pCurrentUser = nullptr;
+    App::main();
+    return;
+  }
   Utils::getCurrentSemester();
   Utils::printLine();
   cout << "1. Change password\n";
@@ -112,6 +128,7 @@ void Menu::adminMenu() {
   cout << "7. Show all staffs\n";
   cout << "8. Show course registration session\n";
   cout << "9. Add new staff\n";
+  cout << "10. Create first semester\n";
   Utils::printLine();
   cout << "0. Logout\n\n";
 
@@ -164,6 +181,9 @@ void Menu::adminMenu() {
       break;
     case 9:
       Staff::createStaff();
+      break;
+    case 10:
+      // Create first semester
       break;
   }
   Utils::printLine();
