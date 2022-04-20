@@ -141,8 +141,8 @@ void Student::updateStudentInfo() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
-  cout << "1. Student last name: " << this->lastName << "\n";
-  cout << "2. Student first name: " << this->firstName << "\n";
+  cout << "1. Last name: " << this->lastName << "\n";
+  cout << "2. First name: " << this->firstName << "\n";
   cout << "3. Gender: " << this->gender << "\n";
   cout << "4. Day of birth: " << this->dateOfBirth << "\n";
   cout << "5. Social ID: " << this->socialID << "\n";
@@ -215,7 +215,6 @@ void Student::viewStudentScoreboard() {
   Utils::waitForKeypress();
   Menu::studentMenu();
 }
-
 
 void Student::displayStudent() {
   Utils::printLine();

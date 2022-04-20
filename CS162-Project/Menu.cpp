@@ -29,7 +29,7 @@ void Menu::staffMenu() {
   }
   Utils::printLine();
   cout << "0. Logout\n\n";
-  
+
   int option = Utils::getOption(0, isRecentSemester ? 7 : 6);
   switch (option) {
     case 1:
@@ -71,7 +71,7 @@ void Menu::studentMenu() {
   cout << "5. View scoreboard\n";
   Utils::printLine();
   cout << "0. Logout\n\n";
-  
+
   int option = Utils::getOption(0, 5);
 
   switch (option) {
@@ -114,7 +114,7 @@ void Menu::adminMenu() {
   cout << "9. Add new staff\n";
   Utils::printLine();
   cout << "0. Logout\n\n";
-  
+
   int option = Utils::getOption(0, 9);
   Console::clear();
   switch (option) {
@@ -166,6 +166,7 @@ void Menu::adminMenu() {
       Staff::createStaff();
       break;
   }
+  Utils::printLine();
   Utils::waitForKeypress();
   Menu::adminMenu();
 }

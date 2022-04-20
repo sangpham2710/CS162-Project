@@ -78,7 +78,6 @@ void SchoolYear::viewMainMenu() {
   cout << 0 << ". "
        << "Return \n \n";
 
-
   int option = Utils::getOption(0, i);
   if (option == i) {
     SchoolYear::createSchoolYear();
@@ -145,41 +144,40 @@ void SchoolYear::createSchoolYear() {
   Utils::getCurrentSemester();
   Utils::printLine();
   string yearName;
-  cout << "School year (Ex:2022-2023): ";
+  cout << "School year (Ex: 2022-2023): ";
   cin.ignore();
   getline(cin, yearName);
   if (yearName.length() != 9 || yearName[4] != '-') {
-    cout << "Invalid\n";
+    cout << "Invalid!\n";
 
     Utils::waitForKeypress();
     SchoolYear::viewMainMenu();
     return;
   }
-  for (auto sy : App::pSchoolYears) {
-    if (sy->yearName == yearName) {
-      cout << "school year " << yearName << "already exists!";
-
-      Utils::waitForKeypress();
-      SchoolYear::viewMainMenu();
-      return;
-    }
+  if (App::pSchoolYears.find_if([&](const auto& p) -> bool {
+        return p->yearName == yearName;
+      }) != App::pSchoolYears.end()) {
+    cout << "School year " << yearName << " already exists!";
+    Utils::waitForKeypress();
+    SchoolYear::viewMainMenu();
+    return;
   }
 
   string semesterName;
   cout << "Input first semester in " << yearName << ": ";
   getline(cin, semesterName);
-  Semester* sem = new Semester();
-  sem->semesterName = semesterName;
+  Semester* pSemester = new Semester();
+  pSemester->semesterName = semesterName;
 
-  SchoolYear* sy = new SchoolYear();
-  sy->yearName = yearName;
+  SchoolYear* pSchoolYear = new SchoolYear();
+  pSchoolYear->yearName = yearName;
 
-  sy->pSemesters.push_back(sem);
-  sem->pSchoolYear = sy;
-  App::pSchoolYears.push_back(sy);
-  App::pSemesters.push_back(sem);
-  App::pCurrentSemester = sem;
-  App::pRecentSemester = sem;
+  pSchoolYear->pSemesters.push_back(pSemester);
+  pSemester->pSchoolYear = pSchoolYear;
+  App::pSchoolYears.push_back(pSchoolYear);
+  App::pSemesters.push_back(pSemester);
+  App::pCurrentSemester = pSemester;
+  App::pRecentSemester = pSemester;
 
   cout << "Create school year " << yearName << " successfully!\n";
   Utils::waitForKeypress();

@@ -43,7 +43,7 @@ void Staff::updateStaffInfo() {
   cout << "3. Gender: " << this->gender << "\n";
   cout << "4. Day of birth: " << this->dateOfBirth << "\n";
   cout << "5. Social ID: " << this->socialID << "\n";
-  cout << "6. faculty: " << this->faculty << "\n";
+  cout << "6. Faculty: " << this->faculty << "\n";
   Utils::printLine();
   cout << "0. Return\n\n";
   cout << "Which one do you want to update?\n";

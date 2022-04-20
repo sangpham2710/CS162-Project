@@ -236,25 +236,25 @@ void Course::createCourse() {
   cout << "Input course name: ";
   cin.ignore();
   getline(cin, pCourse->courseName);
-  cout << "\nInput lecturer's name: ";
+  cout << "Input lecturer's name: ";
   getline(cin, pCourse->lecturer);
-  cout << "\nInput start date: ";
+  cout << "Input start date: ";
   getline(cin, pCourse->startDate);
-  cout << "\nInput end date: ";
+  cout << "Input end date: ";
   getline(cin, pCourse->endDate);
-  cout << "\nInput max number of students: ";
+  cout << "Input max number of students: ";
   cin >> pCourse->maxNumberOfStudents;
-  cout << "\nInput number of credits: ";
+  cout << "Input number of credits: ";
   cin >> pCourse->numberOfCredits;
 
-  cout << "\nInput schedule: ";
+  cout << "Input schedule: ";
   Utils::getSchedule(pCourse->session1, pCourse->session2);
 
   pCourse->pSemester = App::pCurrentSemester;
   App::pCurrentSemester->pCourses.push_back(pCourse);
   App::pCourses.push_back(pCourse);
 
-  cout << "\nCreated successfully!\n";
+  cout << "Created successfully!\n";
   Utils::waitForKeypress();
   courseMainMenu();
 }
