@@ -135,7 +135,7 @@ void Menu::adminMenu() {
   int option;
   if (!App::pCurrentSemester) 
     option = Utils::getOption(0, 10);
-  else option = Utils::getOption(0, 10);
+  else option = Utils::getOption(0, 9);
   Console::clear();
   switch (option) {
     case 0:
