@@ -141,6 +141,7 @@ void Menu::adminMenu() {
   Utils::printLine();
   switch (option) {
     case 0:
+      delete App::pCurrentUser;
       App::pCurrentUser = nullptr;
       App::main();
       return;
