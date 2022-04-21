@@ -85,7 +85,7 @@ void CourseRegistrationSession::openSession() {
     }
   };
   cout << "---------------- Input start time ----------------\n";
-  getInput("year", year, 0, 1e9);
+  getInput("year", year, 0, (int)1e9);
   getInput("month", month, 1, 12);
   getInput("day", day, 1, 31);
   getInput("hours", hours, 0, 23);
@@ -97,7 +97,7 @@ void CourseRegistrationSession::openSession() {
       .setYear(year);
 
   cout << "---------------- Input end time ----------------\n";
-  getInput("year", year, 0, 1e9);
+  getInput("year", year, 0, (int)1e9);
   getInput("month", month, 1, 12);
   getInput("day", day, 1, 31);
   getInput("hours", hours, 0, 23);
