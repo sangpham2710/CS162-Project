@@ -48,6 +48,7 @@ void App::deallocate() {
 }
 
 void App::loadData() {
+  App::pUsers.push_back(new User("admin", "admin", User::Type::ADMIN));
   if (!fs::exists(Data::DATA_DIR)) return;
   if (fs::exists(Data::USERS_DIR)) Data::loadIDs(Data::USERS_DIR, App::pUsers);
   if (fs::exists(Data::SCHOOLYEARS_DIR))
@@ -101,6 +102,8 @@ void App::loadData() {
 }
 
 void App::saveData() {
+  delete App::pUsers.front();
+  App::pUsers.pop_front();
   auto createIfNotExists = [](const string& path) {
     if (!fs::exists(path)) fs::create_directories(path);
   };
