@@ -10,7 +10,13 @@ using std::string;
 class Staff {
  public:
   string _id;
-  string staffCode, firstName, lastName, gender, dateOfBirth, socialID, faculty;
+  string staffCode;
+  string firstName;
+  string lastName;
+  string gender;
+  string dateOfBirth;
+  string socialID;
+  string faculty;
   Staff(const string& id)
       : _id{id},
         staffCode{},

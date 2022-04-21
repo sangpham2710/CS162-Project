@@ -15,7 +15,8 @@ class User {
  public:
   enum Type { ADMIN, STUDENT, ACADEMIC_STAFF };
   string _id;
-  string username, password;
+  string username;
+  string password;
   Type userType;
 
   Student* pStudent;
