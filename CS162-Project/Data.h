@@ -8,14 +8,8 @@ using std::string;
 
 class Data {
  public:
-  static const string DATA_DIR;
-  static const string USERS_DIR;
-  static const string SCHOOLYEARS_DIR;
-  static const string SEMESTERS_DIR;
-  static const string CLASSES_DIR;
-  static const string COURSES_DIR;
-  static const string STUDENTS_DIR;
-  static const string STAFFS_DIR;
+  static const string DATA_DIR, USERS_DIR, SCHOOLYEARS_DIR, SEMESTERS_DIR,
+      CLASSES_DIR, COURSES_DIR, STUDENTS_DIR, STAFFS_DIR;
 
   template <class T>
   static bool loadIDs(const string& path, List<T*>& list);
