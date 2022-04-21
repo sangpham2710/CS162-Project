@@ -67,6 +67,7 @@ void Class::updateClass() {
 }
 
 void Class::addStudent() {
+  Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
   string studentCode, firstName, lastName, gender, dateOfBirth, socialID,
