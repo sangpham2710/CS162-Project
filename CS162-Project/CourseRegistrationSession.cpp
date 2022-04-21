@@ -30,6 +30,8 @@ bool CourseRegistrationSession::isOpen() {
 void CourseRegistrationSession::viewMainMenu() {
   bool sessionOpen = App::courseRegistrationSession.isOpen();
   Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "Current session status: " << (sessionOpen ? "OPEN" : "CLOSED")
        << '\n';
 
@@ -41,9 +43,10 @@ void CourseRegistrationSession::viewMainMenu() {
     cout << "End time: ";
     App::courseRegistrationSession.endTime.output();
     cout << '\n';
-    cout << string(20, '-') << '\n';
+    Utils::printLine();
     cout << "1. Close current session\n";
-    cout << "0. Return\n";
+    Utils::printLine();
+    cout << "0. Return\n\n";
     int option = Utils::getOption(0, 1);
     if (option == 0) {
       Menu::staffMenu();
@@ -53,9 +56,9 @@ void CourseRegistrationSession::viewMainMenu() {
       return;
     }
   } else {
-    cout << string(20, '-') << '\n';
+    Utils::printLine();
     cout << "1. Open registration session\n";
-    cout << "0. Return\n";
+    cout << "0. Return\n\n";
     int option = Utils::getOption(0, 1);
     if (option == 0) {
       Menu::staffMenu();
@@ -69,6 +72,7 @@ void CourseRegistrationSession::viewMainMenu() {
 
 void CourseRegistrationSession::openSession() {
   Console::clear();
+  Utils::getCurrentSemester();
   int minutes, hours, day, month, year;
   auto getInput = [](const string& name, int& value, int min, int max) {
     cout << "Input " << name << ": ";
@@ -81,7 +85,7 @@ void CourseRegistrationSession::openSession() {
     }
   };
   cout << "---------------- Input start time ----------------\n";
-  getInput("year", year, 0, 1e9);
+  getInput("year", year, 0, (int)1e9);
   getInput("month", month, 1, 12);
   getInput("day", day, 1, 31);
   getInput("hours", hours, 0, 23);
@@ -93,7 +97,7 @@ void CourseRegistrationSession::openSession() {
       .setYear(year);
 
   cout << "---------------- Input end time ----------------\n";
-  getInput("year", year, 0, 1e9);
+  getInput("year", year, 0, (int)1e9);
   getInput("month", month, 1, 12);
   getInput("day", day, 1, 31);
   getInput("hours", hours, 0, 23);
@@ -118,6 +122,8 @@ void CourseRegistrationSession::openSession() {
 
 void CourseRegistrationSession::closeSession() {
   Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
   App::courseRegistrationSession.startTime = TimeStamp{};
   App::courseRegistrationSession.endTime = TimeStamp{};
   cout << "Session closed!\n";

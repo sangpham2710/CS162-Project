@@ -83,16 +83,17 @@ void User::login() {
 
 void User::changePassword() {
   Console::clear();
+  Utils::getCurrentSemester();
   string tmpPass;
-  cout << "-------------------------\n";
+  Utils::printLine();
   cout << "Input current password: ";
   cin.ignore();
   getline(cin, tmpPass);
   if (tmpPass == this->password) {
-    cout << "-------------------------\n";
+    Utils::printLine();
     cout << "Input new password: ";
     getline(cin, this->password);
-    cout << "-------------------------\n";
+    Utils::printLine();
     cout << "Successfully changed information\n";
     App::pCurrentUser = nullptr;
     Utils::waitForKeypress();

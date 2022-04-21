@@ -1,5 +1,9 @@
 #pragma once
 #include <iostream>
+#include <string>
+
+#include "App.h"
+#include "Console.h"
 
 class Utils {
  public:
@@ -58,4 +62,21 @@ class Utils {
     schedule = schedule + ":";
     schedule = schedule + time[session2 % 10 - 1];
   }
+
+  static void getCurrentSemester() {
+    if (!App::pCurrentSemester) {
+      cout << "Current Semester: None";
+      Console::gotoxy(80, 0);
+      cout << "Signed in as " << App::pCurrentUser->username;
+      Console::gotoxy(0, 0);
+      return;
+    }
+    cout << "Current Semester: " << App::pCurrentSemester->pSchoolYear->yearName
+         << " - " << App::pCurrentSemester->semesterName << '\n';
+    Console::gotoxy(80, 0);
+    cout << "Signed in as " << App::pCurrentUser->username;
+    Console::gotoxy(0, 1);
+  }
+
+  static void printLine() { cout << string(40, '-') << '\n'; }
 };

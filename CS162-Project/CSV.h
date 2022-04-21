@@ -11,7 +11,7 @@ using std::stringstream;
 
 class CSV {
  public:
-  static int _readLine(const string &line, List<string> &values) {
+  static void _readLine(const string &line, List<string> &values) {
     string value = "";
     int state = 0;
 
@@ -40,7 +40,7 @@ class CSV {
               state = 0;
               break;
             case '"':
-              return 1;
+              return;
             default:
               value += c;
               break;
@@ -70,7 +70,7 @@ class CSV {
               state = 2;
               break;
             default:
-              return 2;
+              return;
           }
           break;
         }
@@ -84,31 +84,25 @@ class CSV {
         values.push_back(value);
         break;
       case 2:
-        return 2;
+        return;
     }
-
-    return 0;
   }
   static string _writeLine(const List<string> &values) {
     string line = "";
     bool first = true;
     for (const string &value : values) {
-      if (first) {
+      if (first)
         first = false;
-      } else {
+      else
         line += ',';
-      }
 
       bool enclosed = false;
-      for (const char &c : value) {
-        if (c == ',' || c == '"') {
-          enclosed = true;
-        }
-      }
+      for (const char &c : value)
+        if (c == ',' || c == '"') enclosed = true;
 
-      if (!enclosed) {
+      if (!enclosed)
         line += value;
-      } else {
+      else {
         string escaped = "";
         escaped += '"';
         for (char c : value) {
@@ -128,7 +122,7 @@ class CSV {
   }
 
   template <class... Ts>
-  static int readLine(const string &line, Ts &...args) {
+  static void readLine(const string &line, Ts &...args) {
     auto res = 0;
 
     List<string> values;
@@ -136,10 +130,7 @@ class CSV {
 
     int index = 0;
     auto fn = [&](auto &v) {
-      if (index == values.size()) {
-        res = 3;
-        return;
-      }
+      if (index == values.size()) return;
       if constexpr (std::is_same_v<decltype(v), string &>) {
         v = values[index++];
       } else {
@@ -148,8 +139,6 @@ class CSV {
       }
     };
     (fn(args), ...);
-
-    return res;
   }
 
   template <class... Ts>

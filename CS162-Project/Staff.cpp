@@ -36,15 +36,16 @@ std::ostream& operator<<(std::ostream& stream, const Staff& staff) {
 
 void Staff::updateStaffInfo() {
   Console::clear();
-  cout << "----------------------------------------\n";
+  Utils::getCurrentSemester();
+  Utils::printLine();
   cout << "1. Staff last name: " << this->lastName << "\n";
   cout << "2. Staff first name: " << this->firstName << "\n";
   cout << "3. Gender: " << this->gender << "\n";
   cout << "4. Day of birth: " << this->dateOfBirth << "\n";
   cout << "5. Social ID: " << this->socialID << "\n";
-  cout << "6. faculty: " << this->faculty << "\n";
-  cout << "----------------------------------------\n";
-  cout << "0. Return\n";
+  cout << "6. Faculty: " << this->faculty << "\n";
+  Utils::printLine();
+  cout << "0. Return\n\n";
   cout << "Which one do you want to update?\n";
   int option = Utils::getOption(0, 6);
   switch (option) {
@@ -54,42 +55,42 @@ void Staff::updateStaffInfo() {
     }
 
     case 1: {
-      cout << "-------------------\n";
+      Utils::printLine();
       cout << "New last name: ";
       cin.ignore();
       getline(cin, this->lastName);
       break;
     }
     case 2: {
-      cout << "-------------------\n";
+      Utils::printLine();
       cout << "New first name: ";
       cin.ignore();
       getline(cin, this->firstName);
       break;
     }
     case 3: {
-      cout << "-------------------\n";
+      Utils::printLine();
       cout << "New gender: ";
       cin.ignore();
       getline(cin, this->gender);
       break;
     }
     case 4: {
-      cout << "-------------------\n";
+      Utils::printLine();
       cout << "New day of birth: ";
       cin.ignore();
       getline(cin, this->dateOfBirth);
       break;
     }
     case 5: {
-      cout << "-------------------\n";
+      Utils::printLine();
       cout << "New social ID: ";
       cin.ignore();
       getline(cin, this->socialID);
       break;
     }
     case 6: {
-      cout << "-------------------\n";
+      Utils::printLine();
       cout << "New faculty: ";
       cin.ignore();
       getline(cin, this->faculty);
@@ -110,6 +111,8 @@ void Staff::displayStaff() {
 
 void Staff::createStaff() {
   Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
   string staffCode, firstName, lastName, gender, dateOfBirth, socialID, faculty;
   cin.ignore();
   cout << "Input staff code: ";
