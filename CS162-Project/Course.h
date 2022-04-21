@@ -15,15 +15,8 @@ class Student;
 class Course {
  public:
   string _id;
-  string courseCode;
-  string courseName;
-  string lecturer;
-  string startDate;
-  string endDate;
-  int maxNumberOfStudents;
-  int numberOfCredits;
-  int session1;
-  int session2;
+  string courseCode, courseName, lecturer, startDate, endDate;
+  int maxNumberOfStudents, numberOfCredits, session1, session2;
   Semester* pSemester;
   List<Student*> pStudents;
 
