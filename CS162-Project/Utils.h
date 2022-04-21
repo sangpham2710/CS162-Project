@@ -8,9 +8,15 @@
 class Utils {
  public:
   static void waitForKeypress() {
-    cout << "Press any key to continue\n";
-    char ch = _getch();
-    if (ch == 0 || ch == 224) ch = _getch();
+#pragma push_macro("max")
+#undef max
+    if (cin.rdbuf()->sungetc() != std::char_traits<char>::eof() &&
+        cin.get() != '\n') {
+      cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    cout << "Press Enter to continue\n";
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+#pragma pop_macro("max")
   }
   static int getOption(int minOption, int maxOption) {
     int option;
