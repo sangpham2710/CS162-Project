@@ -52,6 +52,7 @@ void Class::updateClass() {
     case 1: {
       string classCode;
       cout << "New class code: ";
+      cin.ignore();
       getline(cin, classCode);
       this->classCode = classCode;
       cout << "Successfully updated!\n";
@@ -67,6 +68,7 @@ void Class::updateClass() {
 }
 
 void Class::addStudent() {
+  Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
   string studentCode, firstName, lastName, gender, dateOfBirth, socialID,
@@ -238,6 +240,7 @@ void Class::classChooseMenu() {
 }
 
 void Class::createClass() {
+  Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
   cout << "This class will be created in "

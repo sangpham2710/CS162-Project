@@ -92,18 +92,18 @@ void Semester::updateSemester() {
       Console::clear();
       Utils::getCurrentSemester();
       Utils::printLine();
-      cout << "1. Fall\n";
+      cout << "1. Autumn\n";
       cout << "2. Spring\n";
       cout << "3. Summer\n";
       Utils::printLine();
       int choiceName = Utils::getOption(1, 3);
       switch (choiceName) {
         case 1:  // Fall
-          if (semesterExisted(this->pSchoolYear->pSemesters, "Fall")) {
+          if (semesterExisted(this->pSchoolYear->pSemesters, "Autumn")) {
             cout << "This semester existed!\n";
             return;
           }
-          this->semesterName = "Fall";
+          this->semesterName = "Autumn";
           break;
         case 2:  // Spring
           if (semesterExisted(this->pSchoolYear->pSemesters, "Spring")) {
