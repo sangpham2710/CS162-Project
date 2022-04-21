@@ -18,12 +18,7 @@ class User;
 class Student {
  public:
   string _id;
-  string studentCode;
-  string firstName;
-  string lastName;
-  string gender;
-  string dateOfBirth;
-  string socialID;
+  string studentCode, firstName, lastName, gender, dateOfBirth, socialID;
   Class* pClass;
   List<CourseMark> courseMarks;
 
