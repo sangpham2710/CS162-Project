@@ -213,6 +213,8 @@ void Student::viewStudentScoreboard() {
     cout << "Total: " << p.totalMark << "\n";
     Utils::printLine();
   }
+  cout << "Semester GPA: " << this->getSemesterGPA() << '\n';
+  cout << "Overall GPA: " << this->getOverallGPA() << '\n';
   Utils::waitForKeypress();
   Menu::studentMenu();
 }
@@ -255,7 +257,6 @@ void Student::viewSchedule() {
     }
     cout << '\n';
   }
-
 
   Utils::waitForKeypress();
   Menu::studentMenu();

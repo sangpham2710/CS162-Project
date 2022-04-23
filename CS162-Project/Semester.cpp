@@ -76,6 +76,9 @@ void Semester::updateSemester() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Semester: " << this->pSchoolYear->yearName << " - "
+       << this->semesterName << '\n';
+  Utils::printLine();
   cout << "1. Change semester name\n";
   Utils::printLine();
   cout << "0. Return\n\n";
@@ -141,7 +144,7 @@ void Semester::viewEditSemester() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
-  cout << "Semester: " << this->pSchoolYear->yearName << ": "
+  cout << "Semester: " << this->pSchoolYear->yearName << " - "
        << this->semesterName << '\n';
   Utils::printLine();
 

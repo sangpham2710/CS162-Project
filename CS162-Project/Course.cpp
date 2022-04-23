@@ -96,6 +96,8 @@ void Course::courseChooseMenu() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
+  Utils::printLine();
   cout << "1. Update course \n";
   cout << "2. View students \n";
   cout << "3. Delete course \n";
@@ -146,6 +148,8 @@ void Course::courseUpdateMenu() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
+  Utils::printLine();
   cout << "1. Update course information \n";
   cout << "2. Update student \n";
   cout << "3. Update student scoreboard \n";
@@ -176,6 +180,8 @@ void Course::courseUpdateMenu() {
 void Course::courseUpdateStudentMenu() {
   Console::clear();
   Utils::getCurrentSemester();
+  Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
   Utils::printLine();
   cout << "1. Add student to course \n";
   cout << "2. Remove student from course \n";
@@ -263,6 +269,8 @@ void Course::updateCourseInfo() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
+  Utils::printLine();
   cout << "1. Course code: " << this->courseCode << "\n";
   cout << "2. Course name: " << this->courseName << "\n";
   cout << "3. Lecturer: " << this->lecturer << "\n";
@@ -339,6 +347,8 @@ void Course::addStudent() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
+  Utils::printLine();
   string studentCode;
   cout << "Input studentID: ";
   cin >> studentCode;
@@ -376,6 +386,8 @@ void Course::removeStudent() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
+  Utils::printLine();
   if (!this->pStudents.size()) {
     cout << "This course is empty!";
     Utils::waitForKeypress();
@@ -411,6 +423,8 @@ void Course::removeStudent() {
 void Course::updateStudentScoreBoard() {
   Console::clear();
   Utils::getCurrentSemester();
+  Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
   Utils::printLine();
   if (!this->pStudents.size()) {
     cout << "This course is empty!";
@@ -482,6 +496,8 @@ void Course::deleteCourseScene() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
+  Utils::printLine();
   cout << "Are you sure?, " << this->courseCode << " will be deleted in "
        << App::pCurrentSemester->pSchoolYear->yearName << "-"
        << App::pCurrentSemester->semesterName << endl;
@@ -523,19 +539,24 @@ void Course::deleteCourse(bool cascade) {
 void Course::viewStudentScoreboard() {
   Console::clear();
   Utils::getCurrentSemester();
+  Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
+  Utils::printLine();
+
   int i = 1;
   Utils::printLine();
   for (const auto& p : this->pStudents) {
     cout << i << ". " << p->studentCode << " - " << p->lastName << ' '
          << p->firstName << endl;
-    for (const auto& pCourseMark : p->courseMarks) {
-      if (pCourseMark.pCourse->_id == this->_id) {
-        cout << "Midterm: " << pCourseMark.midtermMark << endl;
-        cout << "Final: " << pCourseMark.finalMark << endl;
-        cout << "Other: " << pCourseMark.otherMark << endl;
-        cout << "Total: " << pCourseMark.totalMark << endl;
-      }
-    }
+    auto itCourseMark =
+        p->courseMarks.find_if([&](const auto& courseMark) -> bool {
+          return courseMark.pCourse->_id == this->_id;
+        });
+
+    cout << "Midterm: " << itCourseMark->midtermMark << endl;
+    cout << "Final: " << itCourseMark->finalMark << endl;
+    cout << "Other: " << itCourseMark->otherMark << endl;
+    cout << "Total: " << itCourseMark->totalMark << endl;
     Utils::printLine();
     ++i;
   }
@@ -547,6 +568,8 @@ void Course::viewStudentScoreboard() {
 void Course::importScoreboard() {
   Console::clear();
   Utils::getCurrentSemester();
+  Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
   Utils::printLine();
   string path;
   cout << "Input CSV file path: ";
@@ -591,6 +614,8 @@ void Course::exportScoreboard() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
+  Utils::printLine();
   string path;
   cout << "Input CSV file path: ";
   cin.ignore();
@@ -628,6 +653,8 @@ void Course::importStudents() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
+  Utils::printLine();
   string path;
   cout << "Input CSV file path: ";
   cin.ignore();
@@ -663,6 +690,8 @@ void Course::importStudents() {
 void Course::exportStudents() {
   Console::clear();
   Utils::getCurrentSemester();
+  Utils::printLine();
+  cout << "Course: " << this->courseCode << '\n';
   Utils::printLine();
   string path;
   cout << "Input CSV file path: ";

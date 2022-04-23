@@ -37,11 +37,13 @@ void Class::updateClass() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Class: " << this->classCode << '\n';
+  Utils::printLine();
   cout << "1. Change class code" << '\n';
   cout << "2. Add one student" << '\n';
   Utils::printLine();
   cout << "0. Return\n\n";
-  
+
   int option = Utils::getOption(0, 2);
 
   switch (option) {
@@ -70,6 +72,8 @@ void Class::updateClass() {
 void Class::addStudent() {
   Console::clear();
   Utils::getCurrentSemester();
+  Utils::printLine();
+  cout << "Class: " << this->classCode << '\n';
   Utils::printLine();
   string studentCode, firstName, lastName, gender, dateOfBirth, socialID,
       classCode;
@@ -122,6 +126,8 @@ void Class::deleteClassScene() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Class: " << this->classCode << '\n';
+  Utils::printLine();
   cout << "Are you sure?, " << this->classCode << " will be deleted in "
        << App::pCurrentSemester->pSchoolYear->yearName << '\n';
   cout << "1. Yes\n";
@@ -157,6 +163,8 @@ void Class::viewStudents() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Class: " << this->classCode << '\n';
+  Utils::printLine();
   cout << "List students of class " << this->classCode << '\n';
   for (const auto& p : this->pStudents) {
     cout << p->studentCode << ' ' << p->lastName << ' ' << p->firstName << '\n';
@@ -168,6 +176,8 @@ void Class::viewStudents() {
 void Class::viewScoreboard() {
   Console::clear();
   Utils::getCurrentSemester();
+  Utils::printLine();
+  cout << "Class: " << this->classCode << '\n';
   Utils::printLine();
   for (const auto& p : this->pStudents) {
     cout << p->studentCode << ' ' << p->lastName << ' ' << p->firstName << '\n';
@@ -201,7 +211,7 @@ void Class::classChooseMenu() {
   cout << "7. Export list students in class" << '\n';
   Utils::printLine();
   cout << "0. Return\n" << '\n';
-  
+
   int option = Utils::getOption(0, 7);
   switch (option) {
     case 0: {
@@ -279,7 +289,7 @@ void Class::viewMainMenu() {
        << "Create class " << '\n';
   Utils::printLine();
   cout << "0. Return\n" << '\n';
-  
+
   int option = Utils::getOption(0, i);
   if (option == i) {
     Class::createClass();
@@ -294,6 +304,8 @@ void Class::viewMainMenu() {
 void Class::exportScoreboard() {
   Console::clear();
   Utils::getCurrentSemester();
+  Utils::printLine();
+  cout << "Class: " << this->classCode << '\n';
   Utils::printLine();
   string path;
   cout << "Input CSV file path: ";
@@ -326,6 +338,8 @@ void Class::exportStudents() {
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
+  cout << "Class: " << this->classCode << '\n';
+  Utils::printLine();
   string path;
   cout << "Input CSV file path: ";
   cin.ignore();
@@ -356,6 +370,8 @@ void Class::exportStudents() {
 void Class::importNewStudents() {
   Console::clear();
   Utils::getCurrentSemester();
+  Utils::printLine();
+  cout << "Class: " << this->classCode << '\n';
   Utils::printLine();
   string path;
   cout << "Input CSV file path: ";

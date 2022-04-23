@@ -94,6 +94,8 @@ void SchoolYear::viewMainMenu() {
 void SchoolYear::schoolYearChooseMenu() {
   Console::clear();
   Utils::getCurrentSemester();
+  Utils::printLine();
+  cout << "School year: " << this->yearName << '\n';
   if (App::pSchoolYears.length() == 1) {
     Utils::printLine();
     cout << "1. Update school year\n";
@@ -168,20 +170,20 @@ void SchoolYear::createSchoolYear() {
   int option = Utils::getOption(1, 3);
   Semester* pSemester = new Semester();
   switch (option) {
-      case 1: {
-          pSemester->semesterName = "Autumn";
-          break;
-      }
-      case 2: {
-          pSemester->semesterName = "Spring";
-          break;
-      }
-      case 3: {
-          pSemester->semesterName = "Summer";
-          break;
-      }
+    case 1: {
+      pSemester->semesterName = "Autumn";
+      break;
+    }
+    case 2: {
+      pSemester->semesterName = "Spring";
+      break;
+    }
+    case 3: {
+      pSemester->semesterName = "Summer";
+      break;
+    }
   }
-  
+
   SchoolYear* pSchoolYear = new SchoolYear();
   pSchoolYear->yearName = yearName;
 
@@ -201,6 +203,8 @@ void SchoolYear::createSchoolYear() {
 void SchoolYear::deleteSchoolYearScene() {
   Console::clear();
   Utils::getCurrentSemester();
+  Utils::printLine();
+  cout << "School year: " << this->yearName << '\n';
   Utils::printLine();
   cout << "Are you sure you want to permanently delete this school year?\n";
   cout << "1. Yes\n";
@@ -242,6 +246,8 @@ void SchoolYear::deleteSchoolYear() {
 void SchoolYear::schoolYearUpdate() {
   Console::clear();
   Utils::getCurrentSemester();
+  Utils::printLine();
+  cout << "School year: " << this->yearName << '\n';
   Utils::printLine();
   cout << "1. Year name: " << this->yearName << '\n';
   Utils::printLine();
