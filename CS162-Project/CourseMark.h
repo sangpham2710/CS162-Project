@@ -14,10 +14,10 @@ class CourseMark {
   double midtermMark, finalMark, otherMark, totalMark;
   CourseMark()
       : pCourse{nullptr},
-        midtermMark{0},
-        finalMark{0},
-        otherMark{0},
-        totalMark{0} {}
+        midtermMark{-1},
+        finalMark{-1},
+        otherMark{-1},
+        totalMark{-1} {}
   friend std::istream& operator>>(std::istream& stream, CourseMark& courseMark);
   friend std::ostream& operator<<(std::ostream& stream,
                                   const CourseMark& courseMark);

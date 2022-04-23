@@ -363,11 +363,10 @@ void Course::addStudent() {
     this->courseUpdateStudentMenu();
     return;
   }
-  auto pStudent = *itStudent;
-  this->pStudents.push_back(pStudent);
+  this->pStudents.push_back(*itStudent);
   CourseMark courseMark;
   courseMark.pCourse = this;
-  pStudent->courseMarks.push_back(courseMark);
+  (*itStudent)->courseMarks.push_back(courseMark);
   cout << "\nAdd successfully!\n";
   Utils::waitForKeypress();
   this->courseUpdateStudentMenu();
@@ -431,13 +430,12 @@ void Course::updateStudentScoreBoard() {
     this->courseUpdateMenu();
     return;
   }
-  auto pStudent = *itStudent;
   Utils::printLine();
-  cout << pStudent->studentCode << "_" << pStudent->firstName << " "
-       << pStudent->lastName << endl;
+  cout << (*itStudent)->studentCode << " - " << (*itStudent)->lastName << ' '
+       << (*itStudent)->firstName << endl;
 
   auto itCourseMark =
-      pStudent->courseMarks.find_if([&](const auto& courseMark) -> bool {
+      (*itStudent)->courseMarks.find_if([&](const auto& courseMark) -> bool {
         return courseMark.pCourse->_id == this->_id;
       });
   cout << "1. Midterm: " << itCourseMark->midtermMark << endl;
@@ -528,8 +526,8 @@ void Course::viewStudentScoreboard() {
   int i = 1;
   Utils::printLine();
   for (const auto& p : this->pStudents) {
-    cout << i << ". " << p->firstName << " " << p->lastName << "-"
-         << p->studentCode << endl;
+    cout << i << ". " << p->studentCode << " - " << p->lastName << ' '
+         << p->firstName << endl;
     for (const auto& pCourseMark : p->courseMarks) {
       if (pCourseMark.pCourse->_id == this->_id) {
         cout << "Midterm: " << pCourseMark.midtermMark << endl;
@@ -649,8 +647,12 @@ void Course::importStudents() {
     CSV::readLine(line, no, studentCode, fullName);
     auto itStudent = App::pStudents.find_if(
         [&](const auto& p) -> bool { return p->studentCode == studentCode; });
-    if (itStudent != App::pStudents.end())
+    if (itStudent != App::pStudents.end()) {
       this->pStudents.push_back(*itStudent);
+      CourseMark courseMark;
+      courseMark.pCourse = this;
+      (*itStudent)->courseMarks.push_back(courseMark);
+    }
   }
   ifs.close();
   cout << "Imported successfully\n";
