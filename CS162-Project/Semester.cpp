@@ -85,7 +85,7 @@ void Semester::updateSemester() {
                              const string& semesterName) -> bool {
     return this->pSchoolYear->pSemesters.find_if([&](const auto& p) -> bool {
       return p->semesterName == semesterName;
-    }) == this->pSchoolYear->pSemesters.end();
+    }) != this->pSchoolYear->pSemesters.end();
   };
   switch (option) {
     case 1: {
@@ -96,11 +96,13 @@ void Semester::updateSemester() {
       cout << "2. Spring\n";
       cout << "3. Summer\n";
       Utils::printLine();
-      int choiceName = Utils::getOption(1, 3);
-      switch (choiceName) {
+      int choice = Utils::getOption(1, 3);
+      switch (choice) {
         case 1:  // Autumn
           if (semesterExisted(this->pSchoolYear->pSemesters, "Autumn")) {
             cout << "This semester existed!\n";
+            Utils::waitForKeypress();
+            this->viewEditSemester();
             return;
           }
           this->semesterName = "Autumn";
@@ -108,6 +110,8 @@ void Semester::updateSemester() {
         case 2:  // Spring
           if (semesterExisted(this->pSchoolYear->pSemesters, "Spring")) {
             cout << "This semester existed!\n";
+            Utils::waitForKeypress();
+            this->viewEditSemester();
             return;
           }
           this->semesterName = "Spring";
@@ -115,12 +119,16 @@ void Semester::updateSemester() {
         case 3:  // Summer
           if (semesterExisted(this->pSchoolYear->pSemesters, "Summer")) {
             cout << "This semester existed!\n";
+            Utils::waitForKeypress();
+            this->viewEditSemester();
             return;
           }
           this->semesterName = "Summer";
           break;
       }
     }
+      cout << "Updated successfully\n";
+      Utils::waitForKeypress();
       this->viewEditSemester();
       break;
     case 0:
@@ -242,18 +250,18 @@ void Semester::viewMainMenu() {
     cout << p->semesterName << endl;
     ++i;
   }
-  if (App::pCurrentSemester->pSchoolYear->_id == App::pSchoolYears.back()->_id) {
+  if (App::pCurrentSemester->pSchoolYear->_id ==
+      App::pSchoolYears.back()->_id) {
     Utils::printLine();
-      cout << i << ". "
-          << "Create new semester\n";
-      Utils::printLine();
-      cout << "0. Return\n\n";
-      option = Utils::getOption(0, i);
-  }
-  else {
-      Utils::printLine();
-      cout << "0. Return\n\n";
-      option = Utils::getOption(0, i - 1);
+    cout << i << ". "
+         << "Create new semester\n";
+    Utils::printLine();
+    cout << "0. Return\n\n";
+    option = Utils::getOption(0, i);
+  } else {
+    Utils::printLine();
+    cout << "0. Return\n\n";
+    option = Utils::getOption(0, i - 1);
   }
   if (option == i) {
     Semester::createSemester();
@@ -311,54 +319,55 @@ void Semester::changeDefaultSemester() {
 }
 
 void Semester::createFirstSemester() {
-    Console::clear();
-    Utils::getCurrentSemester();
-    Utils::printLine();
+  Console::clear();
+  Utils::getCurrentSemester();
+  Utils::printLine();
 
-    string yearName;
-    cout << "School year (Ex: 2022-2023): ";
-    cin.ignore();
-    getline(cin, yearName);
-    if (yearName.length() != 9 || yearName[4] != '-') {
-        cout << "Invalid!\n";
+  string yearName;
+  cout << "School year (Ex: 2022-2023): ";
+  cin.ignore();
+  getline(cin, yearName);
+  if (yearName.length() != 9 || yearName[4] != '-') {
+    cout << "Invalid!\n";
 
-        Utils::waitForKeypress();
-        Menu::adminMenu();
-        return;
-    }
-
-    cout << "Input first semester in " << yearName << ": ";
-    cout << "\n1. Autumn      2. Spring       3.Summer\n";
-    int option = Utils::getOption(1, 3);
-    Semester* pSemester = new Semester();
-    switch (option) {
-        case 1: {
-            pSemester->semesterName = "Autumn";
-            break;
-        }
-        case 2: {
-            pSemester->semesterName = "Spring";
-            break;
-        }
-        case 3: {
-            pSemester->semesterName = "Summer";
-            break;
-        }
-    }
-
-    SchoolYear* pSchoolYear = new SchoolYear();
-    pSchoolYear->yearName = yearName;
-
-    pSchoolYear->pSemesters.push_back(pSemester);
-    pSemester->pSchoolYear = pSchoolYear;
-    App::pSchoolYears.push_back(pSchoolYear);
-    App::pSemesters.push_back(pSemester);
-    App::pCurrentSemester = pSemester;
-    App::pRecentSemester = pSemester;
-
-    cout << "Created first semester " << pSemester->semesterName << " in " << yearName << " successfully!\n";
     Utils::waitForKeypress();
     Menu::adminMenu();
+    return;
+  }
+
+  cout << "Input first semester in " << yearName << ": ";
+  cout << "\n1. Autumn      2. Spring       3.Summer\n";
+  int option = Utils::getOption(1, 3);
+  Semester* pSemester = new Semester();
+  switch (option) {
+    case 1: {
+      pSemester->semesterName = "Autumn";
+      break;
+    }
+    case 2: {
+      pSemester->semesterName = "Spring";
+      break;
+    }
+    case 3: {
+      pSemester->semesterName = "Summer";
+      break;
+    }
+  }
+
+  SchoolYear* pSchoolYear = new SchoolYear();
+  pSchoolYear->yearName = yearName;
+
+  pSchoolYear->pSemesters.push_back(pSemester);
+  pSemester->pSchoolYear = pSchoolYear;
+  App::pSchoolYears.push_back(pSchoolYear);
+  App::pSemesters.push_back(pSemester);
+  App::pCurrentSemester = pSemester;
+  App::pRecentSemester = pSemester;
+
+  cout << "Created first semester " << pSemester->semesterName << " in "
+       << yearName << " successfully!\n";
+  Utils::waitForKeypress();
+  Menu::adminMenu();
 }
 
 void Semester::displaySemester() {
