@@ -243,6 +243,7 @@ void Semester::viewMainMenu() {
     ++i;
   }
   if (App::pCurrentSemester->pSchoolYear->_id == App::pSchoolYears.back()->_id) {
+    Utils::printLine();
       cout << i << ". "
           << "Create new semester\n";
       Utils::printLine();
