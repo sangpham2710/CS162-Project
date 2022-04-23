@@ -46,8 +46,8 @@ class Utils {
   }
   static void convertIntScheduleToString(int session1, int session2,
                                          string& schedule) {
-    string day[7] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
-    string time[4] = {"S1", "S2", "S3", "S4"};
+    List<string> day = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+    List<string> time = {"S1", "S2", "S3", "S4"};
     schedule.resize(13);
     schedule = day[session1 / 10 - 2];
     schedule = schedule + ":";

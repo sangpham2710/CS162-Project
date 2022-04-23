@@ -1,5 +1,6 @@
 #include "Student.h"
 
+#include <iomanip>
 #include <iostream>
 
 #include "App.h"
@@ -212,6 +213,50 @@ void Student::viewStudentScoreboard() {
     cout << "Total: " << p.totalMark << "\n";
     Utils::printLine();
   }
+  Utils::waitForKeypress();
+  Menu::studentMenu();
+}
+
+using std::setfill;
+using std::setw;
+
+void Student::viewSchedule() {
+  Console::clear();
+  List<string> weekdays = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+  cout << setw(10) << setfill(' ') << left << "";
+
+  auto recentSemesterCourses =
+      this->courseMarks
+          .filter([&](const auto& courseMark) -> bool {
+            return courseMark.pCourse->pSemester->_id ==
+                   App::pRecentSemester->_id;
+          })
+          .map<Course*>([&](const auto& courseMark) -> Course* {
+            return courseMark.pCourse;
+          });
+
+  for (const auto& weekday : weekdays)
+    cout << setw(10) << setfill(' ') << weekday;
+  cout << '\n';
+  for (int session = 1; session <= 4; ++session) {
+    string tmp = "S";
+    tmp += (char)(session + '0');
+    cout << setw(10) << setfill(' ') << left << tmp;
+    for (int weekday = 2; weekday <= 8; ++weekday) {
+      auto itCourse = recentSemesterCourses.find_if([&](const auto& p) -> bool {
+        return p->session1 == weekday * 10 + session ||
+               p->session2 == weekday * 10 + session;
+      });
+      if (itCourse != recentSemesterCourses.end()) {
+        cout << setw(10) << setfill(' ') << left << (*itCourse)->courseCode;
+      } else {
+        cout << setw(10) << setfill(' ') << left << "";
+      }
+    }
+    cout << '\n';
+  }
+
+
   Utils::waitForKeypress();
   Menu::studentMenu();
 }

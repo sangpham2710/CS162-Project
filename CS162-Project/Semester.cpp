@@ -98,7 +98,7 @@ void Semester::updateSemester() {
       Utils::printLine();
       int choiceName = Utils::getOption(1, 3);
       switch (choiceName) {
-        case 1:  // Fall
+        case 1:  // Autumn
           if (semesterExisted(this->pSchoolYear->pSemesters, "Autumn")) {
             cout << "This semester existed!\n";
             return;
@@ -194,16 +194,18 @@ void Semester::createSemester() {
   List<string> tmp = {"Autumn", "Spring", "Summer"};
   int i = 1;
   bool check = false;
-  for (const auto& p : tmp) {
+  for (int k = 0; k < tmp.length(); ++k) {
     check = false;
     for (int j = 0; j < sem.length(); ++j) {
-      if (p == sem[j]->semesterName) {
+      if (tmp[k] == sem[j]->semesterName) {
         check = true;
+        tmp.remove(tmp[k]);
+        --k;
         break;
       }
     }
     if (!check) {
-      cout << i << ". " << p << endl;
+      cout << i << ". " << tmp[k] << endl;
       ++i;
     }
   }
@@ -219,6 +221,8 @@ void Semester::createSemester() {
     semester->pSchoolYear = App::pCurrentSemester->pSchoolYear;
     App::pCurrentSemester->pSchoolYear->pSemesters.push_back(semester);
     App::pSemesters.push_back(semester);
+    App::pCurrentSemester = semester;
+    App::pRecentSemester = semester;
 
     cout << "The semester has been created successfully!\n";
     Utils::waitForKeypress();
@@ -232,16 +236,24 @@ void Semester::viewMainMenu() {
   Utils::getCurrentSemester();
   Utils::printLine();
   int i = 1;
+  int option;
   for (const auto& p : App::pCurrentSemester->pSchoolYear->pSemesters) {
     cout << i << ". " << p->pSchoolYear->yearName << ": ";
     cout << p->semesterName << endl;
     ++i;
   }
-  cout << i << ". "
-       << "Create new semester\n";
-  Utils::printLine();
-  cout << "0. Return\n\n";
-  int option = Utils::getOption(0, i);
+  if (App::pCurrentSemester->pSchoolYear->_id == App::pSchoolYears.back()->_id) {
+      cout << i << ". "
+          << "Create new semester\n";
+      Utils::printLine();
+      cout << "0. Return\n\n";
+      option = Utils::getOption(0, i);
+  }
+  else {
+      Utils::printLine();
+      cout << "0. Return\n\n";
+      option = Utils::getOption(0, i - 1);
+  }
   if (option == i) {
     Semester::createSemester();
     return;

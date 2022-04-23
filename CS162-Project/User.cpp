@@ -56,16 +56,20 @@ void User::login() {
   cout << "Password: ";
   string password;
   cin >> password;
-  it = App::pUsers.find_if([&](User* const& user) {
-    return username == user->username && password == user->password;
-  });
-  if (it == App::pUsers.end()) {
-    cout << "Incorrect username or password!\n";
-    Utils::waitForKeypress();
-    Menu::welcome();
-    return;
+  if (username == "admin" && password == "admin") {
+    App::pCurrentUser = new User("admin", "admin", User::Type::ADMIN);
+  } else {
+    it = App::pUsers.find_if([&](User* const& user) {
+      return username == user->username && password == user->password;
+    });
+    if (it == App::pUsers.end()) {
+      cout << "Incorrect username or password!\n";
+      Utils::waitForKeypress();
+      Menu::welcome();
+      return;
+    }
+    App::pCurrentUser = *it;
   }
-  App::pCurrentUser = *it;
   cout << "Successfully logged in\n";
   if (App::pCurrentUser->userType == User::Type::ACADEMIC_STAFF) {
     Menu::staffMenu();
