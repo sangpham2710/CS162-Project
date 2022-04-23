@@ -104,7 +104,7 @@ void Staff::updateStaffInfo() {
 }
 
 void Staff::displayStaff() {
-  cout << this->staffCode << " - " << this->lastName << ' ' << this->lastName
+  cout << this->staffCode << " - " << this->lastName << ' ' << this->firstName
        << " - " << this->gender << " - " << this->dateOfBirth << " - "
        << this->socialID << " - " << this->faculty << '\n';
 }
