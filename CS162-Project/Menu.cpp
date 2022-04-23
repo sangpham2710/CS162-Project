@@ -85,10 +85,11 @@ void Menu::studentMenu() {
   cout << "3. Enroll/unenroll a course\n";
   cout << "4. View enrolled courses\n";
   cout << "5. View scoreboard\n";
+  cout << "6. View schedule\n";
   Utils::printLine();
   cout << "0. Logout\n\n";
 
-  int option = Utils::getOption(0, 5);
+  int option = Utils::getOption(0, 6);
 
   switch (option) {
     case 0:
@@ -112,6 +113,8 @@ void Menu::studentMenu() {
     case 5:
       App::pCurrentUser->pStudent->viewStudentScoreboard();
       break;
+    case 6:
+      App::pCurrentUser->pStudent->viewSchedule();
   }
 }
 
@@ -128,14 +131,14 @@ void Menu::adminMenu() {
   cout << "7. Show all staffs\n";
   cout << "8. Show course registration session\n";
   cout << "9. Add new staff\n";
-  if (!App::pCurrentSemester) 
-    cout << "10. Create first semester\n";
+  if (!App::pCurrentSemester) cout << "10. Create first semester\n";
   Utils::printLine();
   cout << "0. Logout\n\n";
   int option;
-  if (!App::pCurrentSemester) 
+  if (!App::pCurrentSemester)
     option = Utils::getOption(0, 10);
-  else option = Utils::getOption(0, 9);
+  else
+    option = Utils::getOption(0, 9);
   Console::clear();
   Utils::getCurrentSemester();
   Utils::printLine();
